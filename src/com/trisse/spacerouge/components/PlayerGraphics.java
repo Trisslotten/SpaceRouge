@@ -4,7 +4,7 @@ import com.trisse.spacerouge.entities.Player;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprite;
 
-public class PlayerGraphicsComponent extends GraphicsComponent {
+public class PlayerGraphics {
 	
 	private Sprite player = Sprite.player;
 

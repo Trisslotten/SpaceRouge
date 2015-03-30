@@ -1,6 +1,7 @@
 #h = hull
 #w = interior wall
 #. = floor
+#p = player
 
 
 hhhhhhhhh

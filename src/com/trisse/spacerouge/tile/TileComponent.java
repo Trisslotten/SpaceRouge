@@ -1,9 +1,6 @@
 package com.trisse.spacerouge.tile;
 
 import com.trisse.spacerouge.graphics.Sprite;
-import com.trisse.spacerouge.tile.tiles.Floor;
-import com.trisse.spacerouge.tile.tiles.Interior;
-import com.trisse.spacerouge.tile.tiles.Wall;
 
 public class TileComponent {
 

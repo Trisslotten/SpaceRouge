@@ -2,6 +2,7 @@ package com.trisse.spacerouge.level;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.trisse.spacerouge.entities.Player;
@@ -9,12 +10,16 @@ import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.tile.Tile;
 import com.trisse.spacerouge.tile.TileComponent;
 
-public class Map {
+public class Map implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2335976945981375082L;
+	
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	public Map() {
-
 		String map = null;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader("res/map.txt"));
