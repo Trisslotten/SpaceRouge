@@ -20,46 +20,7 @@ public class Map implements Serializable {
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	public Map() {
-		String map = null;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("res/map.txt"));
-			try {
-				StringBuilder sb = new StringBuilder();
-				String line = br.readLine();
-
-				while (line != null) {
-					sb.append(line);
-					sb.append(System.lineSeparator());
-					line = br.readLine();
-				}
-				map = sb.toString();
-			} finally {
-				br.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (map != null) {
-			String[] lines = map.split("\n");
-			for (int y = 0; y < lines.length; y++) {
-				for (int x = 0; x < lines[y].length(); x++) {
-					char chr = lines[y].charAt(x);
-					if (chr == '#') {
-						break;
-					} else {
-						TileTemplate tile = TileTemplate.getFromChar(chr);
-						if (tile != null) {
-							tiles.add(new Tile(tile, x, y));
-						}
-
-					}
-				}
-			}
-		} else {
-			System.err.println("Could not read map");
-			System.exit(0);
-		}
-
+		
 	}
 
 	public void render(Screen screen, Player player) {

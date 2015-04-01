@@ -1,17 +1,17 @@
 package com.trisse.spacerouge.entities;
 
-import java.util.ArrayList;
-
-import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.components.InputComponent;
-import com.trisse.spacerouge.components.Physics;
 import com.trisse.spacerouge.components.PlayerGraphics;
 import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.level.Map;
 
 public class Player extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8398803915941718036L;
+	
 	private InputComponent inputComponent = new InputComponent();
 	private PlayerGraphics graphics = new PlayerGraphics();
 
@@ -19,7 +19,7 @@ public class Player extends Entity {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void handleInput(Game game) {
 		inputComponent.handleInput(game, this);
 	}

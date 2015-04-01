@@ -1,7 +1,5 @@
 package com.trisse.levelEditor.gui;
 
-import org.lwjgl.input.Mouse;
-
 import com.trisse.levelEditor.LevelEditor;
 import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.graphics.Screen;
