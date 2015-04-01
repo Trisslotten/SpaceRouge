@@ -6,13 +6,14 @@ import static org.lwjgl.opengl.GL11.glGetString;
 import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import com.trisse.levelEditor.gui.Button;
+import com.trisse.levelEditor.gui.Element;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
+import com.trisse.levelEditor.gui.elements.Spacer;
 import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.graphics.Screen;
 
@@ -21,32 +22,40 @@ public class LevelEditor implements Runnable {
 	public Input input = new Input();
 
 	public ArrayList<Button> buttons = new ArrayList<Button>();
+	public ArrayList<Element> elements = new ArrayList<Element>();
 
 	private void init() {
 		screen = new Screen();
 
 		buttons.add(new SaveButton());
+
+		elements.add(new Spacer());
+
 	}
 
 	private void handleInput() {
 		for (Button b : buttons)
 			b.handleInput(this, input);
+
+		input.setKeys();
 	}
 
 	private void update() {
-		
+
 	}
 
 	private void render() {
 		for (Button b : buttons)
 			b.render(screen);
 
+		for (Element e : elements)
+			e.render(screen);
 		screen.render();
 		screen.clear();
 	}
-	
+
 	public void saveData() {
-		
+
 	}
 
 	private Screen screen;

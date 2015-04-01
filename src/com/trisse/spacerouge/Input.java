@@ -2,12 +2,21 @@ package com.trisse.spacerouge;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 public class Input {
 
 	public boolean[] keys = new boolean[Keyboard.KEYBOARD_SIZE];
 
 	public boolean[] buttons = new boolean[3];
+
+	public int x() {
+		return Mouse.getX();
+	}
+
+	public int y() {
+		return Display.getHeight() - Mouse.getY();
+	}
 
 	public boolean keyDown(int key) {
 		return Keyboard.isKeyDown(key);

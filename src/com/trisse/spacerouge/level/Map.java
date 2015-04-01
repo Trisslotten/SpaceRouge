@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.trisse.spacerouge.entities.Player;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.tile.Tile;
-import com.trisse.spacerouge.tile.TileComponent;
+import com.trisse.spacerouge.tile.TileTemplate;
 
 public class Map implements Serializable {
 
@@ -16,7 +16,7 @@ public class Map implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2335976945981375082L;
-	
+
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	public Map() {
@@ -43,24 +43,16 @@ public class Map implements Serializable {
 			String[] lines = map.split("\n");
 			for (int y = 0; y < lines.length; y++) {
 				for (int x = 0; x < lines[y].length(); x++) {
-					boolean toBreak = false;
-					switch (lines[y].charAt(x)) {
-					case '#':
-						toBreak = true;
+					char chr = lines[y].charAt(x);
+					if (chr == '#') {
 						break;
-					case 'h':
-						tiles.add(new Tile(TileComponent.wall, x, y));
-						break;
-					case 'w':
-						tiles.add(new Tile(TileComponent.interior, x, y));
-						break;
-					case '.':
-						tiles.add(new Tile(TileComponent.floor, x, y));
-						break;
-					default:
+					} else {
+						TileTemplate tile = TileTemplate.getFromChar(chr);
+						if (tile != null) {
+							tiles.add(new Tile(tile, x, y));
+						}
+
 					}
-					if (toBreak)
-						break;
 				}
 			}
 		} else {

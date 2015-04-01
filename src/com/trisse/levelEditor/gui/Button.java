@@ -8,7 +8,7 @@ import com.trisse.spacerouge.graphics.Screen;
 
 public class Button {
 
-	public int x, y;
+	public int x, y, width;
 
 	public Button() {
 
@@ -23,9 +23,9 @@ public class Button {
 	}
 
 	public void handleInput(LevelEditor levelEditor, Input input) {
-		int mousex = Mouse.getX() / Screen.tileSize;
-		int mousey = Mouse.getY() / Screen.tileSize;
-		if (input.mousePressed(0) && mousex == x && mousey == y) {
+		int mousex = input.x() / Screen.tileSize;
+		int mousey = input.y() / Screen.tileSize;
+		if (input.mousePressed(0) && mousey == y && mousex >= x && mousex < x + width) {
 			clicked(levelEditor);
 		}
 	}
