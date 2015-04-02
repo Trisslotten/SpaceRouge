@@ -13,11 +13,13 @@ import org.lwjgl.opengl.GL11;
 import com.trisse.levelEditor.gui.Button;
 import com.trisse.levelEditor.gui.Element;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
+import com.trisse.levelEditor.gui.buttons.TileGrid;
 import com.trisse.levelEditor.gui.elements.Spacer;
 import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.tile.TileTemplate;
 
 public class LevelEditor implements Runnable {
 
@@ -30,14 +32,30 @@ public class LevelEditor implements Runnable {
 	public ArrayList<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
+	public EditorMap map;
+
+	public TileTemplate selectedTile;
+
 	private void init() {
+		double start = getTime();
+
 		sprites = new Sprites();
+
+		System.out.println("Sprite loading time: " + (getTime() - start));
 
 		screen = new Screen(sprites);
 
+		start = getTime();
+
 		tiles = new Tiles(sprites);
 
+		System.out.println("Tile loading time: " + (getTime() - start));
+
+		map = new EditorMap();
+
 		buttons.add(new SaveButton());
+		buttons.add(new TileGrid(tiles));
+
 		elements.add(new Spacer(sprites));
 
 	}
@@ -45,6 +63,16 @@ public class LevelEditor implements Runnable {
 	private void handleInput() {
 		for (Button b : buttons)
 			b.handleInput(this, input);
+
+		int mousex = input.xt();
+		int mousey = input.yt();
+
+		if (mousex < 46) {
+			if (input.mouseDown(0)) {
+				map.add(selectedTile, mousex, mousey);
+			}
+
+		}
 
 		input.setKeys();
 	}
@@ -54,11 +82,23 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void render() {
+		for (int y = 0; y < Screen.tileHeight; y++) {
+			for (int x = 0; x < 45; x++) {
+				screen.draw("grid", x, y, 2);
+			}
+		}
+		map.render(screen, 0, 0);
 		for (Button b : buttons)
 			b.render(screen);
 
 		for (Element e : elements)
 			e.render(screen);
+
+		if (selectedTile != null) {
+			screen.draw(selectedTile.sprite, 47, 1);
+			screen.drawString(selectedTile.name, 48, 1);
+		}
+
 		screen.render();
 		screen.clear();
 	}
@@ -92,11 +132,16 @@ public class LevelEditor implements Runnable {
 
 	@Override
 	public void run() {
+		double start = getTime();
+
 		glinit();
 		double timer = getTime();
 		int frames = 0;
 
 		init();
+
+		System.out.println("Starting time: " + (getTime() - start));
+
 		while (running) {
 			if (Display.isCloseRequested()) {
 				running = false;
@@ -115,7 +160,6 @@ public class LevelEditor implements Runnable {
 			 * e.printStackTrace(); } }
 			 */
 			if (getTime() > timer + 1) {
-				Display.setTitle("FPS: " + frames);
 
 				timer += 1;
 				frames = 0;
@@ -151,6 +195,7 @@ public class LevelEditor implements Runnable {
 		String version = glGetString(GL_VERSION);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
+		Display.setTitle("Level Editor");
 		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		// enable alpha blending

@@ -40,15 +40,19 @@ public class Screen {
 			}
 		}
 
-		screen[x + y * tileWidth][0] = sprite;
+		draw(sprite, x, y);
+	}
+
+	public void draw(String spriteName, int x, int y, int layer) {
+		draw(sprites.getSprite(spriteName), x, y, layer);
 	}
 
 	public void draw(Sprite sprite, int x, int y) {
-		screen[x + y * tileWidth][0] = sprite;
+		draw(sprite, x, y, 0);
 	}
 
 	public void draw(Sprite sprite, int x, int y, int layer) {
-		if (x >= 0 && x < tileWidth && y >= 0 && y < tileHeight) {
+		if (x >= 0 && x < tileWidth && y >= 0 && y < tileHeight && sprite != null) {
 			int index = x + y * tileWidth;
 			screen[index][layer] = sprite;
 		}
@@ -84,14 +88,12 @@ public class Screen {
 	}
 
 	public void drawString(String str, int x, int y) {
-		for (int i = 0; i < str.length(); i++) {
-			screen[i + x + y * tileWidth][0] = Sprite.getChar(str.charAt(i));
-		}
+		drawString(str, x, y, 0);
 	}
 
 	public void drawString(String str, int x, int y, int layer) {
 		for (int i = 0; i < str.length(); i++) {
-			screen[i + x + y * tileWidth][layer] = Sprite.getChar(str.charAt(i));
+			draw(Sprite.getChar(str.charAt(i)), x + i, y, layer);
 		}
 	}
 

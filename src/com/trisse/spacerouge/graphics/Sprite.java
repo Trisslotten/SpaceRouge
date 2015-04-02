@@ -62,6 +62,6 @@ public class Sprite {
 				return characters[i];
 			}
 		}
-		return characters[27];
+		return characters[26];
 	}
 }

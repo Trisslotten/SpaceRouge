@@ -13,7 +13,7 @@ public class Button {
 	}
 
 	public void clicked(LevelEditor levelEditor) {
-
+		
 	}
 
 	public void render(Screen screen) {
@@ -21,8 +21,8 @@ public class Button {
 	}
 
 	public void handleInput(LevelEditor levelEditor, Input input) {
-		int mousex = input.x() / Screen.tileSize;
-		int mousey = input.y() / Screen.tileSize;
+		int mousex = input.xt();
+		int mousey = input.yt();
 		if (input.mousePressed(0) && mousey == y && mousex >= x && mousex < x + width) {
 			clicked(levelEditor);
 		}

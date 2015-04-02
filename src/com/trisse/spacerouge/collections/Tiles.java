@@ -17,14 +17,22 @@ public class Tiles {
 		tiles = getTilesFromFile(sprites);
 	}
 
-	public TileTemplate parseTileTemplate(String arg, Sprites sprites) {
+	public int length() {
+		return tiles.length;
+	}
 
-		String[] tileData = arg.split("\n");
+	public TileTemplate get(int i) {
+		return tiles[i];
+	}
+
+	public TileTemplate parseTileTemplate(String arg, Sprites sprites) {
+		String cleaned = arg.replaceAll("\\s+", "");
+
+		String[] tileData = cleaned.split(";");
 
 		String[][] splittedString = new String[tileData.length][2];
 		for (int i = 0; i < splittedString.length; i++) {
-			String str = tileData[i].replaceAll("\\s+", "");
-			splittedString[i] = str.split(":");
+			splittedString[i] = tileData[i].split(":");
 		}
 
 		TileTemplate result = null;
@@ -34,8 +42,14 @@ public class Tiles {
 		String spriteName = "";
 
 		for (int i = 0; i < tileData.length; i++) {
-			String variable = splittedString[i][0];
-			String value = splittedString[i][1];
+			String variable = null;
+			String value = null;
+			try {
+				variable = splittedString[i][0];
+				value = splittedString[i][1];
+			} catch (IndexOutOfBoundsException e) {
+				System.err.println("Could not parse near:\n" + arg);
+			}
 			switch (variable.toLowerCase()) {
 			case "type":
 				type = value;

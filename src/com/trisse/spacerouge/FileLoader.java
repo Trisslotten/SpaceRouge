@@ -27,6 +27,7 @@ public class FileLoader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return string;
 	}
 

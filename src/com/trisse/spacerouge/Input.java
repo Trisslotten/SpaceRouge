@@ -4,11 +4,21 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import com.trisse.spacerouge.graphics.Screen;
+
 public class Input {
 
 	public boolean[] keys = new boolean[Keyboard.KEYBOARD_SIZE];
 
 	public boolean[] buttons = new boolean[3];
+
+	public int xt() {
+		return x() / Screen.tileSize;
+	}
+
+	public int yt() {
+		return y() / Screen.tileSize;
+	}
 
 	public int x() {
 		return Mouse.getX();
