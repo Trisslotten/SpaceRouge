@@ -15,21 +15,30 @@ import com.trisse.levelEditor.gui.Element;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
 import com.trisse.levelEditor.gui.elements.Spacer;
 import com.trisse.spacerouge.Input;
+import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 
 public class LevelEditor implements Runnable {
 
 	public Input input = new Input();
 
+	public Sprites sprites;
+
+	public Tiles tiles;
+
 	public ArrayList<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
 	private void init() {
-		screen = new Screen();
+		sprites = new Sprites();
+
+		screen = new Screen(sprites);
+
+		tiles = new Tiles(sprites);
 
 		buttons.add(new SaveButton());
-
-		elements.add(new Spacer());
+		elements.add(new Spacer(sprites));
 
 	}
 
@@ -138,6 +147,7 @@ public class LevelEditor implements Runnable {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		@SuppressWarnings("unused")
 		String version = glGetString(GL_VERSION);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 

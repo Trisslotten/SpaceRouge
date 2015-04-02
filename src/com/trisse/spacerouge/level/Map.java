@@ -1,14 +1,11 @@
 package com.trisse.spacerouge.level;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.trisse.spacerouge.entities.Player;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.tile.Tile;
-import com.trisse.spacerouge.tile.TileTemplate;
 
 public class Map implements Serializable {
 

@@ -4,10 +4,22 @@ import com.trisse.spacerouge.FileLoader;
 
 public class Sprites {
 
+	private static final int MISSING_SPRITE = 0;
+
 	public Sprite[] sprites;
 
 	public Sprites() {
 		sprites = getSpritesFromFile();
+	}
+
+	public Sprite getSprite(String spriteName) {
+		for (int i = 0; i < sprites.length; i++) {
+			if (sprites[i].getName().equals(spriteName)) {
+				return sprites[i];
+			}
+		}
+		System.err.println("Warning: missing sprite with name: " + spriteName);
+		return sprites[MISSING_SPRITE];
 	}
 
 	private Sprite[] getSpritesFromFile() {
@@ -58,4 +70,5 @@ public class Sprites {
 
 		return sprites;
 	}
+
 }

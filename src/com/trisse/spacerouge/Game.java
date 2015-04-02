@@ -8,10 +8,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprites;
 import com.trisse.spacerouge.level.Level;
-import com.trisse.spacerouge.tile.Tiles;
 
 public class Game implements Runnable {
 
@@ -27,9 +27,9 @@ public class Game implements Runnable {
 
 		sprites = new Sprites();
 
-		tiles = new Tiles();
+		screen = new Screen(sprites);
 
-		screen = new Screen();
+		tiles = new Tiles(sprites);
 
 		level.init();
 	}
@@ -74,6 +74,7 @@ public class Game implements Runnable {
 	public boolean canTick = false;
 	public double lastTick = Game.getTime();
 
+	@SuppressWarnings("unused")
 	private int tickButton;
 
 	public void canTick(int button) {
@@ -88,7 +89,6 @@ public class Game implements Runnable {
 	}
 
 	public static void main(String[] args) throws InterruptedException {
-
 		Game game = new Game();
 		game.start();
 		game.thread.join();
@@ -162,6 +162,7 @@ public class Game implements Runnable {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		@SuppressWarnings("unused")
 		String version = glGetString(GL_VERSION);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
