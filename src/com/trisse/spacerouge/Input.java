@@ -12,6 +12,24 @@ public class Input {
 
 	public boolean[] buttons = new boolean[3];
 
+	private int lastx, lasty;
+
+	public int dxt() {
+		return dy() / Screen.tileSize;
+	}
+
+	public int dyt() {
+		return dy() / Screen.tileSize;
+	}
+
+	public int dx() {
+		return (x() - lastx);
+	}
+
+	public int dy() {
+		return (y() - lasty);
+	}
+
 	public int xt() {
 		return x() / Screen.tileSize;
 	}
@@ -59,6 +77,8 @@ public class Input {
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i] = Mouse.isButtonDown(i);
 		}
+		lastx = x();
+		lasty = y();
 	}
 
 }

@@ -10,7 +10,7 @@ public class Spacer extends Element {
 	public Sprite sprite;
 
 	public Spacer(Sprites sprites) {
-		sprite = sprites.getSprite("missing");
+		sprite = sprites.getSprite("spacer");
 	}
 
 	public void render(Screen screen) {

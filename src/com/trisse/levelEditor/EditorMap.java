@@ -14,15 +14,35 @@ public class EditorMap extends Map {
 	private static final long serialVersionUID = 1012589539129424419L;
 
 	public void add(TileTemplate tile, int x, int y) {
-		tiles.add(new Tile(tile, x, y));
+		if (tile != null) {
+
+			for (int i = 0; i < tiles.size(); i++) {
+				Tile t = tiles.get(i);
+				if (t.x == x && t.y == y) {
+					tiles.set(i, new Tile(tile, x, y));
+					return;
+				}
+			}
+
+			tiles.add(new Tile(tile, x, y));
+		}
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
 
 		for (Tile t : tiles) {
-			int x = t.x - xoffset + Screen.tileWidth / 2;
-			int y = t.y - yoffset + Screen.tileHeight / 2;
+			int x = t.x - xoffset;
+			int y = t.y - yoffset;
 			screen.draw(t.getSprite(), x, y, 0);
+		}
+	}
+
+	public void remove(int x, int y) {
+		for (int i = 0; i < tiles.size(); i++) {
+			Tile t = tiles.get(i);
+			if (t.x == x && t.y == y) {
+				tiles.remove(i);
+			}
 		}
 	}
 

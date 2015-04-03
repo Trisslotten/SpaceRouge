@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.trisse.levelEditor.gui.Button;
 import com.trisse.levelEditor.gui.Element;
+import com.trisse.levelEditor.gui.buttons.Eraser;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
 import com.trisse.levelEditor.gui.buttons.TileGrid;
 import com.trisse.levelEditor.gui.elements.Spacer;
@@ -36,6 +37,9 @@ public class LevelEditor implements Runnable {
 
 	public TileTemplate selectedTile;
 
+	public int xoffset = 0;
+	public int yoffset = 0;
+
 	private void init() {
 		double start = getTime();
 
@@ -54,6 +58,7 @@ public class LevelEditor implements Runnable {
 		map = new EditorMap();
 
 		buttons.add(new SaveButton());
+		buttons.add(new Eraser());
 		buttons.add(new TileGrid(tiles));
 
 		elements.add(new Spacer(sprites));
@@ -64,14 +69,19 @@ public class LevelEditor implements Runnable {
 		for (Button b : buttons)
 			b.handleInput(this, input);
 
-		int mousex = input.xt();
-		int mousey = input.yt();
+		int xtarget = input.xt() - (xoffset / Screen.tileSize);
+		int ytarget = input.yt() - (yoffset / Screen.tileSize);
 
-		if (mousex < 46) {
-			if (input.mouseDown(0)) {
-				map.add(selectedTile, mousex, mousey);
+		if (xtarget < 46 && input.mouseDown(0)) {
+			if (selectedTile == null) {
+				map.remove(xtarget, ytarget);
+			} else {
+				map.add(selectedTile, xtarget, ytarget);
 			}
-
+		}
+		if (input.mouseDown(1)) {
+			xoffset -= input.dx();
+			yoffset -= input.dy();
 		}
 
 		input.setKeys();
@@ -87,7 +97,7 @@ public class LevelEditor implements Runnable {
 				screen.draw("grid", x, y, 2);
 			}
 		}
-		map.render(screen, 0, 0);
+		map.render(screen, xoffset / Screen.tileSize, yoffset / Screen.tileSize);
 		for (Button b : buttons)
 			b.render(screen);
 
