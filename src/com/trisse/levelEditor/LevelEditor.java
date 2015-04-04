@@ -3,7 +3,20 @@ package com.trisse.levelEditor;
 import static org.lwjgl.opengl.GL11.GL_VERSION;
 import static org.lwjgl.opengl.GL11.glGetString;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -30,7 +43,7 @@ public class LevelEditor implements Runnable {
 
 	public Tiles tiles;
 
-	public ArrayList<Button> buttons = new ArrayList<Button>();
+	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
 	public EditorMap map;
@@ -55,11 +68,9 @@ public class LevelEditor implements Runnable {
 
 		System.out.println("Tile loading time: " + (getTime() - start));
 
-		map = new EditorMap();
+		loadData();
 
-		buttons.add(new SaveButton());
-		buttons.add(new Eraser());
-		buttons.add(new TileGrid(tiles));
+		buttons = Arrays.asList(new SaveButton(), new Eraser(), new TileGrid(tiles));
 
 		elements.add(new Spacer(sprites));
 
@@ -72,7 +83,7 @@ public class LevelEditor implements Runnable {
 		int xtarget = input.xt() - (xoffset / Screen.tileSize);
 		int ytarget = input.yt() - (yoffset / Screen.tileSize);
 
-		if (xtarget < 46 && input.mouseDown(0)) {
+		if (input.xt() < 46 && input.mouseDown(0)) {
 			if (selectedTile == null) {
 				map.remove(xtarget, ytarget);
 			} else {
@@ -80,8 +91,8 @@ public class LevelEditor implements Runnable {
 			}
 		}
 		if (input.mouseDown(1)) {
-			xoffset -= input.dx();
-			yoffset -= input.dy();
+			xoffset += input.dx();
+			yoffset += input.dy();
 		}
 
 		input.setKeys();
@@ -97,7 +108,7 @@ public class LevelEditor implements Runnable {
 				screen.draw("grid", x, y, 2);
 			}
 		}
-		map.render(screen, xoffset / Screen.tileSize, yoffset / Screen.tileSize);
+		map.render(screen, -xoffset / Screen.tileSize, -yoffset / Screen.tileSize);
 		for (Button b : buttons)
 			b.render(screen);
 
@@ -107,6 +118,8 @@ public class LevelEditor implements Runnable {
 		if (selectedTile != null) {
 			screen.draw(selectedTile.sprite, 47, 1);
 			screen.drawString(selectedTile.name, 48, 1);
+		} else {
+			screen.drawString("Erase", 47, 1);
 		}
 
 		screen.render();
@@ -114,7 +127,26 @@ public class LevelEditor implements Runnable {
 	}
 
 	public void saveData() {
+		try (OutputStream file = new FileOutputStream("save/map.ser");
+				OutputStream buffer = new BufferedOutputStream(file);
+				ObjectOutput output = new ObjectOutputStream(buffer);) {
+			output.writeObject(map);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void loadData() {
+		try (InputStream file = new FileInputStream("save/map.ser");
+				InputStream buffer = new BufferedInputStream(file);
+				ObjectInput input = new ObjectInputStream(buffer);) {
+			// deserialize the List
+			this.map = (EditorMap) input.readObject();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private Screen screen;

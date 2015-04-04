@@ -3,9 +3,11 @@ package com.trisse.spacerouge.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.io.Serializable;
+
 import org.lwjgl.opengl.*;
 
-public class SpriteSheet {
+public class SpriteSheet implements Serializable {
 	
 	public static final Texture spriteSheetTexture = new Texture("res/spritesheet.png");
     

@@ -1,8 +1,10 @@
 package com.trisse.spacerouge.tile;
 
+import java.io.Serializable;
+
 import com.trisse.spacerouge.graphics.Sprite;
 
-public class Tile {
+public class Tile implements Serializable {
 
 	public int x, y;
 

@@ -1,6 +1,8 @@
 package com.trisse.spacerouge.graphics;
 
-public class Sprite {
+import java.io.Serializable;
+
+public class Sprite implements Serializable {
 
 	public static final SpriteSheet defaultSpriteSheet = new SpriteSheet(Screen.tileSize);
 

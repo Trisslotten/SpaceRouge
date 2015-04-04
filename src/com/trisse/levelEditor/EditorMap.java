@@ -32,8 +32,11 @@ public class EditorMap extends Map {
 
 		for (Tile t : tiles) {
 			int x = t.x - xoffset;
-			int y = t.y - yoffset;
-			screen.draw(t.getSprite(), x, y, 0);
+			if (x < 46 && x >= 0) {
+				int y = t.y - yoffset;
+				if (y >= 0 && y < Screen.tileHeight)
+					screen.draw(t.getSprite(), x, y, 0);
+			}
 		}
 	}
 
