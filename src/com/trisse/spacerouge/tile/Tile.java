@@ -6,6 +6,11 @@ import com.trisse.spacerouge.graphics.Sprite;
 
 public class Tile implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1497233311167375646L;
+
 	public int x, y;
 
 	public TileTemplate tileTemplate;

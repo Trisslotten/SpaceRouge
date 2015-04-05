@@ -3,10 +3,12 @@ package com.trisse.spacerouge.level;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.trisse.spacerouge.FileLoader;
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.Entity;
 import com.trisse.spacerouge.entities.Player;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 
 public class Level implements Serializable {
 
@@ -21,14 +23,12 @@ public class Level implements Serializable {
 
 	public Player player;
 
-	public Level() {
-
+	public Level(Sprites sprites) {
+		map = (Map) FileLoader.loadObject("save/map.ser");
+		player = new Player(3, 10, sprites);
 	}
 
 	public void init() {
-
-		map = new Map();
-		player = new Player(3, 10);
 
 	}
 

@@ -4,6 +4,7 @@ import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.components.InputComponent;
 import com.trisse.spacerouge.components.PlayerGraphics;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 
 public class Player extends Entity {
 
@@ -13,9 +14,10 @@ public class Player extends Entity {
 	private static final long serialVersionUID = -8398803915941718036L;
 	
 	private InputComponent inputComponent = new InputComponent();
-	private PlayerGraphics graphics = new PlayerGraphics();
+	private PlayerGraphics graphics;
 
-	public Player(int x, int y) {
+	public Player(int x, int y, Sprites sprites) {
+		graphics = new PlayerGraphics(sprites.getSprite("player"));
 		this.x = x;
 		this.y = y;
 	}

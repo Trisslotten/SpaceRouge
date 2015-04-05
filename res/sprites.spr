@@ -1,11 +1,15 @@
 missing 0 7
 multiItem 1 7
+
 wall 2 7
 floor 3 7
-player 4 7
 interior 5 7
+
+doorclosed 6 7
+dooropen 7 7
+
+player 4 7
 
 hover 0 5
 grid 1 5
-
 spacer 0 4
