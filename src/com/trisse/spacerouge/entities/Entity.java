@@ -17,6 +17,8 @@ public class Entity implements Serializable {
 
 	protected double x, y, speed;
 	protected Direction direction;
+	
+	protected EntityTemplate entityTemplate;
 
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
