@@ -1,12 +1,12 @@
 package com.trisse.spacerouge.collections;
 
-import com.trisse.spacerouge.entities.EntityTemplate;
+import com.trisse.spacerouge.entities.*;
 
 public class Entities {
 
-	public EntityTemplate[] entities;
-	
-	public EntityTemplate get(int i) {
+	public Entity[] entities;
+
+	public Entity get(int i) {
 		return entities[i];
 	}
 

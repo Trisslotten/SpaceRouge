@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.components.Collision;
 import com.trisse.spacerouge.components.Physics;
-import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.tile.Tile;
 
 public class Entity implements Serializable {
@@ -15,10 +15,9 @@ public class Entity implements Serializable {
 	 */
 	private static final long serialVersionUID = 5676472648486553940L;
 
+	protected String name;
 	protected double x, y, speed;
 	protected Direction direction;
-	
-	protected EntityTemplate entityTemplate;
 
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
@@ -38,6 +37,11 @@ public class Entity implements Serializable {
 
 	public void render(Screen screen) {
 
+	}
+
+	public Sprite defaultSprite() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void move() {

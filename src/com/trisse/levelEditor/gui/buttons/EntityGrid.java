@@ -28,7 +28,7 @@ public class EntityGrid extends Button {
 		int y = 0;
 		int x = 0;
 		for (int i = 0; i < entities.length(); i++) {
-			screen.draw(entities.get(i).sprite, x + x0, y + y0, 0);
+			screen.draw(entities.get(i).defaultSprite(), x + x0, y + y0, 0);
 			if (hoverIndex >= 0 && hoverIndex < entities.length() && hoverIndex == i) {
 				screen.draw("hover", x + x0, y + y0, 1);
 			}
