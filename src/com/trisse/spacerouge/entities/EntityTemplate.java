@@ -1,9 +1,8 @@
 package com.trisse.spacerouge.entities;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import com.trisse.spacerouge.Tuple;
-import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.*;
 
 public class EntityTemplate implements Cloneable {
 
@@ -18,10 +17,6 @@ public class EntityTemplate implements Cloneable {
 
 	public void render(Screen screen) {
 
-	}
-
-	public void parse(ArrayList<Tuple> tuples) {
-		
 	}
 
 }

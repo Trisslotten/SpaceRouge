@@ -12,7 +12,7 @@ import com.trisse.levelEditor.gui.*;
 import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.Spacer;
 import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.collections.Tiles;
+import com.trisse.spacerouge.collections.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.tile.TileTemplate;
@@ -22,8 +22,8 @@ public class LevelEditor implements Runnable {
 	public Input input = new Input();
 
 	public Sprites sprites;
-
 	public Tiles tiles;
+	public Entities entityTemplates;
 
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
@@ -34,7 +34,7 @@ public class LevelEditor implements Runnable {
 
 	public TileTemplate selectedTile;
 
-	public EntityTemplate selectedEntity;
+	public Entity selectedEntity;
 
 	public int xoffset = 0;
 	public int yoffset = 0;
@@ -55,7 +55,6 @@ public class LevelEditor implements Runnable {
 		// System.out.println("Tile loading time: " + (getTime() - start));
 
 		map = (EditorMap) Filer.loadObject("save/map.ser");
-		
 
 		buttons = Arrays.asList(new SaveButton(), new Eraser(), new TileGrid(tiles));
 
