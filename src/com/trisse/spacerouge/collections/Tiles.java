@@ -2,7 +2,7 @@ package com.trisse.spacerouge.collections;
 
 import java.util.ArrayList;
 
-import com.trisse.spacerouge.FileLoader;
+import com.trisse.spacerouge.Filer;
 import com.trisse.spacerouge.graphics.Sprite;
 import com.trisse.spacerouge.graphics.Sprites;
 import com.trisse.spacerouge.tile.TileTemplate;
@@ -82,7 +82,7 @@ public class Tiles {
 
 	public TileTemplate[] getTilesFromFile(Sprites sprites) {
 
-		String config = FileLoader.loadString("res/tiles.cfg");
+		String config = Filer.loadString("res/tiles.cfg");
 
 		ArrayList<TileTemplate> tiles = new ArrayList<TileTemplate>();
 		for (int i = 0; i < config.length(); i++) {

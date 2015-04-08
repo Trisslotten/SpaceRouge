@@ -1,6 +1,6 @@
 package com.trisse.spacerouge.graphics;
 
-import com.trisse.spacerouge.FileLoader;
+import com.trisse.spacerouge.Filer;
 
 public class Sprites {
 
@@ -24,7 +24,7 @@ public class Sprites {
 
 	private Sprite[] getSpritesFromFile() {
 
-		String config = FileLoader.loadString("res/sprites.spr");
+		String config = Filer.loadString("res/sprites.spr");
 
 		config = config.replaceAll("\\s+", " ");
 		String[] splitted = config.split(" ");

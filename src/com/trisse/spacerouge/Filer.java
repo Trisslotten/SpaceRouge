@@ -1,17 +1,20 @@
 package com.trisse.spacerouge;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 import com.trisse.spacerouge.tile.TileTemplate;
 
-public class FileLoader {
+public class Filer {
+	
+	public static void SaveObject(Object o, String path) {
+		try (OutputStream file = new FileOutputStream("path");
+				OutputStream buffer = new BufferedOutputStream(file);
+				ObjectOutput output = new ObjectOutputStream(buffer);) {
+			output.writeObject(o);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static Object loadObject(String path) {
 		Object object = null;

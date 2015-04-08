@@ -14,6 +14,7 @@ public class Entity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5676472648486553940L;
+
 	protected double x, y, speed;
 	protected Direction direction;
 

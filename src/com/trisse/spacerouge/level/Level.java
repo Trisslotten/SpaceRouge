@@ -3,7 +3,7 @@ package com.trisse.spacerouge.level;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.trisse.spacerouge.FileLoader;
+import com.trisse.spacerouge.Filer;
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.Entity;
 import com.trisse.spacerouge.entities.Player;
@@ -24,7 +24,8 @@ public class Level implements Serializable {
 	public Player player;
 
 	public Level(Sprites sprites) {
-		map = (Map) FileLoader.loadObject("save/map.ser");
+		map = (Map) Filer.loadObject("save/map.ser");
+
 		player = new Player(3, 10, sprites);
 	}
 

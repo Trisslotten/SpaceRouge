@@ -11,8 +11,9 @@ import org.lwjgl.opengl.*;
 import com.trisse.levelEditor.gui.*;
 import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.Spacer;
-import com.trisse.spacerouge.Input;
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.collections.Tiles;
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.tile.TileTemplate;
 
@@ -29,7 +30,11 @@ public class LevelEditor implements Runnable {
 
 	public EditorMap map;
 
+	public ArrayList<Entity> entities = new ArrayList<Entity>();
+
 	public TileTemplate selectedTile;
+
+	public EntityTemplate selectedEntity;
 
 	public int xoffset = 0;
 	public int yoffset = 0;
@@ -39,7 +44,7 @@ public class LevelEditor implements Runnable {
 
 		sprites = new Sprites();
 
-		System.out.println("Sprite loading time: " + (getTime() - start));
+		// System.out.println("Sprite loading time: " + (getTime() - start));
 
 		screen = new Screen(sprites);
 
@@ -47,9 +52,10 @@ public class LevelEditor implements Runnable {
 
 		tiles = new Tiles(sprites);
 
-		System.out.println("Tile loading time: " + (getTime() - start));
+		// System.out.println("Tile loading time: " + (getTime() - start));
 
-		loadData();
+		map = (EditorMap) Filer.loadObject("save/map.ser");
+		
 
 		buttons = Arrays.asList(new SaveButton(), new Eraser(), new TileGrid(tiles));
 
@@ -108,26 +114,11 @@ public class LevelEditor implements Runnable {
 	}
 
 	public void saveData() {
-		try (OutputStream file = new FileOutputStream("save/map.ser");
-				OutputStream buffer = new BufferedOutputStream(file);
-				ObjectOutput output = new ObjectOutputStream(buffer);) {
-			output.writeObject(map);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Filer.SaveObject(map, "save/map.ser");
 	}
 
-	public void loadData() {
-		try (InputStream file = new FileInputStream("save/map.ser");
-				InputStream buffer = new BufferedInputStream(file);
-				ObjectInput input = new ObjectInputStream(buffer);) {
-			// deserialize the List
-			this.map = (EditorMap) input.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void exitSave() {
+		Filer.SaveObject(map, "save/map_Exit.ser");
 	}
 
 	private Screen screen;
@@ -188,6 +179,7 @@ public class LevelEditor implements Runnable {
 				frames = 0;
 			}
 		}
+		exitSave();
 		System.exit(0);
 
 	}
