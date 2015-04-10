@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,27 +18,30 @@ import java.io.OutputStream;
 import com.trisse.spacerouge.entities.tile.TileTemplate;
 
 public class Filer {
-	
+
 	public static void SaveObject(Object o, String path) {
-		try (OutputStream file = new FileOutputStream("path");
-				OutputStream buffer = new BufferedOutputStream(file);
-				ObjectOutput output = new ObjectOutputStream(buffer);) {
+		try {
+			OutputStream file = new FileOutputStream(path);
+			OutputStream buffer = new BufferedOutputStream(file);
+			ObjectOutput output = new ObjectOutputStream(buffer);
 			output.writeObject(o);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static Object loadObject(String path) {
+	public static Object loadObject(String path)  {
 		Object object = null;
-		try (InputStream file = new FileInputStream(path);
-				InputStream buffer = new BufferedInputStream(file);
-				ObjectInput input = new ObjectInputStream(buffer);) {
-			// deserialize the List
+		try {
+		InputStream file = new FileInputStream(path);
+		InputStream buffer = new BufferedInputStream(file);
+		ObjectInput input = null;
+			input = new ObjectInputStream(buffer);
 			object = input.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			input.close();	
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return object;

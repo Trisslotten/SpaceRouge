@@ -5,7 +5,6 @@ import com.trisse.levelEditor.gui.Button;
 import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.tile.TileTemplate;
 
 public class TileGrid extends Button {
 

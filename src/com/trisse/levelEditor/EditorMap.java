@@ -10,7 +10,7 @@ public class EditorMap extends Map {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1012589539129424419L;
+	private static final long serialVersionUID = -1142366806210790075L;
 
 	public void add(TileTemplate tile, int x, int y) {
 		if (tile != null) {

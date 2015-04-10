@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.trisse.spacerouge.entities.Player;
+import com.trisse.spacerouge.entities.tile.Tile;
 import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.tile.Tile;
 
 public class Map implements Serializable {
 

@@ -24,6 +24,7 @@ public class Level implements Serializable {
 	public Player player;
 
 	public Level(Sprites sprites) {
+		
 		map = (Map) Filer.loadObject("save/map.ser");
 
 		player = new Player(3, 10, sprites);

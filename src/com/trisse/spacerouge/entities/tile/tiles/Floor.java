@@ -1,7 +1,7 @@
 package com.trisse.spacerouge.entities.tile.tiles;
 
+import com.trisse.spacerouge.entities.tile.TileTemplate;
 import com.trisse.spacerouge.graphics.Sprite;
-import com.trisse.spacerouge.tile.TileTemplate;
 
 public class Floor extends TileTemplate {
 

@@ -19,7 +19,6 @@ public class SaveButton extends Button {
 
 	public void clicked(LevelEditor levelEditor) {
 		levelEditor.saveData();
-		System.out.println("asdasdasd");
 	}
 
 }

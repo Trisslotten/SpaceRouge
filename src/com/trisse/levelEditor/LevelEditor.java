@@ -64,12 +64,13 @@ public class LevelEditor implements Runnable {
 
 		// System.out.println("Tile loading time: " + (getTime() - start));
 
-		map = (EditorMap) Filer.loadObject("save/map.ser");
+		//map = (EditorMap) Filer.loadObject("save/map.ser");
+		map = new EditorMap();
+		System.out.println("asdasdas");
 
 		buttons = Arrays.asList(new SaveButton(), new Eraser(), new TileGrid(tiles));
 
 		elements.add(new Spacer(sprites));
-
 	}
 
 	private void handleInput() {
