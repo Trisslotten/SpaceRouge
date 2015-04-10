@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.tile;
+package com.trisse.spacerouge.entities.tile;
 
 import java.io.Serializable;
 

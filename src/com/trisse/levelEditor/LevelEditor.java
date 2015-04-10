@@ -1,21 +1,31 @@
 package com.trisse.levelEditor;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
-import com.trisse.levelEditor.gui.*;
-import com.trisse.levelEditor.gui.buttons.*;
+import com.trisse.levelEditor.gui.Button;
+import com.trisse.levelEditor.gui.Element;
+import com.trisse.levelEditor.gui.buttons.Eraser;
+import com.trisse.levelEditor.gui.buttons.SaveButton;
+import com.trisse.levelEditor.gui.buttons.TileGrid;
 import com.trisse.levelEditor.gui.elements.Spacer;
-import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.collections.*;
-import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.tile.TileTemplate;
+import com.trisse.spacerouge.Filer;
+import com.trisse.spacerouge.Input;
+import com.trisse.spacerouge.collections.Entities;
+import com.trisse.spacerouge.collections.Tiles;
+import com.trisse.spacerouge.entities.Entity;
+import com.trisse.spacerouge.entities.tile.TileTemplate;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 
 public class LevelEditor implements Runnable {
 

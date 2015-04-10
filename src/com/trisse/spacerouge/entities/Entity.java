@@ -5,8 +5,9 @@ import java.io.Serializable;
 import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.components.Collision;
 import com.trisse.spacerouge.components.Physics;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.tile.Tile;
+import com.trisse.spacerouge.entities.tile.Tile;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprite;
 
 public class Entity implements Serializable {
 

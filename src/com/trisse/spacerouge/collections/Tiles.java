@@ -3,11 +3,11 @@ package com.trisse.spacerouge.collections;
 import java.util.ArrayList;
 
 import com.trisse.spacerouge.Filer;
+import com.trisse.spacerouge.entities.tile.TileTemplate;
+import com.trisse.spacerouge.entities.tile.tiles.Floor;
+import com.trisse.spacerouge.entities.tile.tiles.Wall;
 import com.trisse.spacerouge.graphics.Sprite;
 import com.trisse.spacerouge.graphics.Sprites;
-import com.trisse.spacerouge.tile.TileTemplate;
-import com.trisse.spacerouge.tile.tiles.Floor;
-import com.trisse.spacerouge.tile.tiles.Wall;
 
 public class Tiles {
 

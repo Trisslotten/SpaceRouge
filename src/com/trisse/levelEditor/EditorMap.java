@@ -1,10 +1,9 @@
 package com.trisse.levelEditor;
 
-import com.trisse.spacerouge.entities.Player;
+import com.trisse.spacerouge.entities.tile.Tile;
+import com.trisse.spacerouge.entities.tile.TileTemplate;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.level.Map;
-import com.trisse.spacerouge.tile.Tile;
-import com.trisse.spacerouge.tile.TileTemplate;
 
 public class EditorMap extends Map {
 

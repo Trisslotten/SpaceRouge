@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.tile.tiles;
+package com.trisse.spacerouge.entities.tile.tiles;
 
 import com.trisse.spacerouge.graphics.Sprite;
 import com.trisse.spacerouge.tile.TileTemplate;
