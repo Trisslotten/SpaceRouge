@@ -9,7 +9,7 @@ import com.trisse.spacerouge.entities.tile.Tile;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprite;
 
-public class Entity implements Serializable {
+public abstract class Entity implements Serializable {
 
 	/**
 	 * 
@@ -20,30 +20,16 @@ public class Entity implements Serializable {
 	protected double x, y, speed;
 	protected Direction direction;
 
+	protected EntityType entityType;
+
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
-	public Entity(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
+	public abstract void tick(double timeScale);
 
-	public Entity() {
-	}
+	public abstract void render(Screen screen);
 
-	public void tick(double timeScale) {
-		physics.update(this);
-
-	}
-
-	public void render(Screen screen) {
-
-	}
-
-	public Sprite defaultSprite() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Sprite defaultSprite();
 
 	public void move() {
 		x += direction.xspd(speed);

@@ -2,16 +2,10 @@ package com.trisse.spacerouge.entities.tile;
 
 import java.io.Serializable;
 
-import com.trisse.spacerouge.graphics.Sprite;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
 
-public class Tile implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1497233311167375646L;
-
-	public int x, y;
+public abstract class Tile extends Entity implements Serializable {
 
 	public TileTemplate tileTemplate;
 
@@ -28,5 +22,10 @@ public class Tile implements Serializable {
 	public Sprite getSprite() {
 		return tileTemplate.sprite;
 	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1497233311167375646L;
 
 }
