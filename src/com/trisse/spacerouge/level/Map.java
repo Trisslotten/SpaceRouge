@@ -25,15 +25,15 @@ public class Map implements Serializable {
 		int yoffset = player.ypos();
 
 		for (Tile t : tiles) {
-			int x = t.xpos() - xoffset + Screen.tileWidth / 2;
-			int y = t.ypos() - yoffset + Screen.tileHeight / 2;
+			int x = t.x - xoffset + Screen.tileWidth / 2;
+			int y = t.y - yoffset + Screen.tileHeight / 2;
 			screen.draw(t.getSprite(), x, y, 0);
 		}
 	}
 
 	public boolean isWall(int x, int y) {
 		for (Tile t : tiles) {
-			if (t.xpos() == x && t.ypos() == y) {
+			if (t.x == x && t.y == y) {
 				if (t.isWall()) {
 					return true;
 				} else {

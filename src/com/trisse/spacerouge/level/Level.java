@@ -24,7 +24,7 @@ public class Level implements Serializable {
 	public Player player;
 
 	public Level(Sprites sprites) {
-
+		
 		map = (Map) Filer.loadObject("save/map.ser");
 
 		player = new Player(3, 10, sprites);
@@ -57,7 +57,7 @@ public class Level implements Serializable {
 			entity.tick(timeScale);
 		}
 
-		player.tick(timeScale);
+		player.tick();
 	}
 
 	public void render(Screen screen) {

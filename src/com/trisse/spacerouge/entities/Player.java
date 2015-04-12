@@ -3,7 +3,8 @@ package com.trisse.spacerouge.entities;
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.components.InputComponent;
 import com.trisse.spacerouge.components.PlayerGraphics;
-import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 
 public class Player extends Entity {
 
@@ -11,7 +12,7 @@ public class Player extends Entity {
 	 * 
 	 */
 	private static final long serialVersionUID = -8398803915941718036L;
-
+	
 	private InputComponent inputComponent = new InputComponent();
 	private PlayerGraphics graphics;
 
@@ -29,16 +30,8 @@ public class Player extends Entity {
 		graphics.update(this, screen);
 	}
 
-	@Override
-	public void tick(double timeScale) {
+	public void tick() {
 		physics.update(this);
-
-	}
-
-	@Override
-	public Sprite defaultSprite() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
