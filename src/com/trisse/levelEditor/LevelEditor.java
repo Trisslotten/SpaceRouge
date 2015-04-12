@@ -84,7 +84,7 @@ public class LevelEditor implements Runnable {
 			if (selectedTile == null) {
 				map.remove(xtarget, ytarget);
 			} else {
-				map.add(selectedTile, xtarget, ytarget);
+				//map.add(selectedTile, xtarget, ytarget);
 			}
 		}
 		if (input.mouseDown(1)) {
