@@ -2,6 +2,6 @@ package com.trisse.spacerouge.entities;
 
 public class EntityType {
 
-	private String name;
+	protected String name;
 
 }

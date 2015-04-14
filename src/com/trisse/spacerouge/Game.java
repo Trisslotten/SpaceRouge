@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.*;
 
+import com.trisse.spacerouge.collections.EntityList;
 import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.Level;
@@ -14,6 +15,8 @@ public class Game implements Runnable {
 	public Input input = new Input();
 
 	public Sprites sprites;
+	
+	public EntityList entityList; 
 
 	public Tiles tiles;
 
@@ -24,6 +27,8 @@ public class Game implements Runnable {
 		sprites = new Sprites();
 
 		screen = new Screen(sprites);
+		
+		entityList = new EntityList(sprites);
 
 		tiles = new Tiles(sprites);
 
