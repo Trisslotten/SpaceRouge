@@ -5,7 +5,7 @@ import com.trisse.spacerouge.components.InputComponent;
 import com.trisse.spacerouge.components.PlayerGraphics;
 import com.trisse.spacerouge.graphics.*;
 
-public class Player extends Entity {
+public class Player extends Mob {
 
 	/**
 	 * 
