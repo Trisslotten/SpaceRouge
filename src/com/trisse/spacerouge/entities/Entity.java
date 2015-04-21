@@ -17,7 +17,6 @@ public class Entity implements Serializable {
 
 	protected String name;
 	protected double x, y, speed;
-	protected int heightLevel;
 	protected Direction direction;
 
 	protected EntityType entityType;

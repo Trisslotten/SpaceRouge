@@ -5,6 +5,8 @@ import com.trisse.spacerouge.graphics.Screen;
 public abstract class EntityType {
 
 	protected String name;
+	
+	protected int heightLevel;
 
 	public EntityType(String name) {
 		this.name = name;
