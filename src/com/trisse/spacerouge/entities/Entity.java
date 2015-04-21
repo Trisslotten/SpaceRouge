@@ -2,14 +2,13 @@ package com.trisse.spacerouge.entities;
 
 import java.io.Serializable;
 
-import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.components.Collision;
 import com.trisse.spacerouge.components.Physics;
-import com.trisse.spacerouge.entities.tile.Tile;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprite;
+import com.trisse.spacerouge.util.Direction;
 
-public abstract class Entity implements Serializable {
+public class Entity implements Serializable {
 
 	/**
 	 * 
@@ -26,11 +25,13 @@ public abstract class Entity implements Serializable {
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
-	public abstract void tick(double timeScale);
+	public void tick(double timeScale) {
+		entityType.tick(timeScale);
+	}
 
-	public abstract void render(Screen screen);
-
-	public abstract Sprite defaultSprite();
+	public void render(Screen screen) {
+		entityType.render(screen);
+	}
 
 	public void move() {
 		x += direction.xspd(speed);
@@ -39,12 +40,6 @@ public abstract class Entity implements Serializable {
 
 	public void handleCollision(Entity entity) {
 		if (entity.xpos() == nextXpos() && entity.xpos() == nextYpos()) {
-			collision.handle(this);
-		}
-	}
-
-	public void handleCollision(Tile tile) {
-		if (tile.x == nextXpos() && tile.y == nextYpos() && tile.isWall()) {
 			collision.handle(this);
 		}
 	}

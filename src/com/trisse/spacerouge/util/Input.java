@@ -1,4 +1,4 @@
-package com.trisse.spacerouge;
+package com.trisse.spacerouge.util;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

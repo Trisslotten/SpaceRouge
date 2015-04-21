@@ -1,14 +1,18 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 import com.trisse.spacerouge.collections.EntityList;
-import com.trisse.spacerouge.collections.Tiles;
-import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
 import com.trisse.spacerouge.level.Level;
+import com.trisse.spacerouge.util.Input;
 
 public class Game implements Runnable {
 
@@ -16,9 +20,7 @@ public class Game implements Runnable {
 
 	public Sprites sprites;
 	
-	public EntityList entityList; 
-
-	public Tiles tiles;
+	public EntityList entityList;
 
 	public Level level;
 
@@ -29,8 +31,6 @@ public class Game implements Runnable {
 		screen = new Screen(sprites);
 		
 		entityList = new EntityList(sprites);
-
-		tiles = new Tiles(sprites);
 
 		level = new Level(sprites);
 

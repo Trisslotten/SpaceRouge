@@ -1,16 +1,17 @@
 package com.trisse.spacerouge.entities;
 
+import com.trisse.spacerouge.graphics.Screen;
+
 public abstract class EntityType {
 
 	protected String name;
 
-	public static EntityType instanceFromString(String str, String type) {
-		switch (type.toLowerCase()) {
-		case "mob":
-			return Mob.instanceFromString(str, type);
-		default:
-			return null;
-		}
+	public EntityType(String name) {
+		this.name = name;
 	}
+
+	public abstract void render(Screen screen);
+
+	public abstract void tick(double timeScale);
 
 }

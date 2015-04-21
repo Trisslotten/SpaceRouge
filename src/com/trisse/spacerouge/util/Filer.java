@@ -1,10 +1,9 @@
-package com.trisse.spacerouge;
+package com.trisse.spacerouge.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,8 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-
-import com.trisse.spacerouge.entities.tile.TileTemplate;
 
 public class Filer {
 
@@ -69,11 +66,6 @@ public class Filer {
 		}
 
 		return string;
-	}
-
-	public static TileTemplate[] getTilesFromFile() {
-
-		return null;
 	}
 
 }

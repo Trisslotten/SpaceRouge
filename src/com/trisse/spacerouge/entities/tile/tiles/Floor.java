@@ -1,13 +1,16 @@
 package com.trisse.spacerouge.entities.tile.tiles;
 
-import com.trisse.spacerouge.entities.tile.TileTemplate;
-import com.trisse.spacerouge.graphics.Sprite;
+import com.trisse.spacerouge.entities.tile.TileType;
 
-public class Floor extends TileTemplate {
+public abstract class Floor extends TileType {
 
-	public Floor(Sprite sprite, String name) {
-		super(sprite, name, false);
-		// TODO Auto-generated constructor stub
+	public Floor(String name) {
+		super(name);
 	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3358289524794563980L;
 
 }

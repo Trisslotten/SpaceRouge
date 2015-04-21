@@ -1,8 +1,8 @@
 package com.trisse.levelEditor.gui;
 
 import com.trisse.levelEditor.LevelEditor;
-import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.util.Input;
 
 public class Button {
 

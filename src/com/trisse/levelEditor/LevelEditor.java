@@ -18,31 +18,24 @@ import com.trisse.levelEditor.gui.buttons.Eraser;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
 import com.trisse.levelEditor.gui.buttons.TileGrid;
 import com.trisse.levelEditor.gui.elements.Spacer;
-import com.trisse.spacerouge.Filer;
-import com.trisse.spacerouge.Input;
 import com.trisse.spacerouge.collections.Entities;
-import com.trisse.spacerouge.collections.Tiles;
 import com.trisse.spacerouge.entities.Entity;
-import com.trisse.spacerouge.entities.tile.TileTemplate;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.util.Filer;
+import com.trisse.spacerouge.util.Input;
 
 public class LevelEditor implements Runnable {
 
 	public Input input = new Input();
 
 	public Sprites sprites;
-	public Tiles tiles;
 	public Entities entityTemplates;
 
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
-	public EditorMap map;
-
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-
-	public TileTemplate selectedTile;
 
 	public Entity selectedEntity;
 
@@ -54,45 +47,17 @@ public class LevelEditor implements Runnable {
 
 		sprites = new Sprites();
 
-		// System.out.println("Sprite loading time: " + (getTime() - start));
-
 		screen = new Screen(sprites);
 
 		start = getTime();
-
-		tiles = new Tiles(sprites);
-
-		// System.out.println("Tile loading time: " + (getTime() - start));
-
-		//map = (EditorMap) Filer.loadObject("save/map.ser");
-		map = new EditorMap();
 		System.out.println("asdasdas");
 
-		buttons = Arrays.asList(new SaveButton(), new Eraser(), new TileGrid(tiles));
+		buttons = Arrays.asList(new SaveButton(), new Eraser());
 
 		elements.add(new Spacer(sprites));
 	}
 
 	private void handleInput() {
-		for (Button b : buttons)
-			b.handleInput(this, input);
-
-		int xtarget = input.xt() - (xoffset / Screen.tileSize);
-		int ytarget = input.yt() - (yoffset / Screen.tileSize);
-
-		if (input.xt() < 46 && input.mouseDown(0)) {
-			if (selectedTile == null) {
-				map.remove(xtarget, ytarget);
-			} else {
-				//map.add(selectedTile, xtarget, ytarget);
-			}
-		}
-		if (input.mouseDown(1)) {
-			xoffset += input.dx();
-			yoffset += input.dy();
-		}
-
-		input.setKeys();
 	}
 
 	private void update() {
@@ -105,30 +70,20 @@ public class LevelEditor implements Runnable {
 				screen.draw("grid", x, y, 2);
 			}
 		}
-		map.render(screen, -xoffset / Screen.tileSize, -yoffset / Screen.tileSize);
 		for (Button b : buttons)
 			b.render(screen);
 
 		for (Element e : elements)
 			e.render(screen);
 
-		if (selectedTile != null) {
-			screen.draw(selectedTile.sprite, 47, 1);
-			screen.drawString(selectedTile.name, 48, 1);
-		} else {
-			screen.drawString("Erase", 47, 1);
-		}
-
 		screen.render();
 		screen.clear();
 	}
 
 	public void saveData() {
-		Filer.SaveObject(map, "save/map.ser");
 	}
 
 	public void exitSave() {
-		Filer.SaveObject(map, "save/map_Exit.ser");
 	}
 
 	private Screen screen;

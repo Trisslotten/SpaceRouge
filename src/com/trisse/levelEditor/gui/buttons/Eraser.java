@@ -17,7 +17,7 @@ public class Eraser extends Button {
 	}
 
 	public void clicked(LevelEditor levelEditor) {
-		levelEditor.selectedTile = null;
+		
 	}
 
 }

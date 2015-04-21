@@ -1,6 +1,6 @@
 package com.trisse.spacerouge.graphics;
 
-import com.trisse.spacerouge.Filer;
+import com.trisse.spacerouge.util.Filer;
 
 public class Sprites {
 
