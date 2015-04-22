@@ -1,5 +1,6 @@
 package com.trisse.spacerouge.entities.types;
 
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.EntityType;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprite;
@@ -18,14 +19,13 @@ public class DoorType extends EntityType {
 
 	@Override
 	public void render(Screen screen) {
-		// TODO Auto-generated method stub
+		throw Game.notImplemented();
 		
 	}
 
 	@Override
 	public void tick(double timeScale) {
-		// TODO Auto-generated method stub
-		
+		throw Game.notImplemented();
 	}
 
 }

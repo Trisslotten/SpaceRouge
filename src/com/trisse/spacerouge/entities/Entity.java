@@ -15,7 +15,6 @@ public class Entity implements Serializable {
 	 */
 	private static final long serialVersionUID = 5676472648486553940L;
 
-	protected String name;
 	protected double x, y, speed;
 	protected Direction direction;
 
@@ -24,12 +23,22 @@ public class Entity implements Serializable {
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
+	public Entity(EntityType type) {
+		this.entityType = type;
+	}
+
+	public Entity(EntityType type, int x, int y) {
+		this.entityType = type;
+		this.x = x;
+		this.y = y;
+	}
+
 	public void tick(double timeScale) {
 		entityType.tick(timeScale);
 	}
 
 	public void render(Screen screen) {
-		entityType.render(screen);
+		screen.draw(entityType.currentSprite(), xpos(), ypos());
 	}
 
 	public void move() {

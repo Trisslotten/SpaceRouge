@@ -23,7 +23,7 @@ public class Level implements Serializable {
 	}
 
 	public void init() {
-
+		
 	}
 
 	public void handleInput(Game game) {
@@ -35,6 +35,7 @@ public class Level implements Serializable {
 	}
 
 	public void render(Screen screen) {
+		
 	}
 
 }

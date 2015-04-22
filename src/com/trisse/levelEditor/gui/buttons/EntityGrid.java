@@ -1,21 +1,18 @@
 package com.trisse.levelEditor.gui.buttons;
 
-import com.trisse.levelEditor.LevelEditor;
-import com.trisse.levelEditor.gui.Button;
-import com.trisse.spacerouge.collections.Entities;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.util.Input;
+import com.trisse.levelEditor.*;
+import com.trisse.levelEditor.gui.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class EntityGrid extends Button {
 
-	private Entities entities;
 
 	private int y0 = 3;
 	private int x0 = 47;
 	private int hoverIndex;
 
-	public EntityGrid(Entities entities) {
-		this.entities = entities;
+	public EntityGrid() {
 		width = 10;
 	}
 
@@ -24,20 +21,7 @@ public class EntityGrid extends Button {
 	}
 
 	public void render(Screen screen) {
-
-		int y = 0;
-		int x = 0;
-		for (int i = 0; i < entities.length(); i++) {
-			screen.draw(entities.get(i).defaultSprite(), x + x0, y + y0, 0);
-			if (hoverIndex >= 0 && hoverIndex < entities.length() && hoverIndex == i) {
-				screen.draw("hover", x + x0, y + y0, 1);
-			}
-
-			if (++x >= width) {
-				x = 0;
-				y++;
-			}
-		}
+		
 	}
 
 	public void handleInput(LevelEditor levelEditor, Input input) {
@@ -47,9 +31,6 @@ public class EntityGrid extends Button {
 			hoverIndex = mousey * width + mousex;
 		} else {
 			hoverIndex = -1;
-		}
-		if (hoverIndex >= 0 && hoverIndex < entities.length() && input.mousePressed(0)) {
-			levelEditor.selectedEntity = entities.get(hoverIndex);
 		}
 
 	}

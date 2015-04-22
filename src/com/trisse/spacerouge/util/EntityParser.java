@@ -2,10 +2,11 @@ package com.trisse.spacerouge.util;
 
 import java.util.ArrayList;
 
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.collections.LoadedEntity;
 import com.trisse.spacerouge.entities.EntityType;
 import com.trisse.spacerouge.entities.EntityTypeFactory;
-import com.trisse.spacerouge.entities.tile.tiles.Floor;
+import com.trisse.spacerouge.entities.tile.tiles.FloorType;
 import com.trisse.spacerouge.graphics.Sprites;
 
 public class EntityParser {
@@ -13,16 +14,19 @@ public class EntityParser {
 	private static EntityType parseMob(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
 		default:
-			return null;
+
+			Game.underConstruction(EntityParser.class);
+
 		}
+		return null;
 	}
 
 	private static EntityType parseTile(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
 		case "floor":
-			return EntityTypeFactory.floorFactory(loadedEntity, sprites);
+			return EntityTypeFactory.floor(loadedEntity, sprites);
 		case "Wall":
-			
+			return EntityTypeFactory.wall(loadedEntity, sprites);
 		}
 		return null;
 	}

@@ -19,7 +19,7 @@ public class Game implements Runnable {
 	public Input input = new Input();
 
 	public Sprites sprites;
-	
+
 	public EntityList entityList;
 
 	public Level level;
@@ -29,7 +29,7 @@ public class Game implements Runnable {
 		sprites = new Sprites();
 
 		screen = new Screen(sprites);
-		
+
 		entityList = new EntityList(sprites);
 
 		level = new Level(sprites);
@@ -95,6 +95,18 @@ public class Game implements Runnable {
 		Game game = new Game();
 		game.start();
 		game.thread.join();
+	}
+
+	public static UnsupportedOperationException notImplemented() {
+		return new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public static void underConstruction(Object o) {
+		System.err.println("WARNING: Under construction -> " + o.getClass().getName() + "\n\n");
+	}
+
+	public static void notTested(Object o) {
+		System.err.println("WARNING: Not yet tested -> " + o.getClass().getName() + "\n\n");
 	}
 
 	@Override

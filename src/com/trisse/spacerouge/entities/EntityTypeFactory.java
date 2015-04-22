@@ -1,13 +1,16 @@
 package com.trisse.spacerouge.entities;
 
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.collections.LoadedEntity;
+import com.trisse.spacerouge.entities.tile.tiles.*;
 import com.trisse.spacerouge.entities.types.DoorType;
 import com.trisse.spacerouge.graphics.Sprite;
 import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.util.*;
 
 public class EntityTypeFactory {
 
-	public static EntityType doorFactory(LoadedEntity loadedEntity, Sprites sprites) {
+	public static EntityType door(LoadedEntity loadedEntity, Sprites sprites) {
 
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
@@ -29,24 +32,45 @@ public class EntityTypeFactory {
 		return new DoorType(name, open, closed);
 	}
 
-	public static EntityType floorFactory(LoadedEntity loadedEntity, Sprites sprites) {
+	public static EntityType floor(LoadedEntity loadedEntity, Sprites sprites) {
 
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 
-		Sprite sprite;
-		String name;
+		Sprite sprite = null;
+		String name = null;
 
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i]) {
-			case "sprites":
+			case "sprite":
 				sprite = sprites.getSprite(values[i]);
 				break;
 			case "name":
 				name = values[i];
 			}
 		}
-		return null;
+		return new FloorType(name, sprite);
+	}
+
+	public static EntityType wall(LoadedEntity loadedEntity, Sprites sprites) {
+
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
+
+		Sprite sprite = null;
+		String name = null;
+
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i]) {
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+			}
+		}
+
+		return new WallType(name, sprite);
 	}
 
 }
