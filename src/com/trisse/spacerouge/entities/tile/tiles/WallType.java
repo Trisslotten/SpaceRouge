@@ -1,7 +1,6 @@
 package com.trisse.spacerouge.entities.tile.tiles;
 
-import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.tile.TileType;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
 public class WallType extends TileType {

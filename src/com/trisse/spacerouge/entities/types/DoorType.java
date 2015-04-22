@@ -1,9 +1,8 @@
 package com.trisse.spacerouge.entities.types;
 
 import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.entities.EntityType;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprite;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
 
 public class DoorType extends EntityType {
 
@@ -30,8 +29,7 @@ public class DoorType extends EntityType {
 
 	@Override
 	public Sprite currentSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return closed;
 	}
 
 }

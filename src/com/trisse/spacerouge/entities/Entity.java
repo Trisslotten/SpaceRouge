@@ -1,12 +1,10 @@
 package com.trisse.spacerouge.entities;
 
-import java.io.Serializable;
+import java.io.*;
 
-import com.trisse.spacerouge.components.Collision;
-import com.trisse.spacerouge.components.Physics;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprite;
-import com.trisse.spacerouge.util.Direction;
+import com.trisse.spacerouge.components.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class Entity implements Serializable {
 
@@ -18,27 +16,31 @@ public class Entity implements Serializable {
 	protected double x, y, speed;
 	protected Direction direction;
 
+	private int id;
+
 	protected EntityType entityType;
 
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
-	public Entity(EntityType type) {
+	public Entity(EntityType type, int id) {
 		this.entityType = type;
+		this.id = id;
 	}
 
-	public Entity(EntityType type, int x, int y) {
+	public Entity(EntityType type, int x, int y, int id) {
 		this.entityType = type;
 		this.x = x;
 		this.y = y;
+		this.id = id;
 	}
 
 	public void tick(double timeScale) {
 		entityType.tick(timeScale);
 	}
 
-	public void render(Screen screen) {
-		screen.draw(entityType.currentSprite(), xpos(), ypos());
+	public void render(Screen screen, int xoffset, int yoffset) {
+		screen.draw(entityType.currentSprite(), xpos() - xoffset, ypos() - yoffset);
 	}
 
 	public void move() {

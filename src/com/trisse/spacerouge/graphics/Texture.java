@@ -43,6 +43,10 @@ import org.lwjgl.opengl.GL12;
 
 public class Texture implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4482581106751332656L;
 	public final int target = GL_TEXTURE_2D;
 	public final int id;
 	public final int width;

@@ -2,16 +2,19 @@ package com.trisse.spacerouge.collections;
 
 import java.util.*;
 
-import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
 
-public class EntityList {
+public class EntityTypePool {
 
 	public ArrayList<EntityType> entityTypes;
 
-	public EntityList(Sprites sprites) {
+	public EntityType[] entityTypes() {
+		return (EntityType[]) entityTypes.toArray(new EntityType[entityTypes.size()]);
+	}
+
+	public EntityTypePool(Sprites sprites) {
 		String str = Filer.loadString("res/entities.cfg");
 
 		entityTypes = EntityParser.listFromString(str, sprites);
@@ -21,8 +24,8 @@ public class EntityList {
 		return entityTypes.get(i);
 	}
 
-	public Entity getEntityInstance(String type, int x, int y) {
-		return new Entity(getType(type), x, y);
+	public Entity getEntityInstance(String type, int x, int y, int id) {
+		return new Entity(getType(type), x, y, id);
 	}
 
 	private EntityType getType(String type) {

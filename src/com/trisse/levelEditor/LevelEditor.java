@@ -10,6 +10,7 @@ import org.lwjgl.opengl.*;
 import com.trisse.levelEditor.gui.*;
 import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.*;
+import com.trisse.spacerouge.collections.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
@@ -19,34 +20,71 @@ public class LevelEditor implements Runnable {
 	public Input input = new Input();
 
 	public Sprites sprites;
-	
+
+	public EntityTypePool entityTypePool;
 
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 
-	public Entity selectedEntity;
+	public EntityType selectedEntityType;
+
+	private int IDCounter;
 
 	public int xoffset = 0;
 	public int yoffset = 0;
 
 	private void init() {
-		double start = getTime();
 
 		sprites = new Sprites();
 
 		screen = new Screen(sprites);
 
-		start = getTime();
-		System.out.println("asdasdas");
+		entityTypePool = new EntityTypePool(sprites);
 
-		buttons = Arrays.asList(new SaveButton(), new Eraser());
+		buttons = Arrays.asList(new SaveButton(), new Eraser(), new EntityGrid(entityTypePool));
 
 		elements.add(new Spacer(sprites));
+
+	}
+
+	private void add() {
+		entities.add(new Entity(selectedEntityType, input.xt()-xoffset(), input.yt()-yoffset(), IDCounter));
+		IDCounter++;
+	}
+
+	private void remove() {
+
+	}
+	
+	private int xoffset() {
+		return xoffset/Screen.tileSize;
+	}
+	
+	private int yoffset() {
+		return yoffset/Screen.tileSize;
 	}
 
 	private void handleInput() {
+		input.setKeys();
+		for (Button b : buttons)
+			b.handleInput(this, input);
+
+		if (input.xt() < 46) {
+			if (input.mouseDown(0)) {
+				if (selectedEntityType != null) {
+					add();
+				} else {
+					remove();
+				}
+			}
+			if(input.mouseDown(1)) {
+				System.out.println(input.dx());
+				xoffset += input.dx();
+				yoffset += input.dy();
+			}
+		}
 	}
 
 	private void update() {
@@ -54,25 +92,29 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void render() {
-		for (int y = 0; y < Screen.tileHeight; y++) {
-			for (int x = 0; x < 45; x++) {
-				screen.draw("grid", x, y, 2);
-			}
+
+		if (selectedEntityType == null) {
+			screen.drawString("Erase", 48, 1);
+		} else {
+			screen.drawString(selectedEntityType.getName(), 48, 1);
 		}
+
+		for (Entity e : entities)
+			e.render(screen,xoffset(),yoffset());
 		for (Button b : buttons)
 			b.render(screen);
-
 		for (Element e : elements)
 			e.render(screen);
-
 		screen.render();
 		screen.clear();
 	}
 
 	public void saveData() {
+		
 	}
 
 	public void exitSave() {
+		
 	}
 
 	private Screen screen;
@@ -108,7 +150,7 @@ public class LevelEditor implements Runnable {
 
 		init();
 
-		System.out.println("Starting time: " + (getTime() - start));
+		//System.out.println("Starting time: " + (getTime() - start));
 
 		while (running) {
 			if (Display.isCloseRequested()) {

@@ -37,8 +37,7 @@ public class FloorType extends TileType {
 
 	@Override
 	public Sprite currentSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return sprite;
 	}
 
 }

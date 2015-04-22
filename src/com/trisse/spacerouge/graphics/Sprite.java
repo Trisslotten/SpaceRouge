@@ -1,8 +1,13 @@
 package com.trisse.spacerouge.graphics;
 
-import java.io.Serializable;
+import java.io.*;
 
 public class Sprite implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1759677685485810983L;
 
 	public static final SpriteSheet defaultSpriteSheet = new SpriteSheet(Screen.tileSize);
 

@@ -3,9 +3,9 @@ package com.trisse.spacerouge.entities;
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class Mob extends EntityType {
+public class MobType extends EntityType {
 
-	public Mob(String name) {
+	public MobType(String name) {
 		super(name);
 	}
 

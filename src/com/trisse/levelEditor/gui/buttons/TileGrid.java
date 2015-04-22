@@ -2,19 +2,19 @@ package com.trisse.levelEditor.gui.buttons;
 
 import com.trisse.levelEditor.LevelEditor;
 import com.trisse.levelEditor.gui.Button;
-import com.trisse.spacerouge.collections.EntityList;
+import com.trisse.spacerouge.collections.EntityTypePool;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.util.Input;
 
 public class TileGrid extends Button {
 
-	private EntityList entityList; 
+	private EntityTypePool entityList; 
 
 	private int y0 = 3;
 	private int x0 = 47;
 	private int hoverIndex;
 
-	public TileGrid(EntityList list) {
+	public TileGrid(EntityTypePool list) {
 		this.entityList = list;
 		width = 10;
 	}

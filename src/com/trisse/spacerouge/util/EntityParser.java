@@ -1,13 +1,10 @@
 package com.trisse.spacerouge.util;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.collections.LoadedEntity;
-import com.trisse.spacerouge.entities.EntityType;
-import com.trisse.spacerouge.entities.EntityTypeFactory;
-import com.trisse.spacerouge.entities.tile.tiles.FloorType;
-import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
 
 public class EntityParser {
 

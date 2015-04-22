@@ -22,7 +22,11 @@ public abstract class EntityType {
 
 	public void render(Screen screen) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

@@ -16,26 +16,25 @@ public class Level implements Serializable {
 	private static final long serialVersionUID = -4999487079927819553L;
 
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-	
 
 	public Level(Sprites sprites) {
-		
+
 	}
 
 	public void init() {
-		
+
 	}
 
 	public void handleInput(Game game) {
-		
+
 	}
 
 	public void tick(Game game) {
-		
+
 	}
 
 	public void render(Screen screen) {
-		
+
 	}
 
 }

@@ -9,6 +9,11 @@ import org.lwjgl.opengl.*;
 
 public class SpriteSheet implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6395985245623898035L;
+
 	public static final Texture spriteSheetTexture = new Texture("res/spritesheet.png");
     
     public Texture texture;
