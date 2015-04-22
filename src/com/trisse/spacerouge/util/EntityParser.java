@@ -11,24 +11,37 @@ import com.trisse.spacerouge.graphics.Sprites;
 
 public class EntityParser {
 
-	private static EntityType parseMob(LoadedEntity loadedEntity, Sprites sprites) {
-		switch (loadedEntity.getType()) {
-		default:
-
-			Game.underConstruction(EntityParser.class);
-
-		}
-		return null;
-	}
-
-	private static EntityType parseTile(LoadedEntity loadedEntity, Sprites sprites) {
+	private static EntityType chooseType(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
 		case "floor":
 			return EntityTypeFactory.floor(loadedEntity, sprites);
-		case "Wall":
+		case "wall":
 			return EntityTypeFactory.wall(loadedEntity, sprites);
+		case "door":
+			return EntityTypeFactory.door(loadedEntity, sprites);
+		default:
+			return null;
 		}
-		return null;
+	}
+
+	private static EntityType typeFromString(String str, Sprites sprites) {
+		String cleaned = str.replaceAll("\\s+", "");
+
+		String[] tileData = cleaned.split(";");
+
+		String[][] splittedString = new String[tileData.length][2];
+		for (int i = 0; i < splittedString.length; i++) {
+			splittedString[i] = tileData[i].split(":");
+		}
+		LoadedEntity loadedEntity = LoadedEntity.newEmpty();
+		for (int i = 0; i < tileData.length; i++) {
+			try {
+				loadedEntity.add(splittedString[i][0], splittedString[i][1]);
+			} catch (IndexOutOfBoundsException e) {
+				System.err.println("Could not parse\n");
+			}
+		}
+		return chooseType(loadedEntity, sprites);
 	}
 
 	public static ArrayList<EntityType> listFromString(String str, Sprites sprites) {
@@ -51,42 +64,6 @@ public class EntityParser {
 			}
 		}
 		return entityTypes;
-	}
-
-	private static EntityType typeFromString(String str, Sprites sprites) {
-		String cleaned = str.replaceAll("\\s+", "");
-
-		String[] tileData = cleaned.split(";");
-
-		String[][] splittedString = new String[tileData.length][2];
-		for (int i = 0; i < splittedString.length; i++) {
-			splittedString[i] = tileData[i].split(":");
-		}
-
-		String type = "";
-		LoadedEntity loadedEntity = new LoadedEntity();
-
-		for (int i = 0; i < tileData.length; i++) {
-			String variable = null;
-			String value = null;
-			try {
-				loadedEntity.add(splittedString[i][0], splittedString[i][1]);
-				variable = splittedString[i][0];
-				value = splittedString[i][1];
-			} catch (IndexOutOfBoundsException e) {
-				System.err.println("Could not parse\n");
-			}
-			if (variable.toLowerCase().equals("type")) {
-				type = value.toLowerCase();
-			}
-		}
-		switch (type) {
-		case "tile":
-			return parseTile(loadedEntity, sprites);
-		case "mob":
-			return parseMob(loadedEntity, sprites);
-		}
-		return null;
 	}
 
 }

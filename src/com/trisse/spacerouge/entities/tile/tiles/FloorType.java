@@ -35,4 +35,10 @@ public class FloorType extends TileType {
 	 */
 	private static final long serialVersionUID = 3358289524794563980L;
 
+	@Override
+	public Sprite currentSprite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -28,4 +28,10 @@ public class DoorType extends EntityType {
 		throw Game.notImplemented();
 	}
 
+	@Override
+	public Sprite currentSprite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -20,4 +20,9 @@ public abstract class EntityType {
 		return str.equals(name);
 	}
 
+	public void render(Screen screen) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

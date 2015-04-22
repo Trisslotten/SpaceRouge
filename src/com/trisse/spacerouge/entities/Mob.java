@@ -12,7 +12,6 @@ public class Mob extends EntityType {
 	@Override
 	public void render(Screen screen) {
 		// TODO Auto-generated method stub
-
 		throw Game.notImplemented();
 
 	}
@@ -20,9 +19,12 @@ public class Mob extends EntityType {
 	@Override
 	public void tick(double timeScale) {
 		// TODO Auto-generated method stub
-
 		throw Game.notImplemented();
+	}
 
+	@Override
+	public Sprite currentSprite() {
+		throw Game.notImplemented();
 	}
 
 }

@@ -13,10 +13,8 @@ public class EntityList {
 
 	public EntityList(Sprites sprites) {
 		String str = Filer.loadString("res/entities.cfg");
+
 		entityTypes = EntityParser.listFromString(str, sprites);
-		
-		Game.underConstruction(this);
-		
 	}
 
 	public EntityType get(int i) {

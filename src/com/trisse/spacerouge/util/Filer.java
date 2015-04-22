@@ -22,6 +22,7 @@ public class Filer {
 			OutputStream buffer = new BufferedOutputStream(file);
 			ObjectOutput output = new ObjectOutputStream(buffer);
 			output.writeObject(o);
+			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
