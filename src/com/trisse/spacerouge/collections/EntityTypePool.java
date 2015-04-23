@@ -24,8 +24,8 @@ public class EntityTypePool {
 		return entityTypes.get(i);
 	}
 
-	public Entity getEntityInstance(String type, int x, int y, int id) {
-		return new Entity(getType(type), x, y, id);
+	public Entity getEntityInstance(String type, int x, int y) {
+		return new Entity(getType(type), x, y);
 	}
 
 	private EntityType getType(String type) {

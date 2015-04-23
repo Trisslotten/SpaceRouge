@@ -18,7 +18,9 @@ public class Level implements Serializable {
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 
 	public Level(Sprites sprites) {
-
+		
+		
+		
 	}
 
 	public void init() {

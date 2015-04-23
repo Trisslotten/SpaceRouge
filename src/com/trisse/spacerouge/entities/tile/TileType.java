@@ -7,8 +7,8 @@ import com.trisse.spacerouge.graphics.*;
 
 public abstract class TileType extends EntityType implements Serializable {
 
-	public TileType(String name) {
-		super(name);
+	public TileType(String name, int id) {
+		super(name, id);
 		heightLevel = 0;
 	}
 

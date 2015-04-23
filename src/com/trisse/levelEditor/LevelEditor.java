@@ -1,19 +1,33 @@
 package com.trisse.levelEditor;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.lwjgl.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
-import com.trisse.levelEditor.gui.*;
-import com.trisse.levelEditor.gui.buttons.*;
-import com.trisse.levelEditor.gui.elements.*;
-import com.trisse.spacerouge.collections.*;
-import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.util.*;
+import com.trisse.levelEditor.gui.Button;
+import com.trisse.levelEditor.gui.Element;
+import com.trisse.levelEditor.gui.buttons.EntityGrid;
+import com.trisse.levelEditor.gui.buttons.Eraser;
+import com.trisse.levelEditor.gui.buttons.ExitButton;
+import com.trisse.levelEditor.gui.buttons.ExportButton;
+import com.trisse.levelEditor.gui.buttons.LoadButton;
+import com.trisse.levelEditor.gui.buttons.SaveButton;
+import com.trisse.levelEditor.gui.elements.Spacer;
+import com.trisse.spacerouge.collections.EntityTypePool;
+import com.trisse.spacerouge.entities.Entity;
+import com.trisse.spacerouge.entities.EntityType;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.level.LevelEditorMap;
+import com.trisse.spacerouge.util.Input;
 
 public class LevelEditor implements Runnable {
 
@@ -30,7 +44,7 @@ public class LevelEditor implements Runnable {
 
 	public EntityType selectedEntityType;
 
-	private int IDCounter;
+	public LevelEditorMap map = new LevelEditorMap();
 
 	public int xoffset = 0;
 	public int yoffset = 0;
@@ -43,31 +57,42 @@ public class LevelEditor implements Runnable {
 
 		entityTypePool = new EntityTypePool(sprites);
 
-		buttons = Arrays.asList(new SaveButton(), new Eraser(), new EntityGrid(entityTypePool));
+		buttons = Arrays.asList(new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
 
 		elements.add(new Spacer(sprites));
 
 	}
 
+	public void export() {
+		map.export(entityTypePool);
+	}
+
+	public void save() {
+		map.save(entities);
+	}
+
+	public void load() {
+		map.load();
+	}
+
 	private void add() {
-		entities.add(new Entity(selectedEntityType, input.xt()-xoffset(), input.yt()-yoffset(), IDCounter));
-		IDCounter++;
+		entities.add(new Entity(selectedEntityType, input.xt() - xoffset(), input.yt() - yoffset()));
 	}
 
 	private void remove() {
 
 	}
-	
+
 	private int xoffset() {
-		return xoffset/Screen.tileSize;
+		return xoffset / Screen.tileSize;
 	}
-	
+
 	private int yoffset() {
-		return yoffset/Screen.tileSize;
+		return yoffset / Screen.tileSize;
 	}
 
 	private void handleInput() {
-		input.setKeys();
+
 		for (Button b : buttons)
 			b.handleInput(this, input);
 
@@ -79,12 +104,13 @@ public class LevelEditor implements Runnable {
 					remove();
 				}
 			}
-			if(input.mouseDown(1)) {
+			if (input.mouseDown(1)) {
 				System.out.println(input.dx());
 				xoffset += input.dx();
 				yoffset += input.dy();
 			}
 		}
+		input.setKeys();
 	}
 
 	private void update() {
@@ -94,13 +120,13 @@ public class LevelEditor implements Runnable {
 	private void render() {
 
 		if (selectedEntityType == null) {
-			screen.drawString("Erase", 48, 1);
+			screen.drawString("Erase", 47, 1);
 		} else {
-			screen.drawString(selectedEntityType.getName(), 48, 1);
+			screen.drawString(selectedEntityType.getName(), 46, 1);
 		}
 
 		for (Entity e : entities)
-			e.render(screen,xoffset(),yoffset());
+			e.render(screen, xoffset(), yoffset());
 		for (Button b : buttons)
 			b.render(screen);
 		for (Element e : elements)
@@ -110,11 +136,11 @@ public class LevelEditor implements Runnable {
 	}
 
 	public void saveData() {
-		
+
 	}
 
 	public void exitSave() {
-		
+
 	}
 
 	private Screen screen;
@@ -134,6 +160,10 @@ public class LevelEditor implements Runnable {
 		thread.start();
 	}
 
+	public void stop() {
+		System.exit(0);
+	}
+
 	public static void main(String[] args) throws InterruptedException {
 		LevelEditor game = new LevelEditor();
 		game.start();
@@ -150,7 +180,7 @@ public class LevelEditor implements Runnable {
 
 		init();
 
-		//System.out.println("Starting time: " + (getTime() - start));
+		// System.out.println("Starting time: " + (getTime() - start));
 
 		while (running) {
 			if (Display.isCloseRequested()) {

@@ -7,8 +7,8 @@ public class WallType extends TileType {
 
 	Sprite sprite;
 
-	public WallType(String name, Sprite sprite) {
-		super(name);
+	public WallType(String name, Sprite sprite, int id) {
+		super(name, id);
 		this.sprite = sprite;
 		// TODO Auto-generated constructor stub
 	}

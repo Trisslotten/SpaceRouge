@@ -7,8 +7,8 @@ public class FloorType extends TileType {
 
 	private Sprite sprite;
 
-	public FloorType(String name, Sprite sprite) {
-		super(name);
+	public FloorType(String name, Sprite sprite, int id) {
+		super(name, id);
 		this.sprite = sprite;
 	}
 

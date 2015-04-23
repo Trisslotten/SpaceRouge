@@ -5,8 +5,8 @@ import com.trisse.spacerouge.graphics.*;
 
 public class MobType extends EntityType {
 
-	public MobType(String name) {
-		super(name);
+	public MobType(String name, int id) {
+		super(name, id);
 	}
 
 	@Override

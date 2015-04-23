@@ -9,8 +9,8 @@ public class DoorType extends EntityType {
 	private Sprite open;
 	private Sprite closed;
 
-	public DoorType(String name, Sprite open, Sprite closed) {
-		super(name);
+	public DoorType(String name, Sprite open, Sprite closed, int id) {
+		super(name, id);
 		this.open = open;
 		this.closed = closed;
 		heightLevel = 1;

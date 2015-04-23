@@ -5,11 +5,13 @@ import com.trisse.spacerouge.graphics.*;
 public abstract class EntityType {
 
 	protected String name;
+	protected int id;
 
 	protected int heightLevel;
 
-	public EntityType(String name) {
+	public EntityType(String name, int id) {
 		this.name = name;
+		this.id = id;
 	}
 
 	public abstract Sprite currentSprite();
@@ -25,6 +27,9 @@ public abstract class EntityType {
 
 	}
 
+	public int getID() {
+		return id;
+	}
 	public String getName() {
 		return name;
 	}

@@ -16,23 +16,19 @@ public class Entity implements Serializable {
 	protected double x, y, speed;
 	protected Direction direction;
 
-	private int id;
-
 	protected EntityType entityType;
 
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
-	public Entity(EntityType type, int id) {
+	public Entity(EntityType type) {
 		this.entityType = type;
-		this.id = id;
 	}
 
-	public Entity(EntityType type, int x, int y, int id) {
+	public Entity(EntityType type, int x, int y) {
 		this.entityType = type;
 		this.x = x;
-		this.y = y;
-		this.id = id;
+		this.y = y;	
 	}
 
 	public void tick(double timeScale) {
@@ -41,6 +37,10 @@ public class Entity implements Serializable {
 
 	public void render(Screen screen, int xoffset, int yoffset) {
 		screen.draw(entityType.currentSprite(), xpos() - xoffset, ypos() - yoffset);
+	}
+	
+	public int typeID() {
+		return entityType.id;
 	}
 
 	public void move() {
