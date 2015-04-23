@@ -9,8 +9,8 @@ public class SaveButton extends Button {
 	public SaveButton() {
 		width = 4;
 
-		x = 59;
-		y = 34;
+		x = 57;
+		y = 32;
 	}
 
 	public void render(Screen screen) {
@@ -18,7 +18,7 @@ public class SaveButton extends Button {
 	}
 
 	public void clicked(LevelEditor levelEditor) {
-		levelEditor.saveData();
+		levelEditor.save();
 	}
 
 }

@@ -17,7 +17,7 @@ public class EntityGrid extends Button {
 	private EntityType[] entityTypes;
 
 	public EntityGrid(EntityTypePool entityTypePool) {
-		width = 10;
+		width = 16;
 		this.entityTypes = entityTypePool.entityTypes();
 
 	}
@@ -27,11 +27,11 @@ public class EntityGrid extends Button {
 	}
 
 	public void render(Screen screen) {
-		int y = 1;
-		int x = 0;
+		int y = 0;
+		int x = 1;
 		for (int i = 0; i < entityTypes.length; i++, x++) {
-			screen.draw(entityTypes[i].currentSprite(), x0 + x, y0 + y - 1);
-			if (y % width == 0) {
+			screen.draw(entityTypes[i].currentSprite(), x0 + x-1, y0 + y);
+			if (x % width == 0) {
 				x = 0;
 				y++;
 			}
