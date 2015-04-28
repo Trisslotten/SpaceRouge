@@ -115,7 +115,7 @@ public class LevelEditor implements Runnable {
 	private void addWithBrush() {
 		int xpos = input.xt() - xoffset();
 		int ypos = input.yt() - yoffset();
-		int hb =  brushSize() / 2;
+		int hb = brushSize() / 2;
 		for (int i = -hb; i <= hb; i++) {
 			for (int j = -hb; j <= hb; j++) {
 				double distance = Math.sqrt(i * i + j * j);
@@ -139,7 +139,7 @@ public class LevelEditor implements Runnable {
 		ArrayList<Entity> toRemove = new ArrayList<Entity>();
 		int xpos = input.xt() - xoffset();
 		int ypos = input.yt() - yoffset();
-		int hb =  brushSize() / 2;
+		int hb = brushSize() / 2;
 		for (int i = -hb; i <= hb; i++) {
 			for (int j = -hb; j <= hb; j++) {
 				double distance = Math.sqrt(i * i + j * j);
@@ -172,7 +172,7 @@ public class LevelEditor implements Runnable {
 
 	private void handleInput() {
 		int deltaWheel = Mouse.getDWheel();
-		if(brushSize+deltaWheel>=100) {
+		if (brushSize + deltaWheel >= 100) {
 			brushSize += deltaWheel;
 		}
 		for (Button b : buttons)
@@ -209,9 +209,7 @@ public class LevelEditor implements Runnable {
 				yoffset += input.dy();
 			}
 		}
-		
-		
-		
+
 		input.setKeys();
 	}
 
@@ -234,13 +232,22 @@ public class LevelEditor implements Runnable {
 		if (squareTool) {
 			for (int i = startY; i <= squareY; i++) {
 				for (int j = startX; j <= squareX; j++) {
-					screen.draw(square, j, i);
+					screen.draw(square, j, i, 9);
 				}
 			}
 		} else {
-
+			int xpos = input.xt();
+			int ypos = input.yt();
+			int hb = brushSize() / 2;
+			for (int i = -hb; i <= hb; i++) {
+				for (int j = -hb; j <= hb; j++) {
+					double distance = Math.sqrt(i * i + j * j);
+					if (distance <= hb && xpos + i < 46) {
+						screen.draw(square, xpos + i, ypos + j, 9);
+					}
+				}
+			}
 		}
-
 		screen.render();
 		screen.clear();
 	}

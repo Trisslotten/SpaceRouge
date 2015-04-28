@@ -26,7 +26,7 @@ public class Screen {
 	private void init(int tileWidth, int tileHeight) {
 		currentTileHeight = tileHeight;
 		currentTileWidth = tileWidth;
-		screen = new Sprite[tileHeight * tileWidth][3];
+		screen = new Sprite[tileHeight * tileWidth][10];
 
 	}
 
