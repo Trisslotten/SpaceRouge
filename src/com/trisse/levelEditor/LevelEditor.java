@@ -76,11 +76,34 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void add() {
-		entities.add(new Entity(selectedEntityType, input.xt() - xoffset(), input.yt() - yoffset()));
+		boolean canAdd = true;
+		int xpos = input.xt() - xoffset();
+		int ypos = input.yt() - yoffset();
+
+		for (Entity e : entities) {
+			if (e.xpos() == xpos && e.ypos() == ypos) {
+				canAdd = false;
+			}
+		}
+		if (canAdd) {
+			entities.add(new Entity(selectedEntityType, xpos, ypos));
+		}
 	}
 
 	private void remove() {
+		int xpos = input.xt() - xoffset();
+		int ypos = input.yt() - yoffset();
+		int removeIndex = -1;
 
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			if (e.xpos() == xpos && e.ypos() == ypos) {
+				removeIndex = i;
+			}
+		}
+		if (removeIndex >= 0) {
+			entities.remove(removeIndex);
+		}
 	}
 
 	private int xoffset() {
@@ -92,7 +115,6 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void handleInput() {
-
 		for (Button b : buttons)
 			b.handleInput(this, input);
 
@@ -105,7 +127,6 @@ public class LevelEditor implements Runnable {
 				}
 			}
 			if (input.mouseDown(1)) {
-				System.out.println(input.dx());
 				xoffset += input.dx();
 				yoffset += input.dy();
 			}
@@ -126,7 +147,7 @@ public class LevelEditor implements Runnable {
 		}
 
 		for (Entity e : entities)
-			e.render(screen, xoffset(), yoffset());
+			e.render(screen, -xoffset(), -yoffset());
 		for (Button b : buttons)
 			b.render(screen);
 		for (Element e : elements)
@@ -193,14 +214,14 @@ public class LevelEditor implements Runnable {
 			render();
 			Display.update();
 			frames++;
-			Display.sync(FPS);
+			//Display.sync(FPS);
 			/*
 			 * if (delta <= 1.0 / FPS) { try { Thread.sleep((long) ((1.0 / FPS -
 			 * delta) * 1000)); } catch (InterruptedException e) {
 			 * e.printStackTrace(); } }
 			 */
 			if (getTime() > timer + 1) {
-
+				Display.setTitle("Entities: " + entities.size() + " FPS: " + frames);
 				timer += 1;
 				frames = 0;
 			}
