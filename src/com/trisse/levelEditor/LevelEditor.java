@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -20,11 +21,13 @@ import com.trisse.levelEditor.gui.buttons.ExitButton;
 import com.trisse.levelEditor.gui.buttons.ExportButton;
 import com.trisse.levelEditor.gui.buttons.LoadButton;
 import com.trisse.levelEditor.gui.buttons.SaveButton;
-import com.trisse.levelEditor.gui.elements.Spacer;
+import com.trisse.levelEditor.gui.buttons.SquareToggle;
+import com.trisse.levelEditor.gui.elements.Grid;
 import com.trisse.spacerouge.collections.EntityTypePool;
 import com.trisse.spacerouge.entities.Entity;
 import com.trisse.spacerouge.entities.EntityType;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprite;
 import com.trisse.spacerouge.graphics.Sprites;
 import com.trisse.spacerouge.level.LevelEditorMap;
 import com.trisse.spacerouge.util.Input;
@@ -46,8 +49,17 @@ public class LevelEditor implements Runnable {
 
 	public LevelEditorMap map = new LevelEditorMap();
 
+	public boolean squareTool = false;
+
+	public int squareX = -1;
+	public int squareY = -1;
+	public int startX = 0;
+	public int startY = 0;
+
 	public int xoffset = 0;
 	public int yoffset = 0;
+
+	public double brushSize = 10;
 
 	private void init() {
 
@@ -57,9 +69,183 @@ public class LevelEditor implements Runnable {
 
 		entityTypePool = new EntityTypePool(sprites);
 
-		buttons = Arrays.asList(new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
+		buttons = Arrays.asList(new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
 
-		elements.add(new Spacer(sprites));
+		elements.add(new Grid(sprites));
+
+	}
+
+	private void removeWithSquare() {
+
+		ArrayList<Entity> toRemove = new ArrayList<Entity>();
+		for (int i = startY; i <= squareY; i++) {
+			for (int j = startX; j <= squareX; j++) {
+				int xpos = j - xoffset();
+				int ypos = i - yoffset();
+				for (Entity e : entities) {
+					if (e.xpos() == xpos && e.ypos() == ypos) {
+						toRemove.add(e);
+					}
+				}
+			}
+		}
+		for (Entity e : toRemove) {
+			entities.remove(e);
+		}
+	}
+
+	private void addWithSquare() {
+		for (int i = startY; i <= squareY; i++) {
+			for (int j = startX; j <= squareX; j++) {
+				int xpos = j - xoffset();
+				int ypos = i - yoffset();
+				boolean canAdd = true;
+				for (Entity e : entities) {
+					if (e.xpos() == xpos && e.ypos() == ypos) {
+						canAdd = false;
+					}
+				}
+				if (canAdd) {
+					entities.add(new Entity(selectedEntityType, xpos, ypos));
+				}
+			}
+		}
+	}
+
+	private void addWithBrush() {
+		int xpos = input.xt() - xoffset();
+		int ypos = input.yt() - yoffset();
+		int hb =  brushSize() / 2;
+		for (int i = -hb; i <= hb; i++) {
+			for (int j = -hb; j <= hb; j++) {
+				double distance = Math.sqrt(i * i + j * j);
+				if (distance <= hb) {
+					boolean canAdd = true;
+					for (Entity e : entities) {
+						if (e.xpos() == xpos - i && e.ypos() == ypos - j) {
+							canAdd = false;
+						}
+					}
+					if (canAdd) {
+						entities.add(new Entity(selectedEntityType, xpos - i, ypos - j));
+					}
+				}
+
+			}
+		}
+	}
+
+	private void removeWithBrush() {
+		ArrayList<Entity> toRemove = new ArrayList<Entity>();
+		int xpos = input.xt() - xoffset();
+		int ypos = input.yt() - yoffset();
+		int hb =  brushSize() / 2;
+		for (int i = -hb; i <= hb; i++) {
+			for (int j = -hb; j <= hb; j++) {
+				double distance = Math.sqrt(i * i + j * j);
+				if (distance <= hb) {
+					for (Entity e : entities) {
+						if (e.xpos() == xpos - i && e.ypos() == ypos - j) {
+							toRemove.add(e);
+						}
+					}
+				}
+
+			}
+		}
+		for (Entity e : toRemove) {
+			entities.remove(e);
+		}
+	}
+
+	private int xoffset() {
+		return xoffset / Screen.tileSize;
+	}
+
+	private int yoffset() {
+		return yoffset / Screen.tileSize;
+	}
+
+	private int brushSize() {
+		return (int) brushSize / 100;
+	}
+
+	private void handleInput() {
+		int deltaWheel = Mouse.getDWheel();
+		if(brushSize+deltaWheel>=100) {
+			brushSize += deltaWheel;
+		}
+		for (Button b : buttons)
+			b.handleInput(this, input);
+
+		if (input.xt() < 46) {
+			if (squareTool) {
+				if (input.mouseUp(0)) {
+					if (selectedEntityType != null) {
+						addWithSquare();
+					} else {
+						removeWithSquare();
+					}
+					squareX = -1;
+					squareY = -1;
+				} else if (input.mousePressed(0)) {
+					startX = input.xt();
+					startY = input.yt();
+				} else if (input.mouseDown(0)) {
+					squareX = input.xt();
+					squareY = input.yt();
+				}
+			} else {
+				if (input.mouseDown(0)) {
+					if (selectedEntityType != null) {
+						addWithBrush();
+					} else {
+						removeWithBrush();
+					}
+				}
+			}
+			if (input.mouseDown(1)) {
+				xoffset += input.dx();
+				yoffset += input.dy();
+			}
+		}
+		
+		
+		
+		input.setKeys();
+	}
+
+	private void render() {
+
+		if (selectedEntityType == null) {
+			screen.drawString("Erase", 47, 1);
+		} else {
+			screen.drawString(selectedEntityType.getName(), 46, 1);
+		}
+
+		for (Entity e : entities)
+			if (e.xpos() + xoffset() < 46)
+				e.render(screen, -xoffset(), -yoffset());
+		for (Button b : buttons)
+			b.render(screen);
+		for (Element e : elements)
+			e.render(screen);
+		Sprite square = sprites.getSprite("squaremark");
+		if (squareTool) {
+			for (int i = startY; i <= squareY; i++) {
+				for (int j = startX; j <= squareX; j++) {
+					screen.draw(square, j, i);
+				}
+			}
+		} else {
+
+		}
+
+		screen.render();
+		screen.clear();
+	}
+
+	private void update() {
 
 	}
 
@@ -73,95 +259,6 @@ public class LevelEditor implements Runnable {
 
 	public void load() {
 		map.load();
-	}
-
-	private void add() {
-		boolean canAdd = true;
-		int xpos = input.xt() - xoffset();
-		int ypos = input.yt() - yoffset();
-
-		for (Entity e : entities) {
-			if (e.xpos() == xpos && e.ypos() == ypos) {
-				canAdd = false;
-			}
-		}
-		if (canAdd) {
-			entities.add(new Entity(selectedEntityType, xpos, ypos));
-		}
-	}
-
-	private void remove() {
-		int xpos = input.xt() - xoffset();
-		int ypos = input.yt() - yoffset();
-		int removeIndex = -1;
-
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			if (e.xpos() == xpos && e.ypos() == ypos) {
-				removeIndex = i;
-			}
-		}
-		if (removeIndex >= 0) {
-			entities.remove(removeIndex);
-		}
-	}
-
-	private int xoffset() {
-		return xoffset / Screen.tileSize;
-	}
-
-	private int yoffset() {
-		return yoffset / Screen.tileSize;
-	}
-
-	private void handleInput() {
-		for (Button b : buttons)
-			b.handleInput(this, input);
-
-		if (input.xt() < 46) {
-			if (input.mouseDown(0)) {
-				if (selectedEntityType != null) {
-					add();
-				} else {
-					remove();
-				}
-			}
-			if (input.mouseDown(1)) {
-				xoffset += input.dx();
-				yoffset += input.dy();
-			}
-		}
-		input.setKeys();
-	}
-
-	private void update() {
-
-	}
-
-	private void render() {
-
-		if (selectedEntityType == null) {
-			screen.drawString("Erase", 47, 1);
-		} else {
-			screen.drawString(selectedEntityType.getName(), 46, 1);
-		}
-
-		for (Entity e : entities)
-			e.render(screen, -xoffset(), -yoffset());
-		for (Button b : buttons)
-			b.render(screen);
-		for (Element e : elements)
-			e.render(screen);
-		screen.render();
-		screen.clear();
-	}
-
-	public void saveData() {
-
-	}
-
-	public void exitSave() {
-
 	}
 
 	private Screen screen;
@@ -214,7 +311,7 @@ public class LevelEditor implements Runnable {
 			render();
 			Display.update();
 			frames++;
-			//Display.sync(FPS);
+			// Display.sync(FPS);
 			/*
 			 * if (delta <= 1.0 / FPS) { try { Thread.sleep((long) ((1.0 / FPS -
 			 * delta) * 1000)); } catch (InterruptedException e) {
@@ -226,7 +323,6 @@ public class LevelEditor implements Runnable {
 				frames = 0;
 			}
 		}
-		exitSave();
 		System.exit(0);
 
 	}

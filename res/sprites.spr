@@ -13,3 +13,6 @@ player 4 7
 hover 0 5
 grid 1 5
 spacer 0 4
+squaremark 2 5
+checked 3 5
+notchecked 4 5
