@@ -16,6 +16,10 @@ public abstract class Button {
 
 	public abstract void render(Screen screen);
 
+	public void update(LevelEditor levelEditor) {
+
+	}
+
 	public void handleInput(LevelEditor levelEditor, Input input) {
 		int mousex = input.xt();
 		int mousey = input.yt();

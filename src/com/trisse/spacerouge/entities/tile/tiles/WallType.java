@@ -10,7 +10,7 @@ public class WallType extends TileType {
 	public WallType(String name, Sprite sprite, int id) {
 		super(name, id);
 		this.sprite = sprite;
-		// TODO Auto-generated constructor stub
+		this.heightLevel = 1;
 	}
 
 	@Override

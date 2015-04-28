@@ -8,9 +8,8 @@ public class SaveButton extends Button {
 
 	public SaveButton() {
 		width = 4;
-
-		x = 57;
-		y = 32;
+		x = Screen.tileWidth - 7;
+		y = Screen.tileHeight - 6;
 	}
 
 	public void render(Screen screen) {

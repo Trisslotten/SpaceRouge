@@ -60,6 +60,8 @@ public class Sprite implements Serializable {
 		return sprites;
 	}
 
+	private static final Sprite[] numbers = getNumbers();
+
 	public static Sprite getChar(char c) {
 
 		int A = 65;
@@ -70,5 +72,18 @@ public class Sprite implements Serializable {
 			}
 		}
 		return characters[26];
+	}
+
+	public static Sprite getNum(int num) {
+		return numbers[num];
+	}
+
+	private static Sprite[] getNumbers() {
+		Sprite[] sprites = new Sprite[10];
+		for (int x = 0; x < 10; x++) {
+			char name = (char) (48 + x);
+			sprites[x] = new Sprite(String.valueOf(name), x, 3);
+		}
+		return sprites;
 	}
 }

@@ -19,7 +19,8 @@ public class EntityGrid extends Button {
 	public EntityGrid(EntityTypePool entityTypePool) {
 		width = 16;
 		this.entityTypes = entityTypePool.entityTypes();
-
+		y0 = 3;
+		x0 = LevelEditor.editorWidth + 1;
 	}
 
 	public void clicked(LevelEditor levelEditor) {
@@ -30,7 +31,7 @@ public class EntityGrid extends Button {
 		int y = 0;
 		int x = 1;
 		for (int i = 0; i < entityTypes.length; i++, x++) {
-			screen.draw(entityTypes[i].currentSprite(), x0 + x-1, y0 + y);
+			screen.draw(entityTypes[i].currentSprite(), x0 + x - 1, y0 + y);
 			if (x % width == 0) {
 				x = 0;
 				y++;

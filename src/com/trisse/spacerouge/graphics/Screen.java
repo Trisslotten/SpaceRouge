@@ -4,8 +4,13 @@ public class Screen {
 
 	public static final int tileSize = 16;
 
-	public static int tileWidth = 64;
-	public static int tileHeight = 36;
+	/*
+	 * 1280x720 = 80x45
+	 * 
+	 * 1920x1080 = 120x67.5
+	 */
+	public static int tileWidth = 110;
+	public static int tileHeight = 60;
 
 	public int currentTileWidth;
 	public int currentTileHeight;
@@ -93,7 +98,14 @@ public class Screen {
 
 	public void drawString(String str, int x, int y, int layer) {
 		for (int i = 0; i < str.length(); i++) {
-			draw(Sprite.getChar(str.charAt(i)), x + i, y, layer);
+			char crnt = str.charAt(i);
+
+			try {
+				int num = Integer.parseInt(String.valueOf(crnt));
+				draw(Sprite.getNum(num), x + i, y, layer);
+			} catch (NumberFormatException e) {
+				draw(Sprite.getChar(str.charAt(i)), x + i, y, layer);
+			}
 		}
 	}
 

@@ -5,10 +5,10 @@ import com.trisse.levelEditor.gui.Button;
 import com.trisse.spacerouge.graphics.Screen;
 
 public class ExitButton extends Button {
-	
+
 	public ExitButton() {
-		x = 47;
-		y = 34;
+		x = LevelEditor.editorWidth + 1;
+		y = Screen.tileHeight - 2;
 		width = 4;
 	}
 

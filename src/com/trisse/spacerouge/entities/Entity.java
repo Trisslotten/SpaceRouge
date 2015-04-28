@@ -16,31 +16,31 @@ public class Entity implements Serializable {
 	protected double x, y, speed;
 	protected Direction direction;
 
-	protected EntityType entityType;
+	public EntityType type;
 
 	protected Collision collision = new Collision();
 	protected Physics physics = new Physics();
 
 	public Entity(EntityType type) {
-		this.entityType = type;
+		this.type = type;
 	}
 
 	public Entity(EntityType type, int x, int y) {
-		this.entityType = type;
+		this.type = type;
 		this.x = x;
-		this.y = y;	
+		this.y = y;
 	}
 
 	public void tick(double timeScale) {
-		entityType.tick(timeScale);
+		type.tick(timeScale);
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(entityType.currentSprite(), xpos() - xoffset, ypos() - yoffset);
+		screen.draw(type.currentSprite(), xpos() - xoffset, ypos() - yoffset, type.getHeightLevel());
 	}
-	
+
 	public int typeID() {
-		return entityType.id;
+		return type.id;
 	}
 
 	public void move() {

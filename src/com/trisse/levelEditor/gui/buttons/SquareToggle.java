@@ -11,8 +11,8 @@ public class SquareToggle extends Button {
 	private boolean squareTool = false;
 
 	public SquareToggle() {
-		x = 47;
-		y = 32;
+		x = LevelEditor.editorWidth + 1;
+		y = Screen.tileHeight - 4;
 		width = "Square".length();
 	}
 	

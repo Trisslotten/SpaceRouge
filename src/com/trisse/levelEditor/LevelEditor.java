@@ -1,38 +1,25 @@
 package com.trisse.levelEditor;
 
-import static org.lwjgl.opengl.GL11.GL_VERSION;
-import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL11.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 
-import com.trisse.levelEditor.gui.Button;
-import com.trisse.levelEditor.gui.Element;
-import com.trisse.levelEditor.gui.buttons.EntityGrid;
-import com.trisse.levelEditor.gui.buttons.Eraser;
-import com.trisse.levelEditor.gui.buttons.ExitButton;
-import com.trisse.levelEditor.gui.buttons.ExportButton;
-import com.trisse.levelEditor.gui.buttons.LoadButton;
-import com.trisse.levelEditor.gui.buttons.SaveButton;
-import com.trisse.levelEditor.gui.buttons.SquareToggle;
-import com.trisse.levelEditor.gui.elements.Grid;
-import com.trisse.spacerouge.collections.EntityTypePool;
-import com.trisse.spacerouge.entities.Entity;
-import com.trisse.spacerouge.entities.EntityType;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprite;
-import com.trisse.spacerouge.graphics.Sprites;
-import com.trisse.spacerouge.level.LevelEditorMap;
-import com.trisse.spacerouge.util.Input;
+import com.trisse.levelEditor.gui.*;
+import com.trisse.levelEditor.gui.buttons.*;
+import com.trisse.levelEditor.gui.elements.*;
+import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.util.*;
 
 public class LevelEditor implements Runnable {
+
+	public static int editorWidth = Screen.tileWidth - 18;
 
 	public Input input = new Input();
 
@@ -46,6 +33,8 @@ public class LevelEditor implements Runnable {
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 
 	public EntityType selectedEntityType;
+
+	public int level = 0;
 
 	public LevelEditorMap map = new LevelEditorMap();
 
@@ -61,6 +50,8 @@ public class LevelEditor implements Runnable {
 
 	public double brushSize = 10;
 
+	public int viewLevel = -1;
+
 	private void init() {
 
 		sprites = new Sprites();
@@ -69,7 +60,7 @@ public class LevelEditor implements Runnable {
 
 		entityTypePool = new EntityTypePool(sprites);
 
-		buttons = Arrays.asList(new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
+		buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
 
 		elements.add(new Grid(sprites));
 
@@ -83,7 +74,7 @@ public class LevelEditor implements Runnable {
 				int xpos = j - xoffset();
 				int ypos = i - yoffset();
 				for (Entity e : entities) {
-					if (e.xpos() == xpos && e.ypos() == ypos) {
+					if (e.xpos() == xpos && e.ypos() == ypos && e.type.getHeightLevel() == level) {
 						toRemove.add(e);
 					}
 				}
@@ -101,7 +92,7 @@ public class LevelEditor implements Runnable {
 				int ypos = i - yoffset();
 				boolean canAdd = true;
 				for (Entity e : entities) {
-					if (e.xpos() == xpos && e.ypos() == ypos) {
+					if (e.xpos() == xpos && e.ypos() == ypos && e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
 						canAdd = false;
 					}
 				}
@@ -122,7 +113,7 @@ public class LevelEditor implements Runnable {
 				if (distance <= hb) {
 					boolean canAdd = true;
 					for (Entity e : entities) {
-						if (e.xpos() == xpos - i && e.ypos() == ypos - j) {
+						if (e.xpos() == xpos - i && e.ypos() == ypos - j && e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
 							canAdd = false;
 						}
 					}
@@ -145,7 +136,7 @@ public class LevelEditor implements Runnable {
 				double distance = Math.sqrt(i * i + j * j);
 				if (distance <= hb) {
 					for (Entity e : entities) {
-						if (e.xpos() == xpos - i && e.ypos() == ypos - j) {
+						if (e.xpos() == xpos - i && e.ypos() == ypos - j && e.type.getHeightLevel() == level) {
 							toRemove.add(e);
 						}
 					}
@@ -178,7 +169,7 @@ public class LevelEditor implements Runnable {
 		for (Button b : buttons)
 			b.handleInput(this, input);
 
-		if (input.xt() < 46) {
+		if (input.xt() < editorWidth) {
 			if (squareTool) {
 				if (input.mouseUp(0)) {
 					if (selectedEntityType != null) {
@@ -214,16 +205,24 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void render() {
-
 		if (selectedEntityType == null) {
-			screen.drawString("Erase", 47, 1);
+			screen.drawString("Erase " + level, editorWidth + 1, 1);
 		} else {
-			screen.drawString(selectedEntityType.getName(), 46, 1);
+			screen.drawString(selectedEntityType.getName() + selectedEntityType.getHeightLevel(), editorWidth, 1);
 		}
 
-		for (Entity e : entities)
-			if (e.xpos() + xoffset() < 46)
-				e.render(screen, -xoffset(), -yoffset());
+		for (Entity e : entities) {
+			if (e.xpos() + xoffset() < editorWidth) {
+				if (viewLevel < 0) {
+					e.render(screen, -xoffset(), -yoffset());
+				} else {
+					if (viewLevel == e.type.getHeightLevel()) {
+						e.render(screen, -xoffset(), -yoffset());
+					}
+				}
+			}
+		}
+
 		for (Button b : buttons)
 			b.render(screen);
 		for (Element e : elements)
@@ -242,7 +241,7 @@ public class LevelEditor implements Runnable {
 			for (int i = -hb; i <= hb; i++) {
 				for (int j = -hb; j <= hb; j++) {
 					double distance = Math.sqrt(i * i + j * j);
-					if (distance <= hb && xpos + i < 46) {
+					if (distance <= hb && xpos + i < editorWidth) {
 						screen.draw(square, xpos + i, ypos + j, 9);
 					}
 				}

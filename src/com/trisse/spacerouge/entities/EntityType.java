@@ -27,9 +27,14 @@ public abstract class EntityType {
 
 	}
 
+	public int getHeightLevel() {
+		return heightLevel;
+	}
+
 	public int getID() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}
