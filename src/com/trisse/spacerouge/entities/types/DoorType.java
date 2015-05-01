@@ -6,6 +6,7 @@ import com.trisse.spacerouge.graphics.*;
 
 public class DoorType extends EntityType {
 
+	@SuppressWarnings("unused")
 	private Sprite open;
 	private Sprite closed;
 

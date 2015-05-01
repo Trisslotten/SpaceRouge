@@ -86,6 +86,7 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void addWithSquare() {
+		ArrayList<Entity> toAdd = new ArrayList<Entity>();
 		for (int i = startY; i <= squareY; i++) {
 			for (int j = startX; j <= squareX; j++) {
 				int xpos = j - xoffset();
@@ -97,16 +98,18 @@ public class LevelEditor implements Runnable {
 					}
 				}
 				if (canAdd) {
-					entities.add(new Entity(selectedEntityType, xpos, ypos));
+					toAdd.add(new Entity(selectedEntityType, xpos - i, ypos - j));
 				}
 			}
 		}
+		entities.addAll(toAdd);
 	}
 
 	private void addWithBrush() {
 		int xpos = input.xt() - xoffset();
 		int ypos = input.yt() - yoffset();
 		int hb = brushSize() / 2;
+		ArrayList<Entity> toAdd = new ArrayList<Entity>();
 		for (int i = -hb; i <= hb; i++) {
 			for (int j = -hb; j <= hb; j++) {
 				double distance = Math.sqrt(i * i + j * j);
@@ -118,12 +121,12 @@ public class LevelEditor implements Runnable {
 						}
 					}
 					if (canAdd) {
-						entities.add(new Entity(selectedEntityType, xpos - i, ypos - j));
+						toAdd.add(new Entity(selectedEntityType, xpos - i, ypos - j));
 					}
 				}
-
 			}
 		}
+		entities.addAll(toAdd);
 	}
 
 	private void removeWithBrush() {
@@ -269,6 +272,7 @@ public class LevelEditor implements Runnable {
 
 	private Screen screen;
 
+	@SuppressWarnings("unused")
 	private static int FPS = 60;
 
 	public int width = Screen.tileSize * Screen.tileWidth;
@@ -294,18 +298,15 @@ public class LevelEditor implements Runnable {
 		game.thread.join();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void run() {
 		double start = getTime();
-
 		glinit();
 		double timer = getTime();
 		int frames = 0;
-
 		init();
-
 		// System.out.println("Starting time: " + (getTime() - start));
-
 		while (running) {
 			if (Display.isCloseRequested()) {
 				running = false;
@@ -329,8 +330,8 @@ public class LevelEditor implements Runnable {
 				frames = 0;
 			}
 		}
+		Display.destroy();
 		System.exit(0);
-
 	}
 
 	public void glinit() {

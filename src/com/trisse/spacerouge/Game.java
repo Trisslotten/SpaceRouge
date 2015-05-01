@@ -1,18 +1,14 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.GL_VERSION;
-import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.*;
+import org.lwjgl.opengl.*;
 
-import com.trisse.spacerouge.collections.EntityTypePool;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprites;
-import com.trisse.spacerouge.level.Level;
-import com.trisse.spacerouge.util.Input;
+import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.gameStates.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class Game implements Runnable {
 
@@ -22,41 +18,29 @@ public class Game implements Runnable {
 
 	public EntityTypePool entityList;
 
-	public Level level;
+	public GameState gameState;
 
-	private void init() {
-
+	protected void init() {
 		sprites = new Sprites();
-
 		screen = new Screen(sprites);
-
 		entityList = new EntityTypePool(sprites);
 
-		level = new Level(sprites);
+		gameState = new MainMenuState(sprites, entityList);
 
-		level.init();
 	}
 
-	private void handleInput() {
-		input.setKeys();
-
-		level.handleInput(this);
+	protected void tick() {
+		
 	}
 
-	private void tick() {
-		level.tick(this);
-	}
-
-	private void render() {
-		level.render(screen);
-
+	protected void render() {
+		gameState.render(screen);
 		screen.render();
-
 		screen.clear();
 	}
 
 	public void saveGame() {
-
+		
 	}
 
 	private Screen screen;
@@ -80,8 +64,7 @@ public class Game implements Runnable {
 	@SuppressWarnings("unused")
 	private int tickButton;
 
-	public void canTick(int button) {
-		tickButton = button;
+	public void canTick() {
 		canTick = true;
 	}
 
@@ -121,7 +104,6 @@ public class Game implements Runnable {
 				running = false;
 				break;
 			}
-			handleInput();
 			if (canTick) {
 				double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
 				if (getTime() - lastTick > tickInterval) {
@@ -130,9 +112,6 @@ public class Game implements Runnable {
 					tick();
 				}
 				canTick = false;
-				tickButton = -1;
-			} else {
-				tickCounter = 0;
 			}
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			render();
@@ -196,6 +175,7 @@ public class Game implements Runnable {
 	public static double getTime() {
 		return ((double) System.nanoTime()) / 1000000000.0;
 	}
+
 	/**
 	 * Game idea:
 	 * 

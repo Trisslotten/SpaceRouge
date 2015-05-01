@@ -1,9 +1,8 @@
 package com.trisse.levelEditor.gui.buttons;
 
-import com.trisse.levelEditor.LevelEditor;
-import com.trisse.levelEditor.gui.Button;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.levelEditor.*;
+import com.trisse.levelEditor.gui.*;
+import com.trisse.spacerouge.graphics.*;
 
 public class SquareToggle extends Button {
 	

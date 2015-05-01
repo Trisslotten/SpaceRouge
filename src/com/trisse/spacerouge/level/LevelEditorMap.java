@@ -44,6 +44,7 @@ public class LevelEditorMap {
 	
 	private class IDEntityType {
 		public int id, x, y;
+		@SuppressWarnings("unused")
 		public IDEntityType(int id, int x, int y) {
 			this.id = id;
 			this.x = x;
