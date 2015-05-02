@@ -1,10 +1,9 @@
-package com.trisse.spacerouge.entities.tile.tiles;
+package com.trisse.spacerouge.entities.tile.types;
 
-import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class DoorType extends EntityType {
+public class DoorType extends TileType {
 
 	@SuppressWarnings("unused")
 	private Sprite open;
@@ -15,6 +14,18 @@ public class DoorType extends EntityType {
 		this.open = open;
 		this.closed = closed;
 		floorLevel = false;
+	}
+
+	@Override
+	public Sprite defaultSprite() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Sprite currentSprite() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

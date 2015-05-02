@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.entities.tile.tiles;
+package com.trisse.spacerouge.entities.tile.types;
 
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
@@ -22,5 +22,10 @@ public class WallType extends TileType {
 	 * 
 	 */
 	private static final long serialVersionUID = 7257316785452670891L;
+
+	@Override
+	public Sprite currentSprite() {
+		return sprite;
+	}
 
 }

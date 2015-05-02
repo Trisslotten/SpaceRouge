@@ -4,13 +4,10 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 
 @SuppressWarnings("serial")
-public class ItemEntity extends Entity {
+public class ItemEntity {
+
+	private int x, y;
 
 	private Item item;
-
-	public ItemEntity(EntityType type, int x, int y) {
-		super(type, x, y);
-		// TODO Auto-generated constructor stub
-	}
 
 }

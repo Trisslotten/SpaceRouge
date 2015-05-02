@@ -9,8 +9,8 @@ public class Screen {
 	 * 
 	 * 1920x1080 = 120x67.5
 	 */
-	public static int tileWidth = 110;
-	public static int tileHeight = 60;
+	public static int tileWidth = 80;
+	public static int tileHeight = 45;
 
 	public int currentTileWidth;
 	public int currentTileHeight;

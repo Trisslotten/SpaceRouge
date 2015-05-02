@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.entities.tile.tiles;
+package com.trisse.spacerouge.entities.tile.types;
 
 import com.trisse.spacerouge.entities.tile.TileType;
 import com.trisse.spacerouge.graphics.*;
@@ -19,24 +19,8 @@ public class FloorType extends TileType {
 	}
 
 	@Override
-	public void render(Screen screen) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void tick(double timeScale) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3358289524794563980L;
-
-	@Override
 	public Sprite currentSprite() {
+		// TODO Auto-generated method stub
 		return sprite;
 	}
 
