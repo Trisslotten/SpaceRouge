@@ -23,7 +23,7 @@ public class TileTypePool {
 		return tileTypes.get(i);
 	}
 
-	private TileType getType(String type) {
+	public TileType getType(String type) {
 		for (TileType e : tileTypes) {
 			if (e.isType(type)) {
 				return e;

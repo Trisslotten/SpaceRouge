@@ -1,5 +1,7 @@
 package com.trisse.spacerouge.graphics;
 
+import com.trisse.spacerouge.entities.actor.*;
+
 public class Screen {
 
 	public static final int tileSize = 16;

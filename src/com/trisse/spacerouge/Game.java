@@ -7,7 +7,9 @@ import java.util.*;
 import org.lwjgl.*;
 import org.lwjgl.opengl.*;
 
+import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.actor.types.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
@@ -23,8 +25,11 @@ public class Game implements Runnable {
 	public TileTypePool tilePool;
 
 	ArrayList<Tile> tiles = new ArrayList<Tile>();
-	ArrayList<Item> items = new ArrayList<Item>();
 	ArrayList<Actor> actors = new ArrayList<Actor>();
+
+	ArrayList<Tile> activeTiles = new ArrayList<Tile>();
+
+	Items items = new Items();
 
 	// current actor index
 	int cai = 0;
@@ -37,18 +42,35 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		// gameState = new MainMenuState(sprites, entityList);
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
+		
 
+		// gameState = new MainMenuState(sprites, entityList);
 	}
 
 	protected void update() {
+		actors.get(cai).think();
 
+		Action action = actors.get(cai).getAction();
+		if (action != null) {
+			action.perform();
+		} else {
+			return;
+		}
+		cai = (cai + 1) % actors.size();
 	}
 
 	protected void render() {
 		for (Tile t : tiles) {
 			t.render(screen, 0, 0);
 		}
+		items.render(screen, 0, 0);
 
 		for (Actor actor : actors)
 			actor.render(screen, 0, 0);
