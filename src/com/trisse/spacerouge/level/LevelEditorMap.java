@@ -52,8 +52,8 @@ public class LevelEditorMap {
 		
 		public IDEntityType(Entity e) {
 			id = e.typeID();
-			x = e.xpos();
-			y = e.ypos();
+			x = e.x();
+			y = e.y();
 		}
 	}
 }

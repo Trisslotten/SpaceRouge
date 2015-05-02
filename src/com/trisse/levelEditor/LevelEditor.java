@@ -74,9 +74,10 @@ public class LevelEditor implements Runnable {
 				int xpos = j - xoffset();
 				int ypos = i - yoffset();
 				for (Entity e : entities) {
-					if (e.xpos() == xpos && e.ypos() == ypos && e.type.getHeightLevel() == level) {
-						toRemove.add(e);
-					}
+					/*
+					 * if (e.xpos() == xpos && e.ypos() == ypos &&
+					 * e.type.getHeightLevel() == level) { toRemove.add(e); }
+					 */
 				}
 			}
 		}
@@ -93,12 +94,15 @@ public class LevelEditor implements Runnable {
 				int ypos = i - yoffset();
 				boolean canAdd = true;
 				for (Entity e : entities) {
-					if (e.xpos() == xpos && e.ypos() == ypos && e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
-						canAdd = false;
-					}
+					/*
+					 * if (e.xpos() == xpos && e.ypos() == ypos &&
+					 * e.type.getHeightLevel() ==
+					 * selectedEntityType.getHeightLevel()) { canAdd = false; }
+					 */
 				}
 				if (canAdd) {
-					toAdd.add(new Entity(selectedEntityType, xpos - i, ypos - j));
+					// toAdd.add(new Entity(selectedEntityType, xpos - i, ypos -
+					// j));
 				}
 			}
 		}
@@ -115,14 +119,13 @@ public class LevelEditor implements Runnable {
 				double distance = Math.sqrt(i * i + j * j);
 				if (distance <= hb) {
 					boolean canAdd = true;
-					for (Entity e : entities) {
-						if (e.xpos() == xpos - i && e.ypos() == ypos - j && e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
-							canAdd = false;
-						}
-					}
-					if (canAdd) {
-						toAdd.add(new Entity(selectedEntityType, xpos - i, ypos - j));
-					}
+					/*
+					 * for (Entity e : entities) { if (e.xpos() == xpos - i &&
+					 * e.ypos() == ypos - j && e.type.getHeightLevel() ==
+					 * selectedEntityType.getHeightLevel()) { canAdd = false; }
+					 * } if (canAdd) { toAdd.add(new Entity(selectedEntityType,
+					 * xpos - i, ypos - j)); }
+					 */
 				}
 			}
 		}
@@ -139,9 +142,11 @@ public class LevelEditor implements Runnable {
 				double distance = Math.sqrt(i * i + j * j);
 				if (distance <= hb) {
 					for (Entity e : entities) {
-						if (e.xpos() == xpos - i && e.ypos() == ypos - j && e.type.getHeightLevel() == level) {
-							toRemove.add(e);
-						}
+						/*
+						 * if (e.xpos() == xpos - i && e.ypos() == ypos - j &&
+						 * e.type.getHeightLevel() == level) { toRemove.add(e);
+						 * }
+						 */
 					}
 				}
 
@@ -215,7 +220,7 @@ public class LevelEditor implements Runnable {
 		}
 
 		for (Entity e : entities) {
-			if (e.xpos() + xoffset() < editorWidth) {
+			if (e.x() + xoffset() < editorWidth) {
 				if (viewLevel < 0) {
 					e.render(screen, -xoffset(), -yoffset());
 				} else {

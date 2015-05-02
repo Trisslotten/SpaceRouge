@@ -5,7 +5,7 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 
 @SuppressWarnings("serial")
-public class Actor extends Movable {
+public class Actor extends Entity {
 
 	public Actor(EntityType type, int x, int y) {
 		super(type, x, y);

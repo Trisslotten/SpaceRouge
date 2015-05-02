@@ -17,4 +17,12 @@ public abstract class Entity implements Serializable {
 		this.y = y;
 	}
 
+	public int x() {
+		return (int) x;
+	}
+
+	public int y() {
+		return (int) y;
+	}
+
 }
