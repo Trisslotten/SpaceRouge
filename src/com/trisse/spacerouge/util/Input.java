@@ -8,6 +8,20 @@ import com.trisse.spacerouge.graphics.Screen;
 
 public class Input {
 
+	public static boolean controlPressed(int eventKey) {
+		switch (eventKey) {
+		case Keyboard.KEY_NONE:
+			return false;
+		case Keyboard.KEY_UP:
+		case Keyboard.KEY_DOWN:
+		case Keyboard.KEY_RIGHT:
+		case Keyboard.KEY_LEFT:
+		case Keyboard.KEY_PERIOD:
+			return true;
+		}
+		return false;
+	}
+
 	public boolean[] keys = new boolean[Keyboard.KEYBOARD_SIZE];
 
 	public boolean[] buttons = new boolean[3];

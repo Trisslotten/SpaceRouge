@@ -14,6 +14,15 @@ public class Actor {
 
 	protected int x, y;
 
+	public Actor() {
+
+	}
+
+	public Actor(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	public void think() {
 		currentAction = new WalkAction(this);
 
@@ -40,6 +49,11 @@ public class Actor {
 	public void move(Direction dir) {
 		x += dir.xspd();
 		y += dir.yspd();
+	}
+
+	public void setAction(PlayerWalkAction playerWalkAction) {
+		currentAction = playerWalkAction;
+
 	}
 
 }

@@ -7,13 +7,10 @@ import com.trisse.spacerouge.entities.actor.*;
 
 public class WalkAction extends Action {
 
-	private Actor actor;
-
 	static Random rand = new Random();
 
 	public WalkAction(Actor actor) {
-		this.actor = actor;
-
+		super(actor);
 	}
 
 	@Override

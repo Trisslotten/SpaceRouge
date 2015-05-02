@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.*;
 
 import org.lwjgl.*;
+import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 
 import com.trisse.spacerouge.action.*;
@@ -23,6 +24,8 @@ public class Game implements Runnable {
 	public ActorTypePool actorPool;
 	public ItemTypePool itemPool;
 	public TileTypePool tilePool;
+
+	private boolean waitingForPlayer = false;
 
 	ArrayList<Tile> tiles = new ArrayList<Tile>();
 	ArrayList<Actor> actors = new ArrayList<Actor>();
@@ -43,24 +46,32 @@ public class Game implements Runnable {
 		tilePool = new TileTypePool(sprites);
 
 		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		actors.add(new Player(20, 20));
-		
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 20));
 
 		// gameState = new MainMenuState(sprites, entityList);
+		Keyboard.enableRepeatEvents(false);
 	}
 
 	protected void update() {
-		actors.get(cai).think();
 
+		if (waitingForPlayer) {
+
+		} else {
+			actors.get(cai).think();
+		}
 		Action action = actors.get(cai).getAction();
 		if (action != null) {
 			action.perform();
+			waitingForPlayer = false;
 		} else {
+			waitingForPlayer = true;
 			return;
 		}
 		cai = (cai + 1) % actors.size();
