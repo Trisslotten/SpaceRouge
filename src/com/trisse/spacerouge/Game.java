@@ -2,10 +2,13 @@ package com.trisse.spacerouge;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.*;
+
 import org.lwjgl.*;
 import org.lwjgl.opengl.*;
 
 import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.gameStates.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
@@ -13,12 +16,15 @@ import com.trisse.spacerouge.util.*;
 public class Game implements Runnable {
 
 	public Input input = new Input();
-
 	public Sprites sprites;
-
 	public EntityTypePool entityList;
 
 	public GameState gameState;
+
+	// ArrayList<Item> items = new ArrayList<Item>();
+	ArrayList<Actor> actors = new ArrayList<Actor>();
+	// current actor index
+	int cai = 0;
 
 	protected void init() {
 		sprites = new Sprites();
@@ -30,17 +36,25 @@ public class Game implements Runnable {
 	}
 
 	protected void tick() {
-		
+		Action action = actors.get(cai).getAction();
+		if (action != null) {
+			action.perform();
+			cai = (cai + 1) & actors.size();
+		}
 	}
 
 	protected void render() {
+
+		for (Actor actor : actors)
+			actor.render(screen, 0, 0);
+
 		gameState.render(screen);
 		screen.render();
 		screen.clear();
 	}
 
 	public void saveGame() {
-		
+
 	}
 
 	private Screen screen;
