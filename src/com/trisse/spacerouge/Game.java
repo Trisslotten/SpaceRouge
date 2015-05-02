@@ -8,6 +8,8 @@ import org.lwjgl.*;
 import org.lwjgl.opengl.*;
 
 import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
 
@@ -15,31 +17,39 @@ public class Game implements Runnable {
 
 	public Input input = new Input();
 	public Sprites sprites;
-	public EntityTypePool entityList;
 
-	// ArrayList<Item> items = new ArrayList<Item>();
+	public ActorTypePool actorPool;
+	public ItemTypePool itemPool;
+	public TileTypePool tilePool;
+
+	ArrayList<Tile> tiles = new ArrayList<Tile>();
+	ArrayList<Item> items = new ArrayList<Item>();
 	ArrayList<Actor> actors = new ArrayList<Actor>();
+
 	// current actor index
 	int cai = 0;
 
 	protected void init() {
 		sprites = new Sprites();
 		screen = new Screen(sprites);
-		entityList = new EntityTypePool(sprites);
+
+		actorPool = new ActorTypePool(sprites);
+		itemPool = new ItemTypePool(sprites);
+		tilePool = new TileTypePool(sprites);
 
 		// gameState = new MainMenuState(sprites, entityList);
 
 	}
 
-	protected void tick() {
-		Action action = actors.get(cai).getAction();
-		if (action != null) {
-			action.perform();
-			cai = (cai + 1) & actors.size();
-		}
+	protected void update() {
+
 	}
 
 	protected void render() {
+		for (Tile t : tiles) {
+			t.render(screen, 0, 0);
+		}
+
 		for (Actor actor : actors)
 			actor.render(screen, 0, 0);
 
@@ -112,15 +122,13 @@ public class Game implements Runnable {
 				running = false;
 				break;
 			}
-			if (canTick) {
-				double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
-				if (getTime() - lastTick > tickInterval) {
-					tickCounter++;
-					lastTick = getTime();
-					tick();
-				}
-				canTick = false;
-			}
+			/*
+			 * if (canTick) { double tickInterval = tickCounter >
+			 * slowToFastTickCount ? tickIntervalFast : this.tickInterval; if
+			 * (getTime() - lastTick > tickInterval) { tickCounter++; lastTick =
+			 * getTime(); tick(); } canTick = false; }
+			 */
+			update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			render();
 			Display.update();
