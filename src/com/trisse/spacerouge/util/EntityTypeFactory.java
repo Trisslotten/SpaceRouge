@@ -1,8 +1,8 @@
-package com.trisse.spacerouge.entities;
+package com.trisse.spacerouge.util;
 
-import com.trisse.spacerouge.collections.*;
-import com.trisse.spacerouge.entities.tile.tiles.*;
-import com.trisse.spacerouge.entities.types.*;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.tile.types.*;
 import com.trisse.spacerouge.graphics.*;
 
 public class EntityTypeFactory {

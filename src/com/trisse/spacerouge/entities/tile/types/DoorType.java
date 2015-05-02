@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.entities.types;
+package com.trisse.spacerouge.entities.tile.tiles;
 
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
@@ -14,23 +14,7 @@ public class DoorType extends EntityType {
 		super(name, id);
 		this.open = open;
 		this.closed = closed;
-		heightLevel = 1;
-	}
-
-	@Override
-	public void render(Screen screen) {
-		throw Game.notImplemented();
-		
-	}
-
-	@Override
-	public void tick(double timeScale) {
-		throw Game.notImplemented();
-	}
-
-	@Override
-	public Sprite currentSprite() {
-		return closed;
+		floorLevel = false;
 	}
 
 }

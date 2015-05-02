@@ -11,7 +11,7 @@ import org.lwjgl.opengl.*;
 import com.trisse.levelEditor.gui.*;
 import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.*;
-import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;

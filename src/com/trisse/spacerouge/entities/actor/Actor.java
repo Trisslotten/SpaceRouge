@@ -1,19 +1,19 @@
-package com.trisse.spacerouge.entities;
+package com.trisse.spacerouge.entities.actor;
 
 import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
 
 @SuppressWarnings("serial")
-public class Actor extends Entity {
+public class Actor extends Movable {
+
+	public Actor(EntityType type, int x, int y) {
+		super(type, x, y);
+	}
 
 	private Action currentAction;
 
 	private int energy;
-	
-	
-
-	public Actor(EntityType type) {
-		super(type);
-	}
 
 	public void setAction(Action action) {
 		this.currentAction = action;
@@ -23,6 +23,10 @@ public class Actor extends Entity {
 		Action action = currentAction;
 		currentAction = null;
 		return action;
+	}
+
+	public void render(Screen screen, int i, int j) {
+
 	}
 
 }

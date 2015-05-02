@@ -1,11 +1,10 @@
 package com.trisse.spacerouge.level;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import com.trisse.spacerouge.collections.EntityTypePool;
-import com.trisse.spacerouge.entities.Entity;
-import com.trisse.spacerouge.entities.EntityType;
-import com.trisse.spacerouge.util.Filer;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.util.*;
 
 public class LevelEditorMap {
 	

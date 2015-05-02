@@ -7,28 +7,19 @@ public abstract class EntityType {
 	protected String name;
 	protected int id;
 
-	protected int heightLevel;
+	protected boolean floorLevel;
 
 	public EntityType(String name, int id) {
 		this.name = name;
 		this.id = id;
 	}
 
-	public abstract Sprite currentSprite();
-
-	public abstract void tick(double timeScale);
-
 	public boolean isType(String str) {
 		return str.equals(name);
 	}
 
-	public void render(Screen screen) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public int getHeightLevel() {
-		return heightLevel;
+	public boolean isFloorLevel() {
+		return floorLevel;
 	}
 
 	public int getID() {
@@ -38,5 +29,7 @@ public abstract class EntityType {
 	public String getName() {
 		return name;
 	}
+
+	public abstract Sprite currentSprite();
 
 }

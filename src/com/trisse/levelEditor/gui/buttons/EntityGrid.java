@@ -4,7 +4,7 @@ import org.lwjgl.input.*;
 
 import com.trisse.levelEditor.*;
 import com.trisse.levelEditor.gui.*;
-import com.trisse.spacerouge.collections.*;
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;

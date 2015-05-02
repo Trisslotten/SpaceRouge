@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.collections;
+package com.trisse.spacerouge;
 
 import java.util.ArrayList;
 

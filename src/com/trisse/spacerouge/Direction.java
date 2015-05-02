@@ -1,4 +1,4 @@
-package com.trisse.spacerouge.util;
+package com.trisse.spacerouge;
 
 public enum Direction {
 

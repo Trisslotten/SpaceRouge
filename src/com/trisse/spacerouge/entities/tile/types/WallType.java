@@ -10,19 +10,7 @@ public class WallType extends TileType {
 	public WallType(String name, Sprite sprite, int id) {
 		super(name, id);
 		this.sprite = sprite;
-		this.heightLevel = 1;
-	}
-
-	@Override
-	public Sprite currentSprite() {
-		// TODO Auto-generated method stub
-		return sprite;
-	}
-
-	@Override
-	public void tick(double timeScale) {
-		// TODO Auto-generated method stub
-
+		floorLevel = false;
 	}
 
 	@Override

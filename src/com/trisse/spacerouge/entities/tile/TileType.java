@@ -9,7 +9,7 @@ public abstract class TileType extends EntityType implements Serializable {
 
 	public TileType(String name, int id) {
 		super(name, id);
-		heightLevel = 0;
+		floorLevel = true;
 	}
 
 	public abstract Sprite defaultSprite();

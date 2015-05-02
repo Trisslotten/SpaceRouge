@@ -1,4 +1,6 @@
-package com.trisse.spacerouge.entities;
+package com.trisse.spacerouge.entities.actor;
+
+import com.trisse.spacerouge.entities.*;
 
 public abstract class ActorType extends EntityType {
 
