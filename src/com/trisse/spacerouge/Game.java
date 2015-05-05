@@ -1,20 +1,28 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import org.lwjgl.*;
-import org.lwjgl.input.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.actor.types.*;
-import com.trisse.spacerouge.entities.item.*;
-import com.trisse.spacerouge.entities.tile.*;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.util.*;
+import com.trisse.spacerouge.action.Action;
+import com.trisse.spacerouge.action.WalkAction;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.actor.ActorTypePool;
+import com.trisse.spacerouge.entities.actor.types.Player;
+import com.trisse.spacerouge.entities.item.ItemTypePool;
+import com.trisse.spacerouge.entities.item.Items;
+import com.trisse.spacerouge.entities.tile.Tile;
+import com.trisse.spacerouge.entities.tile.TileTypePool;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.util.Input;
 
 public class Game implements Runnable {
 
@@ -45,35 +53,62 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		// actors.add(new Player(20, 20));
+		actors.add(new Player(20, 20));
 		actors.add(new Actor(20, 20));
 		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
+		actors.add(new Actor(20, 21));
+		actors.add(new Actor(20, 22));
+		actors.add(new Actor(20, 23));
+		actors.add(new Actor(20, 24));
+		actors.add(new Actor(20, 25));
+		actors.add(new Actor(20, 26));
 
 		// gameState = new MainMenuState(sprites, entityList);
 		Keyboard.enableRepeatEvents(false);
 	}
 
+	protected void handleInput() {
+		int key = Keyboard.getEventKey();
+		if (Input.controlPressed())
+			switch (key) {
+			case Keyboard.KEY_UP:
+				walk(Direction.UP);
+				break;
+			case Keyboard.KEY_DOWN:
+				walk(Direction.DOWN);
+				break;
+			case Keyboard.KEY_LEFT:
+				walk(Direction.LEFT);
+				break;
+			case Keyboard.KEY_RIGHT:
+				walk(Direction.RIGHT);
+				break;
+			}
+
+	}
+
+	protected void walk(Direction dir) {
+		Actor actor = actors.get(cai);
+		actor.setNextAction(new WalkAction(actor, dir));
+	}
+
 	protected void update() {
-		if (waitingForPlayer) {
-			
-		} else {
-			actors.get(cai).think();
+		Actor actor = actors.get(cai);
+		while (!actor.isPlayer && !actor.waiting) {
+			if (actor.isPlayer) {
+				handleInput();
+			}
+			actor.think();
+			Action action = actor.getAction();
+			if (action != null) {
+				action.perform();
+				cai = (cai + 1) % actors.size();
+			} else if (actor.waiting && actor.isPlayer) {
+				cai = (cai + 1) % actors.size();
+			}
+			actor = actors.get(cai);
 		}
-		Action action = actors.get(cai).getAction();
-		if (action != Action.playerWaitAction) {
-			action.perform();
-			waitingForPlayer = false;
-		} else {
-			waitingForPlayer = true;
-			return;
-		}
-		cai = (cai + 1) % actors.size();
+
 	}
 
 	protected void render() {

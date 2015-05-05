@@ -4,7 +4,7 @@ import com.trisse.spacerouge.entities.actor.Actor;
 
 public abstract class Action {
 	
-	public static WaitAction playerWaitAction = new WaitAction(null);
+	
 	
 	protected int cost = 5;
 

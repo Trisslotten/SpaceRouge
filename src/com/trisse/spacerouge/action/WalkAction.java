@@ -8,31 +8,16 @@ import com.trisse.spacerouge.entities.actor.*;
 public class WalkAction extends Action {
 
 	static Random rand = new Random();
+	
+	private Direction dir;
 
-	public WalkAction(Actor actor) {
+	public WalkAction(Actor actor, Direction dir) {
 		super(actor);
+		this.dir = dir;
 	}
 
 	@Override
 	public void perform() {
-		// TODO Auto-generated method stub
-		Direction dir = null;
-		int r = rand.nextInt(4);
-
-		switch (r) {
-		case 0:
-			dir = Direction.RIGHT;
-			break;
-		case 1:
-			dir = Direction.DOWN;
-			break;
-		case 2:
-			dir = Direction.LEFT;
-			break;
-		case 3:
-			dir = Direction.UP;
-			break;
-		}
 		actor.move(dir);
 
 	}
