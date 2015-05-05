@@ -1,24 +1,22 @@
 package com.trisse.spacerouge.entities.actor;
 
 import com.trisse.spacerouge.Direction;
-import com.trisse.spacerouge.action.Action;
+import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.graphics.Screen;
 
 public class Actor {
-	
+
 	protected Action action;
 
 	protected ActorType type;
 
-	protected int energy = 0;
-	
+	protected int energy = 7;
+
 	protected int cost = 12;
 
 	protected int energySpeed = 5;
-	
+
 	public boolean isPlayer = false;
-	
-	public boolean waiting = true;
 
 	protected int x, y;
 
@@ -33,10 +31,9 @@ public class Actor {
 
 	public void think() {
 		energy += energySpeed;
-		
-		waiting = energy < cost;
+		action = new WalkAction(this, Direction.DOWN);
 	}
-	
+
 	public void setNextAction(Action action) {
 		this.action = action;
 	}
@@ -59,9 +56,13 @@ public class Actor {
 	}
 
 	public Action getAction() {
-		Action action = this.action;
-		this.action = null;
-		return action;
+		if (energy >= cost) {
+			energy -= cost;
+			Action action = this.action;
+			this.action = null;
+			return action;
+		} else {
+			return null;
+		}
 	}
-
 }

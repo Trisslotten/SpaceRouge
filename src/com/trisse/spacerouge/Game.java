@@ -62,14 +62,14 @@ public class Game implements Runnable {
 		actors.add(new Actor(20, 24));
 		actors.add(new Actor(20, 25));
 		actors.add(new Actor(20, 26));
-
+		currentActor = actors.get(cai);
 		// gameState = new MainMenuState(sprites, entityList);
 		Keyboard.enableRepeatEvents(false);
 	}
 
 	protected void handleInput() {
 		int key = Keyboard.getEventKey();
-		if (Input.controlPressed())
+		if (Input.controlPressed()) {
 			switch (key) {
 			case Keyboard.KEY_UP:
 				walk(Direction.UP);
@@ -83,8 +83,11 @@ public class Game implements Runnable {
 			case Keyboard.KEY_RIGHT:
 				walk(Direction.RIGHT);
 				break;
+			case Keyboard.KEY_PERIOD:
+				walk(null);
+				break;
 			}
-
+		}
 	}
 
 	protected void walk(Direction dir) {
@@ -92,23 +95,26 @@ public class Game implements Runnable {
 		actor.setNextAction(new WalkAction(actor, dir));
 	}
 
-	protected void update() {
-		Actor actor = actors.get(cai);
-		while (!actor.isPlayer && !actor.waiting) {
-			if (actor.isPlayer) {
-				handleInput();
-			}
-			actor.think();
-			Action action = actor.getAction();
-			if (action != null) {
-				action.perform();
-				cai = (cai + 1) % actors.size();
-			} else if (actor.waiting && actor.isPlayer) {
-				cai = (cai + 1) % actors.size();
-			}
-			actor = actors.get(cai);
-		}
+	private Actor currentActor;
 
+	protected void update() {
+		Action action;
+		// do {
+		currentActor.think();
+		if (currentActor.isPlayer) {
+			handleInput();
+		}
+		action = currentActor.getAction();
+		if (action == null) {
+			if (!currentActor.isPlayer) {
+				cai = (cai + 1) % actors.size();
+			}
+		} else {
+			action.perform();
+			cai = (cai + 1) % actors.size();
+		}
+		currentActor = actors.get(cai);
+		// } while (!currentActor.isPlayer && action != null);
 	}
 
 	protected void render() {

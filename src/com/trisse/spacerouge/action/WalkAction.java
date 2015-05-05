@@ -8,7 +8,7 @@ import com.trisse.spacerouge.entities.actor.*;
 public class WalkAction extends Action {
 
 	static Random rand = new Random();
-	
+
 	private Direction dir;
 
 	public WalkAction(Actor actor, Direction dir) {
@@ -18,8 +18,7 @@ public class WalkAction extends Action {
 
 	@Override
 	public void perform() {
-		actor.move(dir);
-
+		if (dir != null)
+			actor.move(dir);
 	}
-
 }

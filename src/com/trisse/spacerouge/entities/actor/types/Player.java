@@ -1,5 +1,7 @@
 package com.trisse.spacerouge.entities.actor.types;
 
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.actor.Actor;
 
 public class Player extends Actor {
@@ -8,6 +10,10 @@ public class Player extends Actor {
 		x = i;
 		y = j;
 		isPlayer = true;
+	}
+
+	public void think() {
+		energy += energySpeed;
 	}
 
 }
