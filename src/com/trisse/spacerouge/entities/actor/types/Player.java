@@ -11,7 +11,27 @@ public class Player extends Actor {
 	}
 
 	public void think() {
+		addEnergy();
 		
+		planAction();
+		
+		handleActions();
+	}
+
+	protected void planAction() {
+		plannedAction = new PlayerWalkAction(this);
+	}
+	
+	protected void addEnergy() {
+		energy += energySpeed;
+	}
+	
+	protected void handleActions() {
+		if(plannedAction.canPay(energy)) {
+			currentAction = plannedAction;
+		} else {
+			currentAction = new WaitAction(this);
+		}
 	}
 
 }

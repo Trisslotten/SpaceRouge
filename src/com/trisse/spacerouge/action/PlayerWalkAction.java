@@ -11,6 +11,8 @@ public class PlayerWalkAction extends Action {
 		super(actor);
 	}
 
+	
+	
 	@Override
 	public void perform() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP))

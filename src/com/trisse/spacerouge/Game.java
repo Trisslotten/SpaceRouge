@@ -45,7 +45,7 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		actors.add(new Player(20, 20));
+		// actors.add(new Player(20, 20));
 		actors.add(new Actor(20, 20));
 		actors.add(new Actor(20, 20));
 		actors.add(new Actor(20, 20));
@@ -60,14 +60,13 @@ public class Game implements Runnable {
 	}
 
 	protected void update() {
-
 		if (waitingForPlayer) {
-
+			
 		} else {
 			actors.get(cai).think();
 		}
 		Action action = actors.get(cai).getAction();
-		if (action != null) {
+		if (action != Action.playerWaitAction) {
 			action.perform();
 			waitingForPlayer = false;
 		} else {

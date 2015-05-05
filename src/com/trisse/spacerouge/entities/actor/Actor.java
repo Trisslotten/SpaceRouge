@@ -6,11 +6,13 @@ import com.trisse.spacerouge.graphics.*;
 
 public class Actor {
 
-	protected Action currentAction;
+	protected Action currentAction, plannedAction;
 
 	protected ActorType type;
 
-	protected int energy;
+	protected int energy = 10;
+	
+	protected int energySpeed = 3;
 
 	protected int x, y;
 
@@ -24,8 +26,28 @@ public class Actor {
 	}
 
 	public void think() {
-		currentAction = new WalkAction(this);
+		addEnergy();
+		
+		planAction();
+		
+		handleActions();
+	}
 
+	protected void planAction() {
+		plannedAction = new WalkAction(this);
+	}
+	
+	protected void addEnergy() {
+		energy += energySpeed;
+	}
+	
+	protected void handleActions() {
+		if(plannedAction.canPay(energy)) {
+			energy -= plannedAction.getCost();
+			currentAction = plannedAction;
+		} else {
+			currentAction = new WaitAction(this);
+		}
 	}
 
 	public Action getAction() {
@@ -51,9 +73,8 @@ public class Actor {
 		y += dir.yspd();
 	}
 
-	public void setAction(PlayerWalkAction playerWalkAction) {
-		currentAction = playerWalkAction;
-
+	public void setAction(Action action) {
+		currentAction = action;
 	}
 
 }
