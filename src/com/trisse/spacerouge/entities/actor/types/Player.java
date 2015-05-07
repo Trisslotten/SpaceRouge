@@ -9,5 +9,9 @@ public class Player extends Actor {
 		y = j;
 		isPlayer = true;
 	}
+	
+	public void think() {
+		
+	}
 
 }

@@ -19,7 +19,6 @@ public class WalkAction extends Action {
 	@Override
 	public void perform() {
 		actor.move(dir);
-
 	}
 
 }

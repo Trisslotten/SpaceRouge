@@ -8,8 +8,8 @@ public class Tile {
 
 	private TileType type;
 
-	public void render(Screen screen, int i, int j) {
-
+	public void render(Screen screen, int xoffset, int yoffset) {
+		
 	}
 
 }

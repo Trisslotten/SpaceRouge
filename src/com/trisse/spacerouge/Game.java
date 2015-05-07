@@ -44,6 +44,8 @@ public class Game implements Runnable {
 
 	// current actor index
 	int cai = 0;
+	private int xoffset;
+	private int yoffset;
 
 	protected void init() {
 		sprites = new Sprites();
@@ -53,25 +55,25 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		actors.add(new Player(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 20));
-		actors.add(new Actor(20, 21));
-		actors.add(new Actor(20, 22));
-		actors.add(new Actor(20, 23));
-		actors.add(new Actor(20, 24));
-		actors.add(new Actor(20, 25));
-		actors.add(new Actor(20, 26));
+		actors.add(new Player(50, 20));
+
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				actors.add(new Actor(i * 2, j * 2));
+			}
+		}
 
 		// gameState = new MainMenuState(sprites, entityList);
 		Keyboard.enableRepeatEvents(false);
 	}
 
 	protected void handleInput() {
+		Keyboard.next();
 		int key = Keyboard.getEventKey();
-		if (Input.controlPressed())
+		if (Input.controlPressed(key)) {
 			switch (key) {
 			case Keyboard.KEY_UP:
+				System.out.println("walk up");
 				walk(Direction.UP);
 				break;
 			case Keyboard.KEY_DOWN:
@@ -84,7 +86,7 @@ public class Game implements Runnable {
 				walk(Direction.RIGHT);
 				break;
 			}
-
+		}
 	}
 
 	protected void walk(Direction dir) {
@@ -93,33 +95,39 @@ public class Game implements Runnable {
 	}
 
 	protected void update() {
-		Actor actor = actors.get(cai);
-		while (!actor.isPlayer && !actor.waiting) {
+
+		System.out.println("start updating");
+		do {
+			Actor actor = actors.get(cai);
 			if (actor.isPlayer) {
 				handleInput();
+				xoffset = actor.x() - Screen.tileWidth / 2;
+				yoffset = actor.y() - Screen.tileHeight / 2;
 			}
+			System.out.println("updating " + getTime());
+			actor.update();
 			actor.think();
 			Action action = actor.getAction();
 			if (action != null) {
 				action.perform();
 				cai = (cai + 1) % actors.size();
-			} else if (actor.waiting && actor.isPlayer) {
+			} else if (!actor.isPlayer) {
 				cai = (cai + 1) % actors.size();
 			}
-			actor = actors.get(cai);
-		}
+			if (action == null && actor.isPlayer) {
+				System.out.println("BREAK PLZ");
+				break;
+			}
+		} while (true);
 
 	}
 
 	protected void render() {
-		for (Tile t : tiles) {
-			t.render(screen, 0, 0);
-		}
-		items.render(screen, 0, 0);
-
+		for (Tile t : tiles)
+			t.render(screen, xoffset, yoffset);
+		items.render(screen, xoffset, yoffset);
 		for (Actor actor : actors)
-			actor.render(screen, 0, 0);
-
+			actor.render(screen, xoffset, yoffset);
 		screen.render();
 		screen.clear();
 	}

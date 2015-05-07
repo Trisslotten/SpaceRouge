@@ -19,7 +19,7 @@ public class Items {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-
+		
 	}
 
 }
