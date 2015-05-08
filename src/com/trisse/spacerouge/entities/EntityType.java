@@ -15,7 +15,7 @@ public abstract class EntityType {
 	}
 
 	public boolean isType(String str) {
-		return str.equals(name);
+		return str.equalsIgnoreCase(name);
 	}
 
 	public boolean isFloorLevel() {

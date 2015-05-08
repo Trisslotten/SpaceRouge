@@ -25,12 +25,12 @@ public class LevelEditor implements Runnable {
 
 	public Sprites sprites;
 
-	public EntityTypePool entityTypePool;
+	//public EntityTypePool entityTypePool;
 
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
-	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	//public ArrayList<Entity> entities = new ArrayList<Entity>();
 
 	public EntityType selectedEntityType;
 
@@ -58,9 +58,9 @@ public class LevelEditor implements Runnable {
 
 		screen = new Screen(sprites);
 
-		entityTypePool = new EntityTypePool(sprites);
+		//entityTypePool = new EntityTypePool(sprites);
 
-		buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
+		//buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
 
 		elements.add(new Grid(sprites));
 

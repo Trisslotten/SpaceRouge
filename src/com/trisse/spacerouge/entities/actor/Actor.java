@@ -6,6 +6,7 @@ import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.action.Action;
 import com.trisse.spacerouge.action.WalkAction;
 import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.level.Area;
 
 public class Actor {
 
@@ -22,17 +23,20 @@ public class Actor {
 	public boolean isPlayer = false;
 	protected int x, y;
 
+	private Area area;
+
 	static Random rand = new Random();
 
-	public Actor() {
-
-	}
-
-	public Actor(int x, int y) {
+	public Actor(int x, int y, Area area) {
 		this.x = x;
 		this.y = y;
+		this.area = area;
 	}
 	
+	public void init() {
+		energySpeed = 5 + rand.nextInt(7);
+	}
+
 	public void update() {
 		addEnergy();
 	}
@@ -53,12 +57,13 @@ public class Actor {
 			break;
 		}
 	}
-	
+
 	private void addEnergy() {
 		energy += energySpeed;
 	}
+
 	void walk(Direction dir) {
-		setNextAction(new WalkAction(this, dir));
+		setNextAction(new WalkAction(this, area, dir));
 	}
 
 	public void setNextAction(Action action) {
@@ -66,7 +71,7 @@ public class Actor {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw("player", x-xoffset, y-yoffset);
+		screen.draw("player", x - xoffset, y - yoffset);
 	}
 
 	public int x() {

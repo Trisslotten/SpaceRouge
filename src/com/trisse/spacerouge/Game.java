@@ -18,10 +18,10 @@ import com.trisse.spacerouge.entities.actor.ActorTypePool;
 import com.trisse.spacerouge.entities.actor.types.Player;
 import com.trisse.spacerouge.entities.item.ItemTypePool;
 import com.trisse.spacerouge.entities.item.Items;
-import com.trisse.spacerouge.entities.tile.Tile;
 import com.trisse.spacerouge.entities.tile.TileTypePool;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.level.Area;
 import com.trisse.spacerouge.util.Input;
 
 public class Game implements Runnable {
@@ -33,12 +33,8 @@ public class Game implements Runnable {
 	public ItemTypePool itemPool;
 	public TileTypePool tilePool;
 
-	private boolean waitingForPlayer = false;
-
-	ArrayList<Tile> tiles = new ArrayList<Tile>();
+	Area area;
 	ArrayList<Actor> actors = new ArrayList<Actor>();
-
-	ArrayList<Tile> activeTiles = new ArrayList<Tile>();
 
 	Items items = new Items();
 
@@ -55,25 +51,30 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		actors.add(new Player(50, 20));
+		area = new Area(tilePool);
 
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 20; j++) {
-				actors.add(new Actor(i * 2, j * 2));
+		actors.add(new Player(5, 5, area));
+
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				actors.add(new Actor(i * 2, j * 2, area));
 			}
 		}
 
+		for (Actor a : actors) {
+			a.init();
+		}
 		// gameState = new MainMenuState(sprites, entityList);
-		Keyboard.enableRepeatEvents(false);
+		//Keyboard.enableRepeatEvents(false);
 	}
 
 	protected void handleInput() {
 		Keyboard.next();
 		int key = Keyboard.getEventKey();
 		if (Input.controlPressed(key)) {
+			controlPressed = true;
 			switch (key) {
 			case Keyboard.KEY_UP:
-				System.out.println("walk up");
 				walk(Direction.UP);
 				break;
 			case Keyboard.KEY_DOWN:
@@ -86,17 +87,17 @@ public class Game implements Runnable {
 				walk(Direction.RIGHT);
 				break;
 			}
+		} else {
+			controlPressed = false;
 		}
 	}
 
 	protected void walk(Direction dir) {
 		Actor actor = actors.get(cai);
-		actor.setNextAction(new WalkAction(actor, dir));
+		actor.setNextAction(new WalkAction(actor, area, dir));
 	}
 
 	protected void update() {
-
-		System.out.println("start updating");
 		do {
 			Actor actor = actors.get(cai);
 			if (actor.isPlayer) {
@@ -104,7 +105,6 @@ public class Game implements Runnable {
 				xoffset = actor.x() - Screen.tileWidth / 2;
 				yoffset = actor.y() - Screen.tileHeight / 2;
 			}
-			System.out.println("updating " + getTime());
 			actor.update();
 			actor.think();
 			Action action = actor.getAction();
@@ -115,16 +115,13 @@ public class Game implements Runnable {
 				cai = (cai + 1) % actors.size();
 			}
 			if (action == null && actor.isPlayer) {
-				System.out.println("BREAK PLZ");
 				break;
 			}
 		} while (true);
-
 	}
 
 	protected void render() {
-		for (Tile t : tiles)
-			t.render(screen, xoffset, yoffset);
+		area.render(screen, xoffset, yoffset);
 		items.render(screen, xoffset, yoffset);
 		for (Actor actor : actors)
 			actor.render(screen, xoffset, yoffset);
@@ -147,15 +144,13 @@ public class Game implements Runnable {
 
 	private Thread thread;
 
-	public final double tickInterval = 0.2;
-	public final double tickIntervalFast = 0.05;
+	public final double tickInterval = 0.14;
+	public final double tickIntervalFast = 0.02;
 	public final int slowToFastTickCount = 1;
 	public int tickCounter = 0;
 	public boolean canTick = false;
 	public double lastTick = Game.getTime();
-
-	@SuppressWarnings("unused")
-	private int tickButton;
+	private boolean controlPressed;
 
 	public void canTick() {
 		canTick = true;
@@ -197,23 +192,22 @@ public class Game implements Runnable {
 				running = false;
 				break;
 			}
-			/*
-			 * if (canTick) { double tickInterval = tickCounter >
-			 * slowToFastTickCount ? tickIntervalFast : this.tickInterval; if
-			 * (getTime() - lastTick > tickInterval) { tickCounter++; lastTick =
-			 * getTime(); tick(); } canTick = false; }
-			 */
-			update();
+
+			double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
+			if (getTime() - lastTick > tickInterval) {
+				if (!controlPressed)
+					tickCounter = 0;
+				else
+					tickCounter++;
+				lastTick = getTime();
+				update();
+			}
+			canTick = false;
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			render();
 			Display.update();
 			frames++;
 			Display.sync(FPS);
-			/*
-			 * if (delta <= 1.0 / FPS) { try { Thread.sleep((long) ((1.0 / FPS -
-			 * delta) * 1000)); } catch (InterruptedException e) {
-			 * e.printStackTrace(); } }
-			 */
 			if (getTime() > timer + 1) {
 				Display.setTitle("FPS: " + frames);
 
