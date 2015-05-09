@@ -12,7 +12,7 @@ public class Player extends Actor {
 
 	public void init() {
 		isPlayer = true;
-		energySpeed = 2;
+		energySpeed = 12;
 	}
 
 	public void think() {
@@ -20,9 +20,10 @@ public class Player extends Actor {
 	}
 
 	public Action getAction() {
-		if (action == Action.waitForInput) {
-			return action;
-		} else if (action != null && energy >= cost) {
+		if (action == null) {
+			return Action.waitForInput;
+		}
+		if (energy >= cost) {
 			energy -= cost;
 			Action action = this.action;
 			this.action = null;

@@ -1,28 +1,21 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.GL_VERSION;
-import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL11.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 
-import com.trisse.spacerouge.action.Action;
-import com.trisse.spacerouge.action.WalkAction;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.entities.actor.ActorTypePool;
-import com.trisse.spacerouge.entities.actor.types.Player;
-import com.trisse.spacerouge.entities.item.ItemTypePool;
-import com.trisse.spacerouge.entities.item.Items;
-import com.trisse.spacerouge.entities.tile.TileTypePool;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprites;
-import com.trisse.spacerouge.level.Area;
-import com.trisse.spacerouge.util.Input;
+import com.trisse.spacerouge.action.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.actor.types.*;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.tile.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.util.*;
 
 public class Game implements Runnable {
 
@@ -53,16 +46,20 @@ public class Game implements Runnable {
 
 		area = new Area(tilePool);
 
-		actors.add(new Player(5, 5, area));
-
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				actors.add(new Actor(i * 2, j * 2, area));
+		actors.add(new Player(-5, -5, area));
+		for (int i = 0; i < 1; i++) {
+			for (int j = 0; j < 1; j++) {
+				actors.add(new Actor(i * 3 + 20, j * 3, area));
 			}
 		}
-
 		for (Actor a : actors) {
 			a.init();
+			if (a.isPlayer) {
+
+				xoffset = a.x() - Screen.tileWidth / 2;
+				yoffset = a.y() - Screen.tileHeight / 2;
+
+			}
 		}
 		// gameState = new MainMenuState(sprites, entityList);
 		// Keyboard.enableRepeatEvents(false);
@@ -85,6 +82,9 @@ public class Game implements Runnable {
 			case Keyboard.KEY_RIGHT:
 				walk(Direction.RIGHT);
 				break;
+			case Keyboard.KEY_PERIOD:
+				walk(Direction.NONE);
+				break;
 			}
 			return true;
 		} else {
@@ -97,37 +97,48 @@ public class Game implements Runnable {
 		actor.setNextAction(new WalkAction(actor, area, dir));
 	}
 
-	/**
-	 * Code for limited player actions actor.update(); if (actor.isPlayer) {
-	 * double tickInterval = tickCounter > slowToFastTickCount ?
-	 * tickIntervalFast : this.tickInterval; if (getTime() - lastTick >
-	 * tickInterval) { if (!handleInput()) tickCounter = 0; else tickCounter++;
-	 * lastTick = getTime(); } canTick = false; xoffset = actor.x() -
-	 * Screen.tileWidth / 2; yoffset = actor.y() - Screen.tileHeight / 2; }
-	 */
-
-	// TODO wait for player to regenerate energy
 	protected void update() {
 		do {
 			Actor actor = actors.get(cai);
 			Action action = actor.getAction();
 			if (actor.isPlayer) {
+				if (!Input.controlPressed()) {
+					tickCounter = 0;
+				}
 				if (!handleInput() && action != Action.waitForNextAction) {
 					actor.setNextAction(Action.waitForInput);
 				}
-				xoffset = actor.x() - Screen.tileWidth / 2;
-				yoffset = actor.y() - Screen.tileHeight / 2;
 			}
 			if (action == Action.waitForNextAction) {
+				System.out.println("update next 1 | " + actor.isPlayer + " | " + getTime());
 				updateNextActor();
 			} else if (action == Action.waitForInput) {
 				break;
 			} else {
-				if (action.perform()) {
-					updateNextActor();
+				if (actor.isPlayer) {
+					double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
+					if (tickInterval <= getTime() - lastTick || tickCounter <= 0) {
+						tickCounter++;
+						boolean success = action.perform();
+						lastTick = getTime();
+						xoffset = actor.x() - Screen.tileWidth / 2;
+						yoffset = actor.y() - Screen.tileHeight / 2;
+						if (success) {
+							System.out.println("update next 2 | " + actor.isPlayer + " | " + getTime());
+							updateNextActor();
+						} else {
+							break;
+						}
+					}
 				} else {
-					break;
+					if (action.perform()) {
+						System.out.println("update next 3 | " + actor.isPlayer + " | " + getTime());
+						updateNextActor();
+					} else {
+						break;
+					}
 				}
+
 			}
 		} while (true);
 	}
@@ -164,8 +175,8 @@ public class Game implements Runnable {
 
 	private Thread thread;
 
-	public final double tickInterval = 0.14;
-	public final double tickIntervalFast = 0.02;
+	public final double tickInterval = 1;
+	public final double tickIntervalFast = 0.05;
 	public final int slowToFastTickCount = 1;
 	public int tickCounter = 0;
 	public boolean canTick = false;
@@ -189,6 +200,7 @@ public class Game implements Runnable {
 	}
 
 	public static UnsupportedOperationException notImplemented() {
+
 		return new UnsupportedOperationException("Not yet implemented");
 	}
 

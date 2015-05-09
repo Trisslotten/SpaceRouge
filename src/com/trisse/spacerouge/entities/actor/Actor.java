@@ -34,7 +34,7 @@ public class Actor {
 	}
 
 	public void init() {
-		energySpeed = 5 + rand.nextInt(7);
+		energySpeed = 12;
 	}
 
 	public void update() {
