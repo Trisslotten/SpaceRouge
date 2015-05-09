@@ -26,7 +26,7 @@ public class Tile {
 		return y;
 	}
 
-	public boolean canMoveThrough() {
+	public boolean isPassable() {
 		return !type.isFloorLevel();
 	}
 

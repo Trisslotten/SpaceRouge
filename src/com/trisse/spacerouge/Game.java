@@ -65,14 +65,13 @@ public class Game implements Runnable {
 			a.init();
 		}
 		// gameState = new MainMenuState(sprites, entityList);
-		//Keyboard.enableRepeatEvents(false);
+		// Keyboard.enableRepeatEvents(false);
 	}
 
-	protected void handleInput() {
+	protected boolean handleInput() {
 		Keyboard.next();
 		int key = Keyboard.getEventKey();
 		if (Input.controlPressed(key)) {
-			controlPressed = true;
 			switch (key) {
 			case Keyboard.KEY_UP:
 				walk(Direction.UP);
@@ -87,8 +86,9 @@ public class Game implements Runnable {
 				walk(Direction.RIGHT);
 				break;
 			}
+			return true;
 		} else {
-			controlPressed = false;
+			return false;
 		}
 	}
 
@@ -97,27 +97,47 @@ public class Game implements Runnable {
 		actor.setNextAction(new WalkAction(actor, area, dir));
 	}
 
+	/**
+	 * Code for limited player actions actor.update(); if (actor.isPlayer) {
+	 * double tickInterval = tickCounter > slowToFastTickCount ?
+	 * tickIntervalFast : this.tickInterval; if (getTime() - lastTick >
+	 * tickInterval) { if (!handleInput()) tickCounter = 0; else tickCounter++;
+	 * lastTick = getTime(); } canTick = false; xoffset = actor.x() -
+	 * Screen.tileWidth / 2; yoffset = actor.y() - Screen.tileHeight / 2; }
+	 */
+
+	// TODO wait for player to regenerate energy
 	protected void update() {
 		do {
 			Actor actor = actors.get(cai);
+			Action action = actor.getAction();
 			if (actor.isPlayer) {
-				handleInput();
+				if (!handleInput() && action != Action.waitForNextAction) {
+					actor.setNextAction(Action.waitForInput);
+				}
 				xoffset = actor.x() - Screen.tileWidth / 2;
 				yoffset = actor.y() - Screen.tileHeight / 2;
 			}
-			actor.update();
-			actor.think();
-			Action action = actor.getAction();
-			if (action != null) {
-				action.perform();
-				cai = (cai + 1) % actors.size();
-			} else if (!actor.isPlayer) {
-				cai = (cai + 1) % actors.size();
-			}
-			if (action == null && actor.isPlayer) {
+			if (action == Action.waitForNextAction) {
+				updateNextActor();
+			} else if (action == Action.waitForInput) {
 				break;
+			} else {
+				if (action.perform()) {
+					updateNextActor();
+				} else {
+					break;
+				}
 			}
 		} while (true);
+	}
+
+	private void updateNextActor() {
+		cai = (cai + 1) % actors.size();
+		Actor actor = actors.get(cai);
+		actor.update();
+
+		actor.think();
 	}
 
 	protected void render() {
@@ -192,17 +212,8 @@ public class Game implements Runnable {
 				running = false;
 				break;
 			}
+			update();
 
-			double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
-			if (getTime() - lastTick > tickInterval) {
-				if (!controlPressed)
-					tickCounter = 0;
-				else
-					tickCounter++;
-				lastTick = getTime();
-				update();
-			}
-			canTick = false;
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 			render();
 			Display.update();

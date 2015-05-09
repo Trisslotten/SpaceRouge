@@ -18,11 +18,16 @@ public class WalkAction extends Action {
 	}
 
 	@Override
-	public void perform() {
+	public boolean perform() {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
-		boolean canMoveThroughTile =!area.canMoveThrough(x, y); 
+		// boolean canMove = true;
+		if (!area.isPassable(x, y)) {
+			return false;
+		}
+		actor.move(dir);
 		
+		return true;
 	}
 
 }
