@@ -32,7 +32,7 @@ public class Actor {
 		this.y = y;
 		this.area = area;
 	}
-	
+
 	public void init() {
 		energySpeed = 5 + rand.nextInt(7);
 	}
@@ -88,13 +88,13 @@ public class Actor {
 	}
 
 	public Action getAction() {
-		if (energy >= cost) {
+		if (action != null && energy >= cost) {
 			energy -= cost;
 			Action action = this.action;
 			this.action = null;
 			return action;
 		} else {
-			return null;
+			return Action.waitForNextAction;
 		}
 	}
 
