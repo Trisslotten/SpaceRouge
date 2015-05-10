@@ -1,31 +1,25 @@
 package com.trisse.spacerouge.entities.tile.types;
 
+import com.trisse.spacerouge.action.*;
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class WallType extends TileType {
+public class DoorOpenType extends TileType {
 
-	Sprite sprite;
+	private Sprite sprite;
 
-	public WallType(String name, Sprite sprite, int id) {
+	public DoorOpenType(String name, Sprite sprite, int id, int closesTo) {
 		super(name, id);
 		this.sprite = sprite;
 		floorLevel = false;
+		this.closesTo = closesTo;
 	}
 
 	@Override
 	public Sprite defaultSprite() {
 		return sprite;
 	}
-	
-	public int level() {
-		return 1;
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7257316785452670891L;
 
 	@Override
 	public Sprite currentSprite() {
@@ -34,7 +28,12 @@ public class WallType extends TileType {
 
 	@Override
 	public boolean isPassable() {
-		return false;
+		return true;
+	}
+
+	@Override
+	public int level() {
+		return 1;
 	}
 
 }

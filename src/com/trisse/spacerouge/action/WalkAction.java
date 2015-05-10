@@ -1,10 +1,11 @@
 package com.trisse.spacerouge.action;
 
-import java.util.Random;
+import java.util.*;
 
-import com.trisse.spacerouge.Direction;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.tile.*;
+import com.trisse.spacerouge.level.*;
 
 public class WalkAction extends Action {
 
@@ -16,19 +17,23 @@ public class WalkAction extends Action {
 	}
 
 	@Override
-	public ActionResult perform() {
+	public ActionResult perform(Game game) {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
-		// boolean canMove = true;
-		if (!area.isPassable(x, y)) {
-			return ActionResult.FAILURE;
+		boolean success = true;
+		ArrayList<Tile> tiles = area.getTilesOn(x, y);
+		if (!tiles.isEmpty()) {
+			for (Tile t : tiles) {
+				if (t.getType().opensTo >= 1) {
+					return new ActionResult(new OpenDoorAction(actor, area, dir, t));
+				}
+				if (!t.isPassable())
+					success = false;
+			}
 		}
+		if (!success)
+			return ActionResult.FAILURE;
 		actor.move(dir);
 		return ActionResult.SUCCESS;
-	}
-
-	@Override
-	public String toString() {
-		return "WalkAction";
 	}
 }

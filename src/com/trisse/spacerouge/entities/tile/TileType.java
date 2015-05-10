@@ -9,16 +9,17 @@ import com.trisse.spacerouge.graphics.*;
 
 public abstract class TileType extends EntityType {
 
+	public int opensTo, closesTo;
+
 	public TileType(String name, int id) {
 		super(name, id);
 		floorLevel = true;
 	}
 
+	public abstract int level();
+	
 	public abstract Sprite defaultSprite();
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8159665015474304151L;
+	
+	public abstract boolean isPassable();
 
 }

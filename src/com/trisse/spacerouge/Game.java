@@ -26,10 +26,9 @@ public class Game implements Runnable {
 	public ItemTypePool itemPool;
 	public TileTypePool tilePool;
 
-	Area area;
-	ArrayList<Actor> actors = new ArrayList<Actor>();
-
-	Items items = new Items();
+	public Area area;
+	public ArrayList<Actor> actors = new ArrayList<Actor>();
+	public Items items = new Items();
 
 	// current actor index
 	int cai = 0;
@@ -47,9 +46,9 @@ public class Game implements Runnable {
 		area = new Area(tilePool);
 
 		actors.add(new Player(-5, -5, area));
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				actors.add(new Actor(i * 2 + 20, j * 2, area));
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				actors.add(new Actor(i * 2+3, j * 2+3, area));
 			}
 		}
 		for (Actor a : actors) {
@@ -116,18 +115,23 @@ public class Game implements Runnable {
 				double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
 				if (tickInterval <= getTime() - lastTick || tickCounter <= 0) {
 					tickCounter++;
-					ActionResult result = action.perform();
-					lastTick = getTime();
-					setOffsetToActor(actor);
-					if (!result.success()) {
-						return;
+					while (true) {
+						ActionResult result = action.perform(this);
+						lastTick = getTime();
+						if (result.alternative() == null)
+							break;
+						action = result.alternative();
+						if (!result.success()) {
+							return;
+						}
 					}
+					setOffsetToActor(actor);
 				} else {
 					return;
 				}
 			} else {
 				while (true) {
-					ActionResult result = action.perform();
+					ActionResult result = action.perform(this);
 					if (result.alternative() == null)
 						break;
 					action = result.alternative();

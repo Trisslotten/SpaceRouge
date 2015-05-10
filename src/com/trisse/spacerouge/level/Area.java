@@ -16,7 +16,7 @@ public class Area {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				if (j == 3 && i == 0) {
-					tiles.add(new Tile(tilePool.getType("door"), i, j));
+					tiles.add(new Tile(tilePool.getType("doorclosed"), i, j));
 					tiles.add(new Tile(tilePool.getType("floor"), i, j));
 				} else if (j == 0 || j == 10 || i == 0 || i == 10) {
 					tiles.add(new Tile(tilePool.getType("hull"), i, j));
@@ -41,6 +41,16 @@ public class Area {
 			}
 		}
 		return true;
+	}
+
+	public ArrayList<Tile> getTilesOn(int x, int y) {
+		ArrayList<Tile> result = new ArrayList<Tile>();
+		for (Tile t : tiles) {
+			if (t.x() == x && t.y() == y) {
+				result.add(t);
+			}
+		}
+		return result;
 	}
 
 }

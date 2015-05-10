@@ -5,29 +5,35 @@ import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class DoorType extends TileType {
+public class DoorClosedType extends TileType {
 
-	@SuppressWarnings("unused")
-	private Sprite open;
-	private Sprite closed;
-	
-	private boolean isClosed;
+	private Sprite sprite;
 
-	public DoorType(String name, Sprite open, Sprite closed, int id) {
+	public DoorClosedType(String name, Sprite sprite, int id, int opensTo) {	
 		super(name, id);
-		this.open = open;
-		this.closed = closed;
+		this.sprite = sprite;
 		floorLevel = false;
+		this.opensTo = opensTo;
 	}
 
 	@Override
 	public Sprite defaultSprite() {
-		return closed;
+		return sprite;
 	}
 
 	@Override
 	public Sprite currentSprite() {
-		return closed;
+		return sprite;
+	}
+
+	@Override
+	public boolean isPassable() {
+		return false;
+	}
+
+	@Override
+	public int level() {
+		return 1;
 	}
 
 }

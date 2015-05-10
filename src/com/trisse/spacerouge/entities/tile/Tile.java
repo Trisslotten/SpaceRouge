@@ -17,7 +17,7 @@ public class Tile {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 0);
+		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, type.level());
 	}
 
 	public int x() {
@@ -29,8 +29,15 @@ public class Tile {
 	}
 
 	public boolean isPassable() {
-		return !type.isFloorLevel();
+		return type.isPassable();
 	}
-	
+
+	public TileType getType() {
+		return type;
+	}
+
+	public void setType(TileType type2) {
+		type = type2;
+	}
 
 }

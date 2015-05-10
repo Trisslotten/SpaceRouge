@@ -14,8 +14,10 @@ public class EntityParser {
 
 	private static TileType chooseTileType(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
-		case "door":
-			return door(loadedEntity, sprites);
+		case "dooropen":
+			return doorOpen(loadedEntity, sprites);
+		case "doorclosed":
+			return doorClosed(loadedEntity, sprites);
 		case "floor":
 			return floor(loadedEntity, sprites);
 		case "wall":
@@ -39,13 +41,43 @@ public class EntityParser {
 		}
 	}
 
-	private static DoorType door(LoadedEntity loadedEntity, Sprites sprites) {
+	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
 
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 
 		int id = -1;
-		Sprite open = null, closed = null;
+		int opensTo = -1;
+		Sprite sprite = null;
+		String name = null;
+
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				id = Integer.parseInt(values[i]);
+				break;
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+				break;
+			case "opensto":
+				opensTo = Integer.parseInt(values[i]);
+				break;
+			}
+		}
+		return new DoorClosedType(name, sprite, id, opensTo);
+	}
+
+	private static DoorOpenType doorOpen(LoadedEntity loadedEntity, Sprites sprites) {
+
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
+
+		int id = -1;
+		int closesTo = -1;
+		Sprite sprite = null;
 		String name = null;
 
 		for (int i = 0; i < variables.length; i++) {
@@ -53,19 +85,18 @@ public class EntityParser {
 			case "id":
 				id = Integer.parseInt(values[i]);
 				break;
-			case "open":
-				open = sprites.getSprite(values[i]);
-				break;
-			case "closed":
-				closed = sprites.getSprite(values[i]);
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
 				break;
 			case "name":
 				name = values[i];
 				break;
-
+			case "closesto":
+				closesTo = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new DoorType(name, open, closed, id);
+		return new DoorOpenType(name, sprite, id, closesTo);
 	}
 
 	private static TileType floor(LoadedEntity loadedEntity, Sprites sprites) {

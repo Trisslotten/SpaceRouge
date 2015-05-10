@@ -1,7 +1,8 @@
 package com.trisse.spacerouge.action;
 
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.level.*;
 
 public abstract class Action {
 
@@ -14,8 +15,6 @@ public abstract class Action {
 		this.area = area;
 	}
 
-	public abstract String toString();
-
-	public abstract ActionResult perform();
+	public abstract ActionResult perform(Game game);
 
 }

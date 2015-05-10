@@ -17,7 +17,7 @@ public class LoadedEntity {
 	public String getType() {
 		for (int i = 0; i < variables.size(); i++) {
 			if (variables.get(i).equals("type")) {
-				return values.get(i);
+				return values.get(i).toLowerCase();
 			}
 		}
 		return null;

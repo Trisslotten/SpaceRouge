@@ -24,4 +24,15 @@ public class FloorType extends TileType {
 		return sprite;
 	}
 
+	@Override
+	public boolean isPassable() {
+		return true;
+	}
+
+	@Override
+	public int level() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
