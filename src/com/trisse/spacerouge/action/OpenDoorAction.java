@@ -14,16 +14,18 @@ public class OpenDoorAction extends Action {
 	private Tile tile;
 
 	public OpenDoorAction(Actor actor, Area area, Direction dir, Tile tile) {
-		super(actor, area);
+		super(actor, area, null);
 		this.dir = dir;
 		this.tile = tile;
 	}
 
 	@Override
 	public ActionResult perform(Game game) {
+		if (!actor.getType().canHandleDoors())
+			return ActionResult.FAILURE;
+
 		TileType type = game.tilePool.getType((tile.getType().opensTo));
 		tile.setType(type);
-
 		return ActionResult.SUCCESS;
 	}
 

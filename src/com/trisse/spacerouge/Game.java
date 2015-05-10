@@ -44,19 +44,28 @@ public class Game implements Runnable {
 		tilePool = new TileTypePool(sprites);
 
 		area = new Area(tilePool);
+		Random rand = new Random();
 
-		actors.add(new Player(-5, -5, area));
+		actors.add(new Player(actorPool.getType("human"), -5, -5, area));
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				actors.add(new Actor(i * 2+3, j * 2+3, area));
+				ActorType type = null;
+				switch (rand.nextInt(2)) {
+				case 0:
+					type = actorPool.getType("largealien");
+					break;
+				case 1:
+					type = actorPool.getType("smallalien");
+					break;
+				}
+				actors.add(new Actor(type, i * 2 + 3, j * 2 + 3, area));
+
 			}
 		}
 		for (Actor a : actors) {
 			a.init();
 			if (a.isPlayer) {
-
 				setOffsetToActor(a);
-
 			}
 		}
 		// gameState = new MainMenuState(sprites, entityList);

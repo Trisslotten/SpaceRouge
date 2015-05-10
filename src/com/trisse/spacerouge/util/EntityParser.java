@@ -5,6 +5,7 @@ import java.util.*;
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.actor.types.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.entities.tile.types.*;
@@ -29,9 +30,35 @@ public class EntityParser {
 
 	private static ActorType chooseActorType(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
+		case "human":
+			return human(loadedEntity,sprites);
+		case "alien":
+			return alien(loadedEntity,sprites);
 		default:
 			return null;
 		}
+	}
+
+	private static Alien alien(LoadedEntity loadedEntity, Sprites sprites) {
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
+		int id = -1;
+		Sprite sprite = null;
+		String name = null;
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				id = Integer.parseInt(values[i]);
+				break;
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+				break;
+			}
+		}
+		return new Alien(name, sprite, id);
 	}
 
 	private static ItemType chooseItemType(LoadedEntity loadedEntity, Sprites sprites) {
@@ -40,17 +67,36 @@ public class EntityParser {
 			return null;
 		}
 	}
-
-	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
-
+	
+	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
+		int id = -1;
+		Sprite sprite = null;
+		String name = null;
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				id = Integer.parseInt(values[i]);
+				break;
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+				break;
+			}
+		}
+		return new Human(name, sprite, id);
+	}
 
+	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
 		int id = -1;
 		int opensTo = -1;
 		Sprite sprite = null;
 		String name = null;
-
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i].toLowerCase()) {
 			case "id":

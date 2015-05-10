@@ -21,7 +21,8 @@ public class Actor {
 
 	static Random rand = new Random();
 
-	public Actor(int x, int y, Area area) {
+	public Actor(ActorType type, int x, int y, Area area) {
+		this.type = type;
 		this.x = x;
 		this.y = y;
 		this.area = area;
@@ -54,12 +55,16 @@ public class Actor {
 		setNextAction(new WalkAction(this, area, dir));
 	}
 
+	public void attack(Actor enemy) {
+
+	}
+
 	public void setNextAction(Action action) {
 		this.action = action;
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw("player", x - xoffset, y - yoffset);
+		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 1);
 	}
 
 	public int x() {
@@ -80,4 +85,9 @@ public class Actor {
 		this.action = null;
 		return action;
 	}
+
+	public ActorType getType() {
+		return type;
+	}
+
 }

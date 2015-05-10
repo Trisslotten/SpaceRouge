@@ -17,10 +17,6 @@ public class TileTypePool {
 
 	public TileTypePool(Sprites sprites) {
 		tileTypes = EntityParser.tileList(sprites);
-		EntityType[] types = entityTypes();
-		for (int i = 0; i < types.length; i++) {
-			System.out.println(types[i].getName());
-		}
 	}
 
 	public TileType get(int i) {

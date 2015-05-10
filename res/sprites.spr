@@ -9,6 +9,9 @@ doorclosed 6 7
 dooropen 7 7
 
 player 4 7
+largealien 0 8
+slime 1 8
+smallalien 2 8
 
 hover 0 5
 grid 1 5

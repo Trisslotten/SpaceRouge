@@ -11,8 +11,8 @@ public class WalkAction extends Action {
 
 	private Direction dir;
 
-	public WalkAction(Actor actor, Area area, Direction dir) {
-		super(actor, area);
+	public WalkAction(Actor actor, Area area, ArrayList<Actor> actors, Direction dir) {
+		super(actor, area, actors);
 		this.dir = dir;
 	}
 
