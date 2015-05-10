@@ -47,17 +47,16 @@ public class Game implements Runnable {
 		area = new Area(tilePool);
 
 		actors.add(new Player(-5, -5, area));
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < 1; j++) {
-				actors.add(new Actor(i * 3 + 20, j * 3, area));
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				actors.add(new Actor(i * 2 + 20, j * 2, area));
 			}
 		}
 		for (Actor a : actors) {
 			a.init();
 			if (a.isPlayer) {
 
-				xoffset = a.x() - Screen.tileWidth / 2;
-				yoffset = a.y() - Screen.tileHeight / 2;
+				setOffsetToActor(a);
 
 			}
 		}
@@ -93,62 +92,58 @@ public class Game implements Runnable {
 	}
 
 	protected void walk(Direction dir) {
-		Actor actor = actors.get(cai);
-		actor.setNextAction(new WalkAction(actor, area, dir));
+		actors.get(cai).walk(dir);
 	}
 
+	/**
+	 * updates all actors that have an action
+	 */
 	protected void update() {
-		do {
+		while (true) {
 			Actor actor = actors.get(cai);
-			Action action = actor.getAction();
+			actor.think();
 			if (actor.isPlayer) {
 				if (!Input.controlPressed()) {
 					tickCounter = 0;
 				}
-				if (!handleInput() && action != Action.waitForNextAction) {
-					actor.setNextAction(Action.waitForInput);
-				}
+				handleInput();
 			}
-			if (action == Action.waitForNextAction) {
-				System.out.println("update next 1 | " + actor.isPlayer + " | " + getTime());
-				updateNextActor();
-			} else if (action == Action.waitForInput) {
-				break;
-			} else {
-				if (actor.isPlayer) {
-					double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
-					if (tickInterval <= getTime() - lastTick || tickCounter <= 0) {
-						tickCounter++;
-						boolean success = action.perform();
-						lastTick = getTime();
-						xoffset = actor.x() - Screen.tileWidth / 2;
-						yoffset = actor.y() - Screen.tileHeight / 2;
-						if (success) {
-							System.out.println("update next 2 | " + actor.isPlayer + " | " + getTime());
-							updateNextActor();
-						} else {
-							break;
-						}
+			Action action = actor.getAction();
+			if (action == null) {
+				return;
+			}
+			if (actor.isPlayer) {
+				double tickInterval = tickCounter > slowToFastTickCount ? tickIntervalFast : this.tickInterval;
+				if (tickInterval <= getTime() - lastTick || tickCounter <= 0) {
+					tickCounter++;
+					ActionResult result = action.perform();
+					lastTick = getTime();
+					setOffsetToActor(actor);
+					if (!result.success()) {
+						return;
 					}
 				} else {
-					if (action.perform()) {
-						System.out.println("update next 3 | " + actor.isPlayer + " | " + getTime());
-						updateNextActor();
-					} else {
+					return;
+				}
+			} else {
+				while (true) {
+					ActionResult result = action.perform();
+					if (result.alternative() == null)
 						break;
+					action = result.alternative();
+					if (!result.success()) {
+						return;
 					}
 				}
 
 			}
-		} while (true);
+			cai = (cai + 1) % actors.size();
+		}
 	}
 
-	private void updateNextActor() {
-		cai = (cai + 1) % actors.size();
-		Actor actor = actors.get(cai);
-		actor.update();
-
-		actor.think();
+	private void setOffsetToActor(Actor actor) {
+		xoffset = actor.x() - Screen.tileWidth / 2;
+		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 
 	protected void render() {
@@ -175,13 +170,12 @@ public class Game implements Runnable {
 
 	private Thread thread;
 
-	public final double tickInterval = 1;
+	public final double tickInterval = 0.2;
 	public final double tickIntervalFast = 0.05;
 	public final int slowToFastTickCount = 1;
 	public int tickCounter = 0;
 	public boolean canTick = false;
 	public double lastTick = Game.getTime();
-	private boolean controlPressed;
 
 	public void canTick() {
 		canTick = true;

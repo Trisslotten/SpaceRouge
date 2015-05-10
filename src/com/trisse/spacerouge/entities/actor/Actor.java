@@ -14,12 +14,6 @@ public class Actor {
 
 	protected ActorType type;
 
-	protected int energy = 0;
-
-	protected int cost = 12;
-
-	protected int energySpeed = 5;
-
 	public boolean isPlayer = false;
 	protected int x, y;
 
@@ -34,11 +28,7 @@ public class Actor {
 	}
 
 	public void init() {
-		energySpeed = 12;
-	}
 
-	public void update() {
-		addEnergy();
 	}
 
 	public void think() {
@@ -55,14 +45,12 @@ public class Actor {
 		case 3:
 			walk(Direction.RIGHT);
 			break;
+		default:
+			walk(Direction.NONE);
 		}
 	}
 
-	private void addEnergy() {
-		energy += energySpeed;
-	}
-
-	void walk(Direction dir) {
+	public void walk(Direction dir) {
 		setNextAction(new WalkAction(this, area, dir));
 	}
 
@@ -88,14 +76,8 @@ public class Actor {
 	}
 
 	public Action getAction() {
-		if (action != null && energy >= cost) {
-			energy -= cost;
-			Action action = this.action;
-			this.action = null;
-			return action;
-		} else {
-			return Action.waitForNextAction;
-		}
+		Action action = this.action;
+		this.action = null;
+		return action;
 	}
-
 }

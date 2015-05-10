@@ -1,5 +1,7 @@
 package com.trisse.spacerouge.entities.tile;
 
+import com.trisse.spacerouge.action.*;
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.graphics.*;
 
 public class Tile {
@@ -7,7 +9,7 @@ public class Tile {
 	private int x, y;
 
 	private TileType type;
-	
+
 	public Tile(TileType type, int x, int y) {
 		this.type = type;
 		this.x = x;
@@ -15,13 +17,13 @@ public class Tile {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x-xoffset, y-yoffset,0);
+		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 0);
 	}
-	
-	public int x(){
+
+	public int x() {
 		return x;
 	}
-	
+
 	public int y() {
 		return y;
 	}
@@ -29,5 +31,6 @@ public class Tile {
 	public boolean isPassable() {
 		return !type.isFloorLevel();
 	}
+	
 
 }

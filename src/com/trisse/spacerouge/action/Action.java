@@ -5,9 +5,6 @@ import com.trisse.spacerouge.level.Area;
 
 public abstract class Action {
 
-	public static final IdleAction waitForNextAction = new IdleAction();
-	public static final IdleAction waitForInput = new IdleAction();
-
 	protected Actor actor;
 
 	protected Area area;
@@ -17,6 +14,8 @@ public abstract class Action {
 		this.area = area;
 	}
 
-	public abstract boolean perform();
+	public abstract String toString();
+
+	public abstract ActionResult perform();
 
 }

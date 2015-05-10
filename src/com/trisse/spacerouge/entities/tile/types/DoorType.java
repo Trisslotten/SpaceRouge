@@ -1,5 +1,7 @@
 package com.trisse.spacerouge.entities.tile.types;
 
+import com.trisse.spacerouge.action.*;
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
@@ -8,6 +10,8 @@ public class DoorType extends TileType {
 	@SuppressWarnings("unused")
 	private Sprite open;
 	private Sprite closed;
+	
+	private boolean isClosed;
 
 	public DoorType(String name, Sprite open, Sprite closed, int id) {
 		super(name, id);
@@ -18,14 +22,12 @@ public class DoorType extends TileType {
 
 	@Override
 	public Sprite defaultSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return closed;
 	}
 
 	@Override
 	public Sprite currentSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return closed;
 	}
 
 }

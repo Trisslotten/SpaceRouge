@@ -8,8 +8,6 @@ import com.trisse.spacerouge.level.Area;
 
 public class WalkAction extends Action {
 
-	static Random rand = new Random();
-
 	private Direction dir;
 
 	public WalkAction(Actor actor, Area area, Direction dir) {
@@ -18,16 +16,19 @@ public class WalkAction extends Action {
 	}
 
 	@Override
-	public boolean perform() {
+	public ActionResult perform() {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
 		// boolean canMove = true;
 		if (!area.isPassable(x, y)) {
-			return false;
+			return ActionResult.FAILURE;
 		}
 		actor.move(dir);
-		
-		return true;
+		return ActionResult.SUCCESS;
 	}
 
+	@Override
+	public String toString() {
+		return "WalkAction";
+	}
 }
