@@ -27,7 +27,7 @@ public class Game implements Runnable {
 	public TileTypePool tilePool;
 
 	public Area area;
-	public ArrayList<Actor> actors = new ArrayList<Actor>();
+	public ArrayList<Actor> actors;
 	public Items items = new Items();
 
 	// current actor index
@@ -44,6 +44,8 @@ public class Game implements Runnable {
 		tilePool = new TileTypePool(sprites);
 
 		area = new Area(tilePool);
+		
+		actors = area.actors;
 		Random rand = new Random();
 
 		actors.add(new Player(actorPool.getType("human"), -5, -5, area));

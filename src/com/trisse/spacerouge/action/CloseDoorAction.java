@@ -7,7 +7,7 @@ import com.trisse.spacerouge.level.*;
 public class CloseDoorAction extends Action {
 
 	public CloseDoorAction(Actor actor, Area area) {
-		super(actor, area, null);
+		super(actor, area);
 	}
 
 	@Override

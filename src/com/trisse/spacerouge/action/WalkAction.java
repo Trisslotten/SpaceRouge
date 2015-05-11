@@ -11,8 +11,8 @@ public class WalkAction extends Action {
 
 	private Direction dir;
 
-	public WalkAction(Actor actor, Area area, ArrayList<Actor> actors, Direction dir) {
-		super(actor, area, actors);
+	public WalkAction(Actor actor, Area area, Direction dir) {
+		super(actor, area);
 		this.dir = dir;
 	}
 
@@ -30,6 +30,13 @@ public class WalkAction extends Action {
 				if (!t.isPassable())
 					success = false;
 			}
+		}
+		
+		ArrayList<Actor> actors = area.getActorsOn(x,y);
+		if(!actors.isEmpty()) {
+			//TODO let player choose who to attack
+			//for(Actor a: actors)
+			return new ActionResult(new AttackAction(actor,area,actors.get(0)));
 		}
 		if (!success)
 			return ActionResult.FAILURE;

@@ -10,9 +10,10 @@ import com.trisse.spacerouge.graphics.*;
 public class Area {
 
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	
+	public ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	public Area(TileTypePool tilePool) {
-
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				if (j == 3 && i == 0) {
@@ -25,7 +26,6 @@ public class Area {
 				}
 			}
 		}
-
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
@@ -46,6 +46,16 @@ public class Area {
 	public ArrayList<Tile> getTilesOn(int x, int y) {
 		ArrayList<Tile> result = new ArrayList<Tile>();
 		for (Tile t : tiles) {
+			if (t.x() == x && t.y() == y) {
+				result.add(t);
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<Actor> getActorsOn(int x, int y) {
+		ArrayList<Actor> result = new ArrayList<Actor>();
+		for (Actor t : actors) {
 			if (t.x() == x && t.y() == y) {
 				result.add(t);
 			}

@@ -14,7 +14,7 @@ public class OpenDoorAction extends Action {
 	private Tile tile;
 
 	public OpenDoorAction(Actor actor, Area area, Direction dir, Tile tile) {
-		super(actor, area, null);
+		super(actor, area);
 		this.dir = dir;
 		this.tile = tile;
 	}
