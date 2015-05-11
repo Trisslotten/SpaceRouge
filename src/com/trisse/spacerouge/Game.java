@@ -30,6 +30,8 @@ public class Game implements Runnable {
 	public ArrayList<Actor> actors;
 	public Items items = new Items();
 
+	ArrayList<Actor> deadList = new ArrayList<Actor>();
+
 	// current actor index
 	int cai = 0;
 	private int xoffset;
@@ -44,13 +46,13 @@ public class Game implements Runnable {
 		tilePool = new TileTypePool(sprites);
 
 		area = new Area(tilePool);
-		
+
 		actors = area.actors;
 		Random rand = new Random();
 
 		actors.add(new Player(actorPool.getType("human"), -5, -5, area));
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
 				ActorType type = null;
 				switch (rand.nextInt(2)) {
 				case 0:
@@ -60,7 +62,7 @@ public class Game implements Runnable {
 					type = actorPool.getType("smallalien");
 					break;
 				}
-				actors.add(new Actor(type, i * 2 + 3, j * 2 + 3, area));
+				actors.add(new Actor(type, i * 1 + 1, j * 1 + 1, area));
 
 			}
 		}
@@ -109,7 +111,8 @@ public class Game implements Runnable {
 	 * updates all actors that have an action
 	 */
 	protected void update() {
-		while (true) {
+		double startTime = getTime();
+		while (getTime() - startTime < 1.0 / FPS) {
 			Actor actor = actors.get(cai);
 			actor.think();
 			if (actor.isPlayer) {
@@ -152,8 +155,15 @@ public class Game implements Runnable {
 				}
 
 			}
+			for (Actor a : actors) {
+				if (a.isDead())
+					deadList.add(a);
+			}
+			actors.removeAll(deadList);
+			deadList.clear();
 			cai = (cai + 1) % actors.size();
 		}
+
 	}
 
 	private void setOffsetToActor(Actor actor) {
@@ -185,12 +195,12 @@ public class Game implements Runnable {
 
 	private Thread thread;
 
-	public final double tickInterval = 0.2;
-	public final double tickIntervalFast = 0.05;
-	public final int slowToFastTickCount = 1;
-	public int tickCounter = 0;
-	public boolean canTick = false;
-	public double lastTick = Game.getTime();
+	private final double tickInterval = 0.2;
+	private final double tickIntervalFast = 0.05;
+	private final int slowToFastTickCount = 1;
+	private int tickCounter = 0;
+	private boolean canTick = false;
+	private double lastTick = Game.getTime();
 
 	public void canTick() {
 		canTick = true;

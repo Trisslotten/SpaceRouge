@@ -21,6 +21,9 @@ public class WalkAction extends Action {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
 		boolean success = true;
+		
+		//check for collision with walls 
+		//if tile is a door open it
 		ArrayList<Tile> tiles = area.getTilesOn(x, y);
 		if (!tiles.isEmpty()) {
 			for (Tile t : tiles) {
@@ -31,12 +34,14 @@ public class WalkAction extends Action {
 					success = false;
 			}
 		}
-		
-		ArrayList<Actor> actors = area.getActorsOn(x,y);
-		if(!actors.isEmpty()) {
-			//TODO let player choose who to attack
-			//for(Actor a: actors)
-			return new ActionResult(new AttackAction(actor,area,actors.get(0)));
+
+		//check if walking in to actor and choose to attack
+		ArrayList<Actor> actors = area.getActorsOn(x, y);
+		if (!actors.isEmpty()) {
+			// TODO let player choose who to attack
+			for (Actor a : actors)
+				if (!a.isSameTeam(actor))
+					return new ActionResult(new AttackAction(actor, area, actors.get(0)));
 		}
 		if (!success)
 			return ActionResult.FAILURE;

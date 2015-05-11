@@ -31,9 +31,9 @@ public class EntityParser {
 	private static ActorType chooseActorType(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
 		case "human":
-			return human(loadedEntity,sprites);
+			return human(loadedEntity, sprites);
 		case "alien":
-			return alien(loadedEntity,sprites);
+			return alien(loadedEntity, sprites);
 		default:
 			return null;
 		}
@@ -43,6 +43,7 @@ public class EntityParser {
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 		int id = -1;
+		int team = -1;
 		Sprite sprite = null;
 		String name = null;
 		for (int i = 0; i < variables.length; i++) {
@@ -56,9 +57,12 @@ public class EntityParser {
 			case "name":
 				name = values[i];
 				break;
+			case "team":
+				team = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new Alien(name, sprite, id);
+		return new Alien(name, sprite, id, team);
 	}
 
 	private static ItemType chooseItemType(LoadedEntity loadedEntity, Sprites sprites) {
@@ -67,11 +71,12 @@ public class EntityParser {
 			return null;
 		}
 	}
-	
+
 	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 		int id = -1;
+		int team = -1;
 		Sprite sprite = null;
 		String name = null;
 		for (int i = 0; i < variables.length; i++) {
@@ -85,9 +90,12 @@ public class EntityParser {
 			case "name":
 				name = values[i];
 				break;
+			case "team":
+				team = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new Human(name, sprite, id);
+		return new Human(name, sprite, id, team);
 	}
 
 	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {

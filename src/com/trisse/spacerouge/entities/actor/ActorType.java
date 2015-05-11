@@ -5,14 +5,20 @@ import com.trisse.spacerouge.graphics.*;
 
 public abstract class ActorType extends EntityType {
 
-	private Sprite currentSprite;
-	
 	protected int health;
+	protected int damage;
 
-	public ActorType(String name, int id) {
+	protected int team;
+
+	public ActorType(String name, int id, int team) {
 		super(name, id);
+		this.team = team;
 	}
 
 	public abstract boolean canHandleDoors();
+
+	public int team() {
+		return team;
+	}
 
 }

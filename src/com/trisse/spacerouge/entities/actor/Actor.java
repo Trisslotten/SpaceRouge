@@ -15,6 +15,10 @@ public class Actor {
 	protected ActorType type;
 
 	public boolean isPlayer = false;
+
+	protected int health = 2;
+	protected int damage = 1;
+
 	protected int x, y;
 
 	private Area area;
@@ -33,6 +37,7 @@ public class Actor {
 	}
 
 	public void think() {
+
 		switch (rand.nextInt(4)) {
 		case 0:
 			walk(Direction.UP);
@@ -55,8 +60,12 @@ public class Actor {
 		setNextAction(new WalkAction(this, area, dir));
 	}
 
-	public void attack(Actor enemy) {
+	public boolean isDead() {
+		return health <= 0;
+	}
 
+	public void attack(Actor enemy) {
+		enemy.doDamage(damage);
 	}
 
 	public void setNextAction(Action action) {
@@ -64,7 +73,15 @@ public class Actor {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 1);
+		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 2);
+	}
+
+	public void doDamage(int damage) {
+		health -= damage;
+	}
+
+	public int getHealth() {
+		return health;
 	}
 
 	public int x() {
@@ -88,6 +105,14 @@ public class Actor {
 
 	public ActorType getType() {
 		return type;
+	}
+
+	public boolean isSameTeam(Actor actor) {
+		return actor.team() == this.team();
+	}
+
+	protected int team() {
+		return type.team();
 	}
 
 }
