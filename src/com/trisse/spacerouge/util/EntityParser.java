@@ -7,6 +7,7 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.actor.types.*;
 import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.item.types.Corpse;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.entities.tile.types.*;
 import com.trisse.spacerouge.graphics.*;
@@ -28,6 +29,15 @@ public class EntityParser {
 		}
 	}
 
+	private static ItemType chooseItemType(LoadedEntity loadedEntity, Sprites sprites) {
+		switch (loadedEntity.getType()) {
+		case "corpse":
+			return corpse(loadedEntity, sprites);
+		default:
+			return null;
+		}
+	}
+
 	private static ActorType chooseActorType(LoadedEntity loadedEntity, Sprites sprites) {
 		switch (loadedEntity.getType()) {
 		case "human":
@@ -37,6 +47,28 @@ public class EntityParser {
 		default:
 			return null;
 		}
+	}
+
+	private static Corpse corpse(LoadedEntity loadedEntity, Sprites sprites) {
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
+		int id = -1;
+		Sprite sprite = null;
+		String name = null;
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				id = Integer.parseInt(values[i]);
+				break;
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+				break;
+			}
+		}
+		return new Corpse(name, id, sprite);
 	}
 
 	private static Alien alien(LoadedEntity loadedEntity, Sprites sprites) {
@@ -63,13 +95,6 @@ public class EntityParser {
 			}
 		}
 		return new Alien(name, sprite, id, team);
-	}
-
-	private static ItemType chooseItemType(LoadedEntity loadedEntity, Sprites sprites) {
-		switch (loadedEntity.getType()) {
-		default:
-			return null;
-		}
 	}
 
 	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {

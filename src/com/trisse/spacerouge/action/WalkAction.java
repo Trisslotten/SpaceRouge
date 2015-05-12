@@ -21,21 +21,22 @@ public class WalkAction extends Action {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
 		boolean success = true;
-		
-		//check for collision with walls 
-		//if tile is a door open it
+
+		// check for collision with walls
+		// if tile is a door open it
 		ArrayList<Tile> tiles = area.getTilesOn(x, y);
 		if (!tiles.isEmpty()) {
 			for (Tile t : tiles) {
 				if (t.getType().opensTo >= 1) {
 					return new ActionResult(new OpenDoorAction(actor, area, dir, t));
 				}
-				if (!t.isPassable())
+				if (!t.isPassable()) {
 					success = false;
+				}
 			}
 		}
 
-		//check if walking in to actor and choose to attack
+		// check if walking in to actor and choose to attack
 		ArrayList<Actor> actors = area.getActorsOn(x, y);
 		if (!actors.isEmpty()) {
 			// TODO let player choose who to attack

@@ -1,10 +1,8 @@
 package com.trisse.spacerouge.action;
 
-import java.util.*;
-
-import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.Game;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.level.Area;
 
 public class AttackAction extends Action {
 
@@ -20,5 +18,5 @@ public class AttackAction extends Action {
 		actor.attack(enemy);
 		return ActionResult.SUCCESS;
 	}
-
+	
 }

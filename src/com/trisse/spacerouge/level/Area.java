@@ -1,17 +1,21 @@
 package com.trisse.spacerouge.level;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.tile.*;
-import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.item.Item;
+import com.trisse.spacerouge.entities.item.ItemEntity;
+import com.trisse.spacerouge.entities.tile.Tile;
+import com.trisse.spacerouge.entities.tile.TileTypePool;
+import com.trisse.spacerouge.graphics.Screen;
 
 public class Area {
 
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
 	
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
+	
+	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
 
 	public Area(TileTypePool tilePool) {
 		for (int i = 0; i < 11; i++) {
@@ -32,6 +36,10 @@ public class Area {
 		for (Tile t : tiles) {
 			t.render(screen, xoffset, yoffset);
 		}
+	}
+	
+	public void addItem(Item item, int x, int y) {
+		items.add(new ItemEntity(item,x,y));
 	}
 
 	public boolean isPassable(int x, int y) {
