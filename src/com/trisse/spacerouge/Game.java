@@ -160,6 +160,9 @@ public class Game implements Runnable {
 					deadList.add(a);
 			}
 			actors.removeAll(deadList);
+			for(Actor a: deadList) {
+				area.addItem(a.getCorpse(itemPool), a.x(), a.y());
+			}
 			deadList.clear();
 			cai = (cai + 1) % actors.size();
 		}

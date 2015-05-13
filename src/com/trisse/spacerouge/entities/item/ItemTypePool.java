@@ -19,18 +19,21 @@ public class ItemTypePool {
 		itemTypes = EntityParser.itemList(sprites);
 	}
 
-	public EntityType get(int i) {
+	public ItemType get(int i) {
 		return itemTypes.get(i);
 	}
 
-	/*
-	 * public Entity getEntityInstance(String type, int x, int y) { return new
-	 * Entity(getType(type), x, y); }
-	 */
-
-	private EntityType getType(String type) {
-		for (EntityType e : itemTypes) {
+	public ItemType getType(String type) {
+		for (ItemType e : itemTypes) {
 			if (e.isType(type)) {
+				return e;
+			}
+		}
+		return null;
+	}
+	public ItemType getType(int id) {
+		for (ItemType e : itemTypes) {
+			if (e.getID() == id) {
 				return e;
 			}
 		}

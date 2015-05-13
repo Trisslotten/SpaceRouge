@@ -7,8 +7,8 @@ public class Human extends ActorType {
 
 	Sprite sprite;
 
-	public Human(String name, Sprite sprite2, int id, int team) {
-		super(name, id, team);
+	public Human(String name, Sprite sprite2, int id, int team, int corpse) {
+		super(name, id, team, corpse);
 		sprite = sprite2;
 	}
 

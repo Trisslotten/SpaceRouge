@@ -5,6 +5,8 @@ import java.util.Random;
 import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.action.Action;
 import com.trisse.spacerouge.action.WalkAction;
+import com.trisse.spacerouge.entities.item.Item;
+import com.trisse.spacerouge.entities.item.ItemTypePool;
 import com.trisse.spacerouge.graphics.Screen;
 import com.trisse.spacerouge.level.Area;
 
@@ -113,6 +115,10 @@ public class Actor {
 
 	protected int team() {
 		return type.team();
+	}
+
+	public Item getCorpse(ItemTypePool itemPool) {	
+		return new Item(itemPool.getType(type.corpse));
 	}
 
 }

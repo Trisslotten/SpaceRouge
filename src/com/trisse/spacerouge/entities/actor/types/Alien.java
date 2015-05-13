@@ -7,8 +7,8 @@ public class Alien extends ActorType {
 	
 	Sprite sprite;
 	
-	public Alien(String name, Sprite sprite, int id, int team) {
-		super(name, id, team);
+	public Alien(String name, Sprite sprite, int id, int team, int corpse) {
+		super(name, id, team, corpse);
 		this.sprite = sprite;
 	}
 

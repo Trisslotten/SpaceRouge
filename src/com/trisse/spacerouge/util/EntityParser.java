@@ -76,6 +76,7 @@ public class EntityParser {
 		String[] values = loadedEntity.values();
 		int id = -1;
 		int team = -1;
+		int corpse = -1;
 		Sprite sprite = null;
 		String name = null;
 		for (int i = 0; i < variables.length; i++) {
@@ -92,9 +93,12 @@ public class EntityParser {
 			case "team":
 				team = Integer.parseInt(values[i]);
 				break;
+			case "corpse":
+				corpse = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new Alien(name, sprite, id, team);
+		return new Alien(name, sprite, id, team, corpse);
 	}
 
 	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {
@@ -102,6 +106,7 @@ public class EntityParser {
 		String[] values = loadedEntity.values();
 		int id = -1;
 		int team = -1;
+		int corpse = -1;
 		Sprite sprite = null;
 		String name = null;
 		for (int i = 0; i < variables.length; i++) {
@@ -118,9 +123,12 @@ public class EntityParser {
 			case "team":
 				team = Integer.parseInt(values[i]);
 				break;
+			case "corpse":
+				corpse = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new Human(name, sprite, id, team);
+		return new Human(name, sprite, id, team, corpse);
 	}
 
 	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
