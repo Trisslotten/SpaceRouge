@@ -10,7 +10,6 @@ import org.lwjgl.opengl.*;
 
 import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.actor.types.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
@@ -202,13 +201,8 @@ public class Game implements Runnable {
 	private final double tickIntervalFast = 0.05;
 	private final int slowToFastTickCount = 1;
 	private int tickCounter = 0;
-	private boolean canTick = false;
 	private double lastTick = Game.getTime();
-
-	public void canTick() {
-		canTick = true;
-	}
-
+	
 	public void start() {
 		running = true;
 		thread = new Thread(this);

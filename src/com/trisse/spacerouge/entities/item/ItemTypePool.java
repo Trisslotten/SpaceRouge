@@ -3,7 +3,6 @@ package com.trisse.spacerouge.entities.item;
 import java.util.*;
 
 import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
 
@@ -17,6 +16,13 @@ public class ItemTypePool {
 
 	public ItemTypePool(Sprites sprites) {
 		itemTypes = EntityParser.itemList(sprites);
+		ArrayList<ItemType> toRemove = new ArrayList<ItemType>();
+		for (ItemType e : itemTypes) {
+			if (e == null) {
+				toRemove.add(e);
+			}
+		}
+		itemTypes.removeAll(toRemove);
 	}
 
 	public ItemType get(int i) {
@@ -31,8 +37,10 @@ public class ItemTypePool {
 		}
 		return null;
 	}
+
 	public ItemType getType(int id) {
 		for (ItemType e : itemTypes) {
+			System.out.println(e == null);
 			if (e.getID() == id) {
 				return e;
 			}

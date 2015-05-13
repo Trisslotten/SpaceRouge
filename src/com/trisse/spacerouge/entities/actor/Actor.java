@@ -5,6 +5,7 @@ import java.util.Random;
 import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.action.Action;
 import com.trisse.spacerouge.action.WalkAction;
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.item.Item;
 import com.trisse.spacerouge.entities.item.ItemTypePool;
 import com.trisse.spacerouge.graphics.Screen;
@@ -75,7 +76,7 @@ public class Actor {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, 2);
+		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
 	}
 
 	public void doDamage(int damage) {
@@ -117,7 +118,7 @@ public class Actor {
 		return type.team();
 	}
 
-	public Item getCorpse(ItemTypePool itemPool) {	
+	public Item getCorpse(ItemTypePool itemPool) {
 		return new Item(itemPool.getType(type.corpse));
 	}
 

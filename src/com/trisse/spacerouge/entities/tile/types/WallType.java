@@ -1,5 +1,6 @@
 package com.trisse.spacerouge.entities.tile.types;
 
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
@@ -17,15 +18,10 @@ public class WallType extends TileType {
 	public Sprite defaultSprite() {
 		return sprite;
 	}
-	
-	public int level() {
-		return 1;
-	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7257316785452670891L;
+	public int level() {
+		return Levels.WALL;
+	}
 
 	@Override
 	public Sprite currentSprite() {

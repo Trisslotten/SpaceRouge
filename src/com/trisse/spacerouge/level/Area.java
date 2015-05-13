@@ -12,9 +12,9 @@ import com.trisse.spacerouge.graphics.Screen;
 public class Area {
 
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
-	
+
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
-	
+
 	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
 
 	public Area(TileTypePool tilePool) {
@@ -36,10 +36,13 @@ public class Area {
 		for (Tile t : tiles) {
 			t.render(screen, xoffset, yoffset);
 		}
+		for (ItemEntity i : items) {
+			i.render(screen, xoffset, yoffset);
+		}
 	}
-	
+
 	public void addItem(Item item, int x, int y) {
-		items.add(new ItemEntity(item,x,y));
+		items.add(new ItemEntity(item, x, y));
 	}
 
 	public boolean isPassable(int x, int y) {

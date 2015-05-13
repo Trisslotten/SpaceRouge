@@ -3,11 +3,10 @@ package com.trisse.spacerouge.util;
 import java.util.*;
 
 import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.actor.types.*;
 import com.trisse.spacerouge.entities.item.*;
-import com.trisse.spacerouge.entities.item.types.Corpse;
+import com.trisse.spacerouge.entities.item.types.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.entities.tile.types.*;
 import com.trisse.spacerouge.graphics.*;
@@ -53,7 +52,7 @@ public class EntityParser {
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 		int id = -1;
-		Sprite sprite = null;
+		Sprite sprite = sprites.getSprite("missing");
 		String name = null;
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i].toLowerCase()) {
@@ -68,47 +67,29 @@ public class EntityParser {
 				break;
 			}
 		}
-		return new Corpse(name, id, sprite);
+		Corpse asd = new Corpse(name, id, sprite);
+		System.out.println(sprite.getName());
+		return asd;
 	}
 
 	private static Alien alien(LoadedEntity loadedEntity, Sprites sprites) {
-		String[] variables = loadedEntity.variables();
-		String[] values = loadedEntity.values();
-		int id = -1;
-		int team = -1;
-		int corpse = -1;
-		Sprite sprite = null;
-		String name = null;
-		for (int i = 0; i < variables.length; i++) {
-			switch (variables[i].toLowerCase()) {
-			case "id":
-				id = Integer.parseInt(values[i]);
-				break;
-			case "sprite":
-				sprite = sprites.getSprite(values[i]);
-				break;
-			case "name":
-				name = values[i];
-				break;
-			case "team":
-				team = Integer.parseInt(values[i]);
-				break;
-			case "corpse":
-				corpse = Integer.parseInt(values[i]);
-				break;
-			}
-		}
-		return new Alien(name, sprite, id, team, corpse);
+		GenericActor generic = genericActor(loadedEntity, sprites);
+		return new Alien(generic);
 	}
 
 	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {
-		String[] variables = loadedEntity.variables();
-		String[] values = loadedEntity.values();
+		GenericActor generic = genericActor(loadedEntity, sprites);
+		return new Human(generic);
+	}
+
+	private static GenericActor genericActor(LoadedEntity loadedEntity, Sprites sprites) {
 		int id = -1;
 		int team = -1;
 		int corpse = -1;
 		Sprite sprite = null;
 		String name = null;
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i].toLowerCase()) {
 			case "id":
@@ -128,7 +109,7 @@ public class EntityParser {
 				break;
 			}
 		}
-		return new Human(name, sprite, id, team, corpse);
+		return new GenericActor(name, id, team, corpse, sprite);
 	}
 
 	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {

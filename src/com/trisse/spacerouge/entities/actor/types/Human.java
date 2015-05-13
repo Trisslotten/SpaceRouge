@@ -5,11 +5,12 @@ import com.trisse.spacerouge.graphics.*;
 
 public class Human extends ActorType {
 
-	Sprite sprite;
+	public Human(String name, Sprite sprite, int id, int team, int corpse) {
+		super(name, id, team, corpse, sprite);
+	}
 
-	public Human(String name, Sprite sprite2, int id, int team, int corpse) {
-		super(name, id, team, corpse);
-		sprite = sprite2;
+	public Human(GenericActor generic) {
+		super(generic);
 	}
 
 	@Override

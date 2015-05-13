@@ -1,7 +1,6 @@
 package com.trisse.spacerouge.entities.tile.types;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 
@@ -33,7 +32,7 @@ public class DoorOpenType extends TileType {
 
 	@Override
 	public int level() {
-		return 1;
+		return Levels.WALL;
 	}
 
 }

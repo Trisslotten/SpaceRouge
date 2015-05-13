@@ -1,5 +1,6 @@
 package com.trisse.spacerouge.entities.tile.types;
 
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.tile.TileType;
 import com.trisse.spacerouge.graphics.*;
 
@@ -32,7 +33,7 @@ public class FloorType extends TileType {
 	@Override
 	public int level() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Levels.FLOOR;
 	}
 
 }

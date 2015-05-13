@@ -1,7 +1,5 @@
 package com.trisse.spacerouge.action;
 
-import java.util.*;
-
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;

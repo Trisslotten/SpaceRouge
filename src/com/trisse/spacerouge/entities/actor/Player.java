@@ -1,8 +1,6 @@
 package com.trisse.spacerouge.entities.actor;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.level.*;
 
 public class Player extends Actor {
 

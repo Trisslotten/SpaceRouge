@@ -1,7 +1,5 @@
 package com.trisse.spacerouge.entities.tile;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.graphics.*;
 
 public class Tile {

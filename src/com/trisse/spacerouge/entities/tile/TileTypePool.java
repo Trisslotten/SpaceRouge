@@ -3,7 +3,6 @@ package com.trisse.spacerouge.entities.tile;
 import java.util.*;
 
 import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
 

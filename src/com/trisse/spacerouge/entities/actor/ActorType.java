@@ -9,13 +9,23 @@ public abstract class ActorType extends EntityType {
 	protected int damage;
 
 	protected int team;
-	
+
 	protected int corpse;
 
-	public ActorType(String name, int id, int team, int corpse) {
+	protected Sprite sprite;
+
+	public ActorType(String name, int id, int team, int corpse, Sprite sprite) {
 		super(name, id);
 		this.team = team;
 		this.corpse = corpse;
+		this.sprite = sprite;
+	}
+
+	public ActorType(GenericActor generic) {
+		super(generic.getName(), generic.getID());
+		this.team = generic.getTeam();
+		this.corpse = generic.getCorpse();
+		this.sprite = generic.getSprite();
 	}
 
 	public abstract boolean canHandleDoors();
