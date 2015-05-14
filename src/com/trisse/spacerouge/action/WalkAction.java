@@ -28,7 +28,7 @@ public class WalkAction extends Action {
 		if (!tiles.isEmpty()) {
 			for (Tile t : tiles) {
 				if (t.getType().opensTo >= 1) {
-					return new ActionResult(new OpenDoorAction(actor, area, dir, t));
+					return new ActionResult(new OpenDoorAction(actor, area, t));
 				}
 				if (!t.isPassable()) {
 					success = false;

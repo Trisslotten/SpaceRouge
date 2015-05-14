@@ -33,6 +33,7 @@ public class EntityParser {
 		case "corpse":
 			return corpse(loadedEntity, sprites);
 		default:
+			System.err.println("Could not parse item with type: " + loadedEntity.getType());
 			return null;
 		}
 	}
@@ -68,7 +69,6 @@ public class EntityParser {
 			}
 		}
 		Corpse asd = new Corpse(name, id, sprite);
-		System.out.println(sprite.getName());
 		return asd;
 	}
 
@@ -283,7 +283,9 @@ public class EntityParser {
 						break;
 					}
 				}
-				entityTypes.add(itemTypeFromString(currentActor, sprites));
+				ItemType type = itemTypeFromString(currentActor, sprites);
+				if (type != null)
+					entityTypes.add(type);
 			}
 		}
 		return entityTypes;

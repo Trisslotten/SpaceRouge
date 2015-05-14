@@ -36,6 +36,8 @@ public class Game implements Runnable {
 	private int xoffset;
 	private int yoffset;
 
+	private DirectedAction queuedAction = null;
+
 	protected void init() {
 		sprites = new Sprites();
 		screen = new Screen(sprites);
@@ -79,27 +81,59 @@ public class Game implements Runnable {
 		Keyboard.next();
 		int key = Keyboard.getEventKey();
 		if (Input.controlPressed(key)) {
-			switch (key) {
-			case Keyboard.KEY_UP:
-				walk(Direction.UP);
-				break;
-			case Keyboard.KEY_DOWN:
-				walk(Direction.DOWN);
-				break;
-			case Keyboard.KEY_LEFT:
-				walk(Direction.LEFT);
-				break;
-			case Keyboard.KEY_RIGHT:
-				walk(Direction.RIGHT);
-				break;
-			case Keyboard.KEY_PERIOD:
-				walk(Direction.NONE);
-				break;
+			if (queuedAction != null) {
+				switch (key) {
+				case Keyboard.KEY_UP:
+					nextActionDirection(Direction.UP);
+					break;
+				case Keyboard.KEY_DOWN:
+					nextActionDirection(Direction.DOWN);
+					break;
+				case Keyboard.KEY_LEFT:
+					nextActionDirection(Direction.LEFT);
+					break;
+				case Keyboard.KEY_RIGHT:
+					nextActionDirection(Direction.RIGHT);
+					break;
+				case Keyboard.KEY_PERIOD:
+					nextActionDirection(Direction.NONE);
+					break;
+				}
+			} else {
+				switch (key) {
+				case Keyboard.KEY_UP:
+					walk(Direction.UP);
+					break;
+				case Keyboard.KEY_DOWN:
+					walk(Direction.DOWN);
+					break;
+				case Keyboard.KEY_LEFT:
+					walk(Direction.LEFT);
+					break;
+				case Keyboard.KEY_RIGHT:
+					walk(Direction.RIGHT);
+					break;
+				case Keyboard.KEY_PERIOD:
+					walk(Direction.NONE);
+					break;
+				case Keyboard.KEY_C:
+					queuedAction = new CloseDoorAction(actors.get(cai), area);
+					return false;
+				case Keyboard.KEY_O:
+					queuedAction = new OpenDoorAction(actors.get(cai), area);
+					return false;
+				}
 			}
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void nextActionDirection(Direction dir) {
+		queuedAction.setDirection(dir);
+		actors.get(cai).setNextAction(queuedAction);
+		queuedAction = null;
 	}
 
 	protected void walk(Direction dir) {
@@ -115,10 +149,9 @@ public class Game implements Runnable {
 			Actor actor = actors.get(cai);
 			actor.think();
 			if (actor.isPlayer) {
-				if (!Input.controlPressed()) {
+				if (!handleInput()) {
 					tickCounter = 0;
 				}
-				handleInput();
 			}
 			Action action = actor.getAction();
 			if (action == null) {
@@ -131,12 +164,13 @@ public class Game implements Runnable {
 					while (true) {
 						ActionResult result = action.perform(this);
 						lastTick = getTime();
-						if (result.alternative() == null)
-							break;
-						action = result.alternative();
 						if (!result.success()) {
 							return;
 						}
+						if (result.alternative() == null)
+							break;
+						action = result.alternative();
+
 					}
 					setOffsetToActor(actor);
 				} else {
@@ -159,7 +193,7 @@ public class Game implements Runnable {
 					deadList.add(a);
 			}
 			actors.removeAll(deadList);
-			for(Actor a: deadList) {
+			for (Actor a : deadList) {
 				area.addItem(a.getCorpse(itemPool), a.x(), a.y());
 			}
 			deadList.clear();
@@ -202,7 +236,7 @@ public class Game implements Runnable {
 	private final int slowToFastTickCount = 1;
 	private int tickCounter = 0;
 	private double lastTick = Game.getTime();
-	
+
 	public void start() {
 		running = true;
 		thread = new Thread(this);

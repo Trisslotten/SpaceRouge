@@ -38,4 +38,16 @@ public class Tile {
 		type = type2;
 	}
 
+	public void open(TileTypePool tilePool) {
+		TileType newType = tilePool.getType((type.opensTo));
+		if (newType != null)
+			setType(newType);
+	}
+
+	public void close(TileTypePool tilePool) {
+		TileType newType = tilePool.getType((type.closesTo));
+		if (newType != null)
+			setType(newType);
+	}
+
 }

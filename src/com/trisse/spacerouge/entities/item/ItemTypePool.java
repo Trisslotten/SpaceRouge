@@ -16,13 +16,6 @@ public class ItemTypePool {
 
 	public ItemTypePool(Sprites sprites) {
 		itemTypes = EntityParser.itemList(sprites);
-		ArrayList<ItemType> toRemove = new ArrayList<ItemType>();
-		for (ItemType e : itemTypes) {
-			if (e == null) {
-				toRemove.add(e);
-			}
-		}
-		itemTypes.removeAll(toRemove);
 	}
 
 	public ItemType get(int i) {
@@ -40,7 +33,6 @@ public class ItemTypePool {
 
 	public ItemType getType(int id) {
 		for (ItemType e : itemTypes) {
-			System.out.println(e == null);
 			if (e.getID() == id) {
 				return e;
 			}

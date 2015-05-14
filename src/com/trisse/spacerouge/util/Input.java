@@ -21,6 +21,7 @@ public class Input {
 			case Keyboard.KEY_RIGHT:
 			case Keyboard.KEY_LEFT:
 			case Keyboard.KEY_PERIOD:
+			case Keyboard.KEY_C:
 				return true;
 			}
 		}
