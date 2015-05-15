@@ -30,7 +30,7 @@ public class CloseDoorAction extends DirectedAction {
 		if (!actor.getType().canHandleDoors() || tile == null)
 			return ActionResult.FAILURE;
 
-		tile.close(game.tilePool);
+		tile.close(game);
 		return ActionResult.SUCCESS;
 	}
 

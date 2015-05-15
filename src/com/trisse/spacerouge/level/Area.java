@@ -1,13 +1,12 @@
 package com.trisse.spacerouge.level;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.entities.item.Item;
-import com.trisse.spacerouge.entities.item.ItemEntity;
-import com.trisse.spacerouge.entities.tile.Tile;
-import com.trisse.spacerouge.entities.tile.TileTypePool;
-import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.tile.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class Area {
 
@@ -59,6 +58,33 @@ public class Area {
 		for (Tile t : tiles) {
 			if (t.x() == x && t.y() == y) {
 				result.add(t);
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<Tile> getTilesNextTo(int x, int y) {
+		ArrayList<Tile> result = new ArrayList<Tile>();
+		for (Tile t : tiles) {
+			for (int i = -1; i <= 1; i += 2) {
+				if ((t.x() == x + i && t.y() == y) || (t.x() == x && t.y() == y + i)) {
+					result.add(t);
+				}
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<Tile> getTilesAround(int x, int y) {
+		ArrayList<Tile> result = new ArrayList<Tile>();
+		for (Tile t : tiles) {
+			for (int i = -1; i <= 1; i++) {
+				for (int j = -1; j <= 1; j++) {
+					if (t.x() == x + i && t.y() == y + j) {
+						result.add(t);
+					}
+				}
+
 			}
 		}
 		return result;

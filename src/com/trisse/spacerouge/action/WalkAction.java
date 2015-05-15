@@ -37,15 +37,17 @@ public class WalkAction extends Action {
 		}
 
 		// check if walking in to actor and choose to attack
+		// TODO let player choose who to attack
 		ArrayList<Actor> actors = area.getActorsOn(x, y);
-		if (!actors.isEmpty()) {
-			// TODO let player choose who to attack
+		if (!actors.isEmpty())
 			for (Actor a : actors)
 				if (!a.isSameTeam(actor))
 					return new ActionResult(new AttackAction(actor, area, actors.get(0)));
-		}
-		if (!success)
+				else if (actors.get(0) != actor)
+					success = false;
+		if (!success) {
 			return ActionResult.FAILURE;
+		}
 		actor.move(dir);
 		return ActionResult.SUCCESS;
 	}

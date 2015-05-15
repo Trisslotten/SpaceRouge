@@ -32,7 +32,7 @@ public class DoorClosedType extends TileType {
 
 	@Override
 	public int level() {
-		return Levels.WALL;
+		return Levels.CLOSED_DOOR;
 	}
 
 }

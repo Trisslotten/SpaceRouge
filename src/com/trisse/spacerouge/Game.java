@@ -52,8 +52,9 @@ public class Game implements Runnable {
 		Random rand = new Random();
 
 		actors.add(new Player(actorPool.getType("human"), -5, -5, area));
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		actors.add(new Player(actorPool.getType("largealien"), -3, -3, area));
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
 				ActorType type = null;
 				switch (rand.nextInt(2)) {
 				case 0:
@@ -63,7 +64,7 @@ public class Game implements Runnable {
 					type = actorPool.getType("smallalien");
 					break;
 				}
-				actors.add(new Actor(type, i * 1 + 1, j * 1 + 1, area));
+				actors.add(new Actor(type, i * 2 + 1, j * 2 + 1, area));
 
 			}
 		}
@@ -152,6 +153,7 @@ public class Game implements Runnable {
 				if (!handleInput()) {
 					tickCounter = 0;
 				}
+				setOffsetToActor(actor);
 			}
 			Action action = actor.getAction();
 			if (action == null) {

@@ -1,5 +1,9 @@
 package com.trisse.spacerouge.entities.tile;
 
+import java.util.*;
+
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.graphics.*;
 
 public class Tile {
@@ -44,10 +48,15 @@ public class Tile {
 			setType(newType);
 	}
 
-	public void close(TileTypePool tilePool) {
-		TileType newType = tilePool.getType((type.closesTo));
-		if (newType != null)
+	public void close(Game game) {
+		TileType newType = game.tilePool.getType((type.closesTo));
+		if (newType != null) {
 			setType(newType);
+			ArrayList<Actor> actors = game.area.getActorsOn(x, y);
+			for (Actor a : actors) {
+				a.doDamage(50);
+				// TODO move actor out of door
+			}
+		}
 	}
-
 }

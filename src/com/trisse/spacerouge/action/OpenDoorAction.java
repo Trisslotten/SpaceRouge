@@ -25,18 +25,15 @@ public class OpenDoorAction extends DirectedAction {
 			int x = actor.x() + dir.xspd();
 			int y = actor.y() + dir.yspd();
 			ArrayList<Tile> tiles = area.getTilesOn(x, y);
-			if (!tiles.isEmpty()) {
-				for (Tile t : tiles) {
+			if (!tiles.isEmpty())
+				for (Tile t : tiles)
 					if (t.getType().opensTo >= 1) {
 						tile = t;
 						break;
 					}
-				}
-			}
 		}
-		if (!actor.getType().canHandleDoors())
+		if (!actor.getType().canHandleDoors() || tile == null)
 			return ActionResult.FAILURE;
-
 		tile.open(game.tilePool);
 		return ActionResult.SUCCESS;
 	}

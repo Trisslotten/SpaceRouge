@@ -1,15 +1,13 @@
 package com.trisse.spacerouge.entities.actor;
 
-import java.util.Random;
+import java.util.*;
 
-import com.trisse.spacerouge.Direction;
-import com.trisse.spacerouge.action.Action;
-import com.trisse.spacerouge.action.WalkAction;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.item.Item;
-import com.trisse.spacerouge.entities.item.ItemTypePool;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.level.*;
 
 public class Actor {
 
@@ -57,6 +55,11 @@ public class Actor {
 		default:
 			walk(Direction.NONE);
 		}
+	}
+
+	public void move(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	public void walk(Direction dir) {
