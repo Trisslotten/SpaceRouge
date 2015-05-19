@@ -15,6 +15,7 @@ import com.trisse.spacerouge.action.Action;
 import com.trisse.spacerouge.action.ActionResult;
 import com.trisse.spacerouge.action.CloseDoorAction;
 import com.trisse.spacerouge.action.DirectedAction;
+import com.trisse.spacerouge.action.DropAction;
 import com.trisse.spacerouge.action.GrabAction;
 import com.trisse.spacerouge.action.OpenDoorAction;
 import com.trisse.spacerouge.entities.actor.Actor;
@@ -40,7 +41,7 @@ public class Game implements Runnable {
 	public ArrayList<Actor> actors;
 
 	ArrayList<Actor> deadList = new ArrayList<Actor>();
-	
+
 	Graphics graphics;
 
 	// current actor index
@@ -103,6 +104,9 @@ public class Game implements Runnable {
 					break;
 				case Keyboard.KEY_PERIOD:
 					walk(Direction.NONE);
+					break;
+				case Keyboard.KEY_D:
+					actors.get(cai).setNextAction(new DropAction(actors.get(cai), area));
 					break;
 				case Keyboard.KEY_C:
 					queuedAction = new CloseDoorAction(actors.get(cai), area);

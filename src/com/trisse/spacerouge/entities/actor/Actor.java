@@ -88,6 +88,10 @@ public class Actor extends Entity {
 			screen.draw(type.currentSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
 		}
 	}
+	
+	public boolean somethingInHands() {
+		return inHands != null;
+	}
 
 	public void doDamage(int damage) {
 		health -= damage;
@@ -136,8 +140,11 @@ public class Actor extends Entity {
 	}
 
 	public void grab(Direction dir) {
-		dropInHands();
-		inHands = area.grab(x + dir.xspd(), y + dir.yspd(), dir);
+		Item item = area.grab(x + dir.xspd(), y + dir.yspd(), dir);
+		if (item != null) {
+			dropInHands();
+			inHands = item;
+		}
 	}
 
 }
