@@ -1,20 +1,31 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import org.lwjgl.*;
-import org.lwjgl.input.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.item.*;
-import com.trisse.spacerouge.entities.tile.*;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.level.*;
-import com.trisse.spacerouge.util.*;
+import com.trisse.spacerouge.action.Action;
+import com.trisse.spacerouge.action.ActionResult;
+import com.trisse.spacerouge.action.CloseDoorAction;
+import com.trisse.spacerouge.action.DirectedAction;
+import com.trisse.spacerouge.action.GrabAction;
+import com.trisse.spacerouge.action.OpenDoorAction;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.actor.ActorTypePool;
+import com.trisse.spacerouge.entities.item.ItemTypePool;
+import com.trisse.spacerouge.entities.tile.TileTypePool;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.gui.Graphics;
+import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.util.Input;
 
 public class Game implements Runnable {
 
@@ -27,9 +38,10 @@ public class Game implements Runnable {
 
 	public Area area;
 	public ArrayList<Actor> actors;
-	public Items items = new Items();
 
 	ArrayList<Actor> deadList = new ArrayList<Actor>();
+	
+	Graphics graphics;
 
 	// current actor index
 	int cai = 0;
@@ -46,36 +58,11 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		area = new Area(tilePool);
+		area = new Area(this);
 
 		actors = area.actors;
-		Random rand = new Random();
 
-		actors.add(new Player(actorPool.getType("human"), -5, -5, area));
-		actors.add(new Player(actorPool.getType("largealien"), -3, -3, area));
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				ActorType type = null;
-				switch (rand.nextInt(2)) {
-				case 0:
-					type = actorPool.getType("largealien");
-					break;
-				case 1:
-					type = actorPool.getType("smallalien");
-					break;
-				}
-				actors.add(new Actor(type, i * 2 + 1, j * 2 + 1, area));
-
-			}
-		}
-		for (Actor a : actors) {
-			a.init();
-			if (a.isPlayer) {
-				setOffsetToActor(a);
-			}
-		}
-		// gameState = new MainMenuState(sprites, entityList);
-		// Keyboard.enableRepeatEvents(false);
+		graphics = new Graphics(this);
 	}
 
 	protected boolean handleInput() {
@@ -122,6 +109,9 @@ public class Game implements Runnable {
 					return false;
 				case Keyboard.KEY_O:
 					queuedAction = new OpenDoorAction(actors.get(cai), area);
+					return false;
+				case Keyboard.KEY_G:
+					queuedAction = new GrabAction(actors.get(cai), area);
 					return false;
 				}
 			}
@@ -204,16 +194,16 @@ public class Game implements Runnable {
 
 	}
 
-	private void setOffsetToActor(Actor actor) {
+	public void setOffsetToActor(Actor actor) {
 		xoffset = actor.x() - Screen.tileWidth / 2;
 		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 
 	protected void render() {
 		area.render(screen, xoffset, yoffset);
-		items.render(screen, xoffset, yoffset);
 		for (Actor actor : actors)
 			actor.render(screen, xoffset, yoffset);
+		graphics.render(screen);
 		screen.render();
 		screen.clear();
 	}
@@ -249,19 +239,6 @@ public class Game implements Runnable {
 		Game game = new Game();
 		game.start();
 		game.thread.join();
-	}
-
-	public static UnsupportedOperationException notImplemented() {
-
-		return new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public static void underConstruction(Object o) {
-		System.err.println("WARNING: Under construction -> " + o.getClass().getName() + "\n\n");
-	}
-
-	public static void notTested(Object o) {
-		System.err.println("WARNING: Not yet tested -> " + o.getClass().getName() + "\n\n");
 	}
 
 	@Override

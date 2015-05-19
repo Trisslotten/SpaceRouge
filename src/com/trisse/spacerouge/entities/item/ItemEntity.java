@@ -3,9 +3,7 @@ package com.trisse.spacerouge.entities.item;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class ItemEntity {
-
-	private int x, y;
+public class ItemEntity extends Entity {
 
 	private Item item;
 
@@ -18,6 +16,10 @@ public class ItemEntity {
 
 	public void render(Screen screen, int xoffset, int yoffset) {
 		screen.draw(item.getType().currentSprite(), x - xoffset, y - yoffset,Levels.ITEM);
+	}
+
+	public Item getItem() {
+		return item;
 	}
 
 }

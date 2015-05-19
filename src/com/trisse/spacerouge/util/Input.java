@@ -23,6 +23,7 @@ public class Input {
 			case Keyboard.KEY_PERIOD:
 			case Keyboard.KEY_C:
 			case Keyboard.KEY_O:
+			case Keyboard.KEY_G:
 				return true;
 			}
 		}

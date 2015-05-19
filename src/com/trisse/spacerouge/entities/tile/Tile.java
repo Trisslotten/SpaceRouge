@@ -1,14 +1,13 @@
 package com.trisse.spacerouge.entities.tile;
 
-import java.util.*;
+import java.util.ArrayList;
 
-import com.trisse.spacerouge.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.Game;
+import com.trisse.spacerouge.entities.Entity;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.graphics.Screen;
 
-public class Tile {
-
-	private int x, y;
+public class Tile extends Entity {
 
 	private TileType type;
 

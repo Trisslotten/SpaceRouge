@@ -4,7 +4,7 @@ import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.actor.Actor;
 import com.trisse.spacerouge.level.Area;
 
-public class AttackAction extends Action {
+public class AttackAction extends DirectedAction {
 
 	private Actor enemy;
 

@@ -13,6 +13,8 @@ largealien 0 8
 slime 1 8
 smallalien 2 8
 
+damaged 3 6
+
 humancorpse 0 6
 largealiencorpse 1 6
 smallaliencorpse 2 6

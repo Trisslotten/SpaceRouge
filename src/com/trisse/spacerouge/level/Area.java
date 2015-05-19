@@ -2,6 +2,8 @@ package com.trisse.spacerouge.level;
 
 import java.util.*;
 
+import com.trisse.spacerouge.Direction;
+import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
@@ -16,7 +18,27 @@ public class Area {
 
 	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
 
-	public Area(TileTypePool tilePool) {
+	public Area(Game game) {
+		ActorTypePool actorPool = game.actorPool;
+		TileTypePool tilePool = game.tilePool;
+
+		Random rand = new Random();
+		actors.add(new Player(actorPool.getType("human"), -5, -5, this));
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				ActorType type = null;
+				switch (rand.nextInt(2)) {
+				case 0:
+					type = actorPool.getType("largealien");
+					break;
+				case 1:
+					type = actorPool.getType("smallalien");
+					break;
+				}
+				actors.add(new Actor(type, i * 2 + 1, j * 2 + 1, this));
+
+			}
+		}
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				if (j == 3 && i == 0) {
@@ -29,6 +51,13 @@ public class Area {
 				}
 			}
 		}
+		for (Actor a : actors) {
+			a.init();
+			if (a.isPlayer) {
+				game.setOffsetToActor(a);
+			}
+		}
+
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
@@ -41,7 +70,8 @@ public class Area {
 	}
 
 	public void addItem(Item item, int x, int y) {
-		items.add(new ItemEntity(item, x, y));
+		if (item != null)
+			items.add(new ItemEntity(item, x, y));
 	}
 
 	public boolean isPassable(int x, int y) {
@@ -98,6 +128,31 @@ public class Area {
 			}
 		}
 		return result;
+	}
+
+	public Actor getPlayer() {
+		for (Actor a : actors) {
+			if (a.isPlayer) {
+				return a;
+			}
+		}
+		return null;
+	}
+
+	public Item grab(int x, int y, Direction dir) {
+		ArrayList<Item> result = new ArrayList<Item>();
+		ArrayList<ItemEntity> toRemove = new ArrayList<ItemEntity>();
+		for (ItemEntity i : items) {
+			if (i.x() == x && i.y() == y) {
+				result.add(i.getItem());
+				toRemove.add(i);
+			}
+		}
+		items.removeAll(toRemove);
+		if (!result.isEmpty())
+			return result.get(0);
+		else
+			return null;
 	}
 
 }

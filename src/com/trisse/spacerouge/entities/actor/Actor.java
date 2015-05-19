@@ -9,20 +9,22 @@ import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
 
-public class Actor {
+public class Actor extends Entity {
 
 	protected Action action;
 
 	protected ActorType type;
+
+	protected Item inHands;
 
 	public boolean isPlayer = false;
 
 	protected int health = 2;
 	protected int damage = 1;
 
-	protected int x, y;
-
 	private Area area;
+
+	protected int damagedCounter = 0;
 
 	static Random rand = new Random();
 
@@ -79,23 +81,21 @@ public class Actor {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
+		if (damagedCounter > 0) {
+			screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
+			damagedCounter--;
+		} else {
+			screen.draw(type.currentSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
+		}
 	}
 
 	public void doDamage(int damage) {
 		health -= damage;
+		damagedCounter = 5;
 	}
 
 	public int getHealth() {
 		return health;
-	}
-
-	public int x() {
-		return x;
-	}
-
-	public int y() {
-		return y;
 	}
 
 	public void move(Direction dir) {
@@ -123,6 +123,21 @@ public class Actor {
 
 	public Item getCorpse(ItemTypePool itemPool) {
 		return new Item(itemPool.getType(type.corpse));
+	}
+
+	public void addToHands(Item item) {
+		dropInHands();
+		inHands = item;
+	}
+
+	public void dropInHands() {
+		area.addItem(inHands, x, y);
+		inHands = null;
+	}
+
+	public void grab(Direction dir) {
+		dropInHands();
+		inHands = area.grab(x + dir.xspd(), y + dir.yspd(), dir);
 	}
 
 }
