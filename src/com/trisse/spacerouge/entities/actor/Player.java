@@ -11,7 +11,7 @@ public class Player extends Actor {
 	}
 
 	public void init() {
-		
+		isVisible = true;
 	}
 
 	public void think() {

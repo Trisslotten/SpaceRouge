@@ -12,6 +12,7 @@ public class ItemEntity extends Entity {
 		this.x = x;
 		this.y = y;
 		this.item = item;
+		isTransparent = true;
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {

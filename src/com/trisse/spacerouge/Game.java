@@ -1,32 +1,22 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.GL_VERSION;
-import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL11.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 
-import com.trisse.spacerouge.action.Action;
-import com.trisse.spacerouge.action.ActionResult;
-import com.trisse.spacerouge.action.CloseDoorAction;
-import com.trisse.spacerouge.action.DirectedAction;
-import com.trisse.spacerouge.action.DropAction;
-import com.trisse.spacerouge.action.GrabAction;
-import com.trisse.spacerouge.action.OpenDoorAction;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.entities.actor.ActorTypePool;
-import com.trisse.spacerouge.entities.item.ItemTypePool;
-import com.trisse.spacerouge.entities.tile.TileTypePool;
-import com.trisse.spacerouge.graphics.Screen;
-import com.trisse.spacerouge.graphics.Sprites;
-import com.trisse.spacerouge.gui.Graphics;
-import com.trisse.spacerouge.level.Area;
-import com.trisse.spacerouge.util.Input;
+import com.trisse.spacerouge.action.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.tile.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.gui.*;
+import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.util.*;
 
 public class Game implements Runnable {
 
@@ -46,6 +36,7 @@ public class Game implements Runnable {
 
 	// current actor index
 	int cai = 0;
+
 	private int xoffset;
 	private int yoffset;
 
@@ -125,6 +116,7 @@ public class Game implements Runnable {
 		}
 	}
 
+	// sets a new directed action and clears the old one
 	private void nextActionDirection(Direction dir) {
 		queuedAction.setDirection(dir);
 		actors.get(cai).setNextAction(queuedAction);
@@ -163,10 +155,10 @@ public class Game implements Runnable {
 						if (!result.success()) {
 							return;
 						}
+						// calcFov();
 						if (result.alternative() == null)
 							break;
 						action = result.alternative();
-
 					}
 					setOffsetToActor(actor);
 				} else {
@@ -197,6 +189,48 @@ public class Game implements Runnable {
 		}
 	}
 
+	// Calculates and sets what's visible to the player
+	private void calcFov() {
+		Actor actor = area.getPlayer();
+		int x = actor.x();
+		int y = actor.y();
+		ArrayList<Entity> entities = area.getEntities();
+		for (Entity e : entities) {
+			if (e.x() != x && e.y() != y) {
+				e.setVisible(false);
+				boolean asd = isVisible(x, y, e, entities);
+				e.setVisible(asd);
+				System.out.println(asd);
+			}
+		}
+	}
+
+	// return if the entity e is visible to the player
+	private boolean isVisible(int x, int y, Entity e, ArrayList<Entity> entities) {
+		double dx = (double) (e.x() - x);
+		double dy = (double) (e.y() - y);
+
+		double angle = Math.atan2(dy, dx);
+
+		double cx = e.x();
+		double cy = e.y();
+
+		// TODO test if works
+		// TODO fix inf-loop
+		while (((int) cx != x && (int) cy != y)) {
+			cx += Math.cos(angle);
+			cy += Math.sin(angle);
+			for (Entity entity : area.getEntitiesOn((int) cx, (int) cy)) {
+				screen.draw("missing", (int) cx - xoffset, (int) cy - yoffset);
+				if (!entity.isTransparent()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	// returns if there is no player
 	public boolean noPlayer() {
 		for (Actor a : actors) {
 			if (a.isPlayer)
@@ -210,6 +244,7 @@ public class Game implements Runnable {
 		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 
+	// draws the sprites that are in the screen instans and clears it
 	protected void render() {
 		area.render(screen, xoffset, yoffset);
 		for (Actor actor : actors)
@@ -226,6 +261,7 @@ public class Game implements Runnable {
 	private Screen screen;
 
 	private static int FPS = 60;
+	public static Random rand = new Random();
 
 	public int width = Screen.tileSize * Screen.tileWidth;
 	public int height = Screen.tileSize * Screen.tileHeight;
@@ -252,7 +288,7 @@ public class Game implements Runnable {
 		game.thread.join();
 	}
 
-	@Override
+	// Main game loop
 	public void run() {
 		glinit();
 		double timer = getTime();
@@ -282,6 +318,7 @@ public class Game implements Runnable {
 
 	}
 
+	// initializes OpenGL stuff
 	public void glinit() {
 		try {
 			DisplayMode displayMode = new DisplayMode(width, height);
@@ -323,13 +360,5 @@ public class Game implements Runnable {
 	public static double getTime() {
 		return ((double) System.nanoTime()) / 1000000000.0;
 	}
-
-	/**
-	 * Game idea:
-	 * 
-	 * Keywords: Space Spacestation Survival Rougelike
-	 * 
-	 * you are on an empty spacestation
-	 */
 
 }

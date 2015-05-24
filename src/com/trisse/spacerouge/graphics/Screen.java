@@ -38,14 +38,12 @@ public class Screen {
 
 	public void draw(String spriteName, int x, int y) {
 		Sprite sprite = null;
-
 		for (int i = 0; i < sprites.sprites.length; i++) {
 			if (spriteName.equals(sprites.sprites[i].getName())) {
 				sprite = sprites.sprites[i];
 				break;
 			}
 		}
-
 		draw(sprite, x, y);
 	}
 

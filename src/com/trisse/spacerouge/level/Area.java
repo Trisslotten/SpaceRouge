@@ -3,6 +3,7 @@ package com.trisse.spacerouge.level;
 import java.util.*;
 
 import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
@@ -10,22 +11,29 @@ import com.trisse.spacerouge.graphics.*;
 
 public class Area {
 
-	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
 
+	public ArrayList<Entity> getEntities() {
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+		entities.addAll(tiles);
+		entities.addAll(actors);
+		entities.addAll(items);
+		return entities;
+	}
+
 	public Area(Game game) {
 		ActorTypePool actorPool = game.actorPool;
 		TileTypePool tilePool = game.tilePool;
 
-		Random rand = new Random();
 		actors.add(new Player(actorPool.getType("human"), -5, -5, this));
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 				ActorType type = null;
-				switch (rand.nextInt(2)) {
+				switch (Game.rand.nextInt(2)) {
 				case 0:
 					type = actorPool.getType("largealien");
 					break;
@@ -113,6 +121,26 @@ public class Area {
 					}
 				}
 
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<Entity> getEntitiesOn(int x, int y) {
+		ArrayList<Entity> result = new ArrayList<Entity>();
+		for (Actor t : actors) {
+			if (t.x() == x && t.y() == y) {
+				result.add(t);
+			}
+		}
+		for (Tile t : tiles) {
+			if (t.x() == x && t.y() == y) {
+				result.add(t);
+			}
+		}
+		for (ItemEntity t : items) {
+			if (t.x() == x && t.y() == y) {
+				result.add(t);
 			}
 		}
 		return result;

@@ -1,7 +1,6 @@
 package com.trisse.spacerouge.entities.actor.types;
 
 import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.graphics.*;
 
 public class Human extends ActorType {
 
@@ -12,5 +11,10 @@ public class Human extends ActorType {
 	@Override
 	public boolean canHandleDoors() {
 		return true;
+	}
+
+	@Override
+	public void think(Actor actor) {
+		
 	}
 }

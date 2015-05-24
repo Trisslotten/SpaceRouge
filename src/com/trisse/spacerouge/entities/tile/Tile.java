@@ -15,10 +15,12 @@ public class Tile extends Entity {
 		this.type = type;
 		this.x = x;
 		this.y = y;
+		isTransparent = type.isFloorLevel();
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.getSprite(), x - xoffset, y - yoffset, type.level());
+		if (isVisible)
+			screen.draw(type.getSprite(), x - xoffset, y - yoffset, type.level());
 	}
 
 	public int x() {

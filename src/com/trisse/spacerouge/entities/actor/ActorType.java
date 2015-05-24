@@ -29,6 +29,8 @@ public abstract class ActorType extends EntityType {
 
 	public abstract boolean canHandleDoors();
 
+	public abstract void think(Actor actor);
+
 	public int team() {
 		return team;
 	}

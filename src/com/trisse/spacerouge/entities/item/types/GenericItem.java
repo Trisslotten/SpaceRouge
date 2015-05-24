@@ -1,5 +1,6 @@
 package com.trisse.spacerouge.entities.item.types;
 
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.ItemType;
 import com.trisse.spacerouge.graphics.Sprite;
 
@@ -9,6 +10,11 @@ public class GenericItem extends ItemType {
 
 	public GenericItem(String name, int id, Sprite sprite, int damage) {
 		super(name, id, sprite, damage);
+	}
+
+	@Override
+	public String use(Actor actor) {
+		return null;
 	}
 
 }

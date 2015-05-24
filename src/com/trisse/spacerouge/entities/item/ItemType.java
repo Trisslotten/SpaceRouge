@@ -1,10 +1,13 @@
 package com.trisse.spacerouge.entities.item;
 
 import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.types.*;
 import com.trisse.spacerouge.graphics.*;
 
 public abstract class ItemType extends EntityType {
+
+	protected static String CANT_USE = "You cant use this item";
 
 	private int damage;
 
@@ -21,5 +24,7 @@ public abstract class ItemType extends EntityType {
 	public int getDamage() {
 		return damage;
 	}
+
+	public abstract String use(Actor actor);
 
 }

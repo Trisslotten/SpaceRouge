@@ -33,4 +33,10 @@ public class GenericActor extends ActorType {
 		return sprite;
 	}
 
+	@Override
+	public void think(Actor actor) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

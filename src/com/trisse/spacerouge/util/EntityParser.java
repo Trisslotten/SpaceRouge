@@ -32,6 +32,8 @@ public class EntityParser {
 		switch (loadedEntity.getType()) {
 		case "corpse":
 			return corpse(loadedEntity, sprites);
+		case "weapon":
+			return weapon(loadedEntity, sprites);
 		default:
 			System.err.println("Could not parse item with type: " + loadedEntity.getType());
 			return null;
@@ -49,23 +51,24 @@ public class EntityParser {
 		}
 	}
 
+	private static Weapon weapon(LoadedEntity loadedEntity, Sprites sprites) {
+		// parse other stuff here if needed
+		return new Weapon(genericItem(loadedEntity, sprites));
+	}
+
 	private static Corpse corpse(LoadedEntity loadedEntity, Sprites sprites) {
-		String[] variables = loadedEntity.variables();
-		String[] values = loadedEntity.values();
-		for (int i = 0; i < variables.length; i++) {
-			switch (variables[i].toLowerCase()) {
-			
-			}
-		}
+		// parse other stuff here if needed
 		return new Corpse(genericItem(loadedEntity, sprites));
 	}
 
 	private static Alien alien(LoadedEntity loadedEntity, Sprites sprites) {
+		// parse other stuff here if needed
 		GenericActor generic = genericActor(loadedEntity, sprites);
 		return new Alien(generic);
 	}
 
 	private static Human human(LoadedEntity loadedEntity, Sprites sprites) {
+		// parse other stuff here if needed
 		GenericActor generic = genericActor(loadedEntity, sprites);
 		return new Human(generic);
 	}

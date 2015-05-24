@@ -1,7 +1,5 @@
 package com.trisse.spacerouge.entities.actor;
 
-import java.util.*;
-
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.*;
@@ -25,8 +23,6 @@ public class Actor extends Entity {
 
 	protected int damagedCounter = 0;
 
-	static Random rand = new Random();
-
 	public Actor(ActorType type, int x, int y, Area area) {
 		this.type = type;
 		this.x = x;
@@ -35,27 +31,11 @@ public class Actor extends Entity {
 	}
 
 	public void init() {
-
+		setTransparent(true);
 	}
 
 	public void think() {
-
-		switch (rand.nextInt(4)) {
-		case 0:
-			walk(Direction.UP);
-			break;
-		case 1:
-			walk(Direction.DOWN);
-			break;
-		case 2:
-			walk(Direction.LEFT);
-			break;
-		case 3:
-			walk(Direction.RIGHT);
-			break;
-		default:
-			walk(Direction.NONE);
-		}
+		type.think(this);
 	}
 
 	public void move(int x, int y) {
@@ -85,12 +65,13 @@ public class Actor extends Entity {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		if (damagedCounter > 0) {
-			screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
-			damagedCounter--;
-		} else {
-			screen.draw(type.getSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
-		}
+		if (isVisible)
+			if (damagedCounter > 0) {
+				screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
+				damagedCounter--;
+			} else {
+				screen.draw(type.getSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
+			}
 	}
 
 	public boolean somethingInHands() {
