@@ -6,23 +6,9 @@ import com.trisse.spacerouge.graphics.*;
 
 public class FloorType extends TileType {
 
-	private Sprite sprite;
-
 	public FloorType(String name, Sprite sprite, int id) {
-		super(name, id);
+		super(name, id, sprite);
 		this.sprite = sprite;
-	}
-
-	@Override
-	public Sprite defaultSprite() {
-		// TODO Auto-generated method stub
-		return sprite;
-	}
-
-	@Override
-	public Sprite currentSprite() {
-		// TODO Auto-generated method stub
-		return sprite;
 	}
 
 	@Override

@@ -4,17 +4,8 @@ import com.trisse.spacerouge.entities.item.ItemType;
 import com.trisse.spacerouge.graphics.Sprite;
 
 public class Corpse extends ItemType {
-	
-	protected Sprite sprite;
 
-	public Corpse(String name, int id, Sprite sprite) {
-		super(name, id);
-		this.sprite = sprite;
+	public Corpse(GenericItem generic) {
+		super(generic);
 	}
-
-	@Override
-	public Sprite currentSprite() {
-		return sprite;
-	}
-
 }

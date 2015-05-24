@@ -2,13 +2,11 @@ package com.trisse.spacerouge.level;
 
 import java.util.*;
 
-import com.trisse.spacerouge.Direction;
-import com.trisse.spacerouge.Game;
+import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.util.*;
 
 public class Area {
 

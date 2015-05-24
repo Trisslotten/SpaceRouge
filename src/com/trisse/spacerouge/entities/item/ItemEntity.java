@@ -15,7 +15,7 @@ public class ItemEntity extends Entity {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(item.getType().currentSprite(), x - xoffset, y - yoffset,Levels.ITEM);
+		screen.draw(item.getType().getSprite(), x - xoffset, y - yoffset, Levels.ITEM);
 	}
 
 	public Item getItem() {

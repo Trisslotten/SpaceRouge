@@ -20,7 +20,6 @@ public class Actor extends Entity {
 	public boolean isPlayer = false;
 
 	protected int health = 2;
-	protected int damage = 1;
 
 	private Area area;
 
@@ -73,7 +72,12 @@ public class Actor extends Entity {
 	}
 
 	public void attack(Actor enemy) {
-		enemy.doDamage(damage);
+		if (inHands != null) {
+			enemy.getDamaged(inHands.getType().getDamage());
+		} else {
+			enemy.getDamaged(type.getDamage());
+		}
+
 	}
 
 	public void setNextAction(Action action) {
@@ -85,15 +89,15 @@ public class Actor extends Entity {
 			screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
 			damagedCounter--;
 		} else {
-			screen.draw(type.currentSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
+			screen.draw(type.getSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
 		}
 	}
-	
+
 	public boolean somethingInHands() {
 		return inHands != null;
 	}
 
-	public void doDamage(int damage) {
+	public void getDamaged(int damage) {
 		health -= damage;
 		damagedCounter = 5;
 	}

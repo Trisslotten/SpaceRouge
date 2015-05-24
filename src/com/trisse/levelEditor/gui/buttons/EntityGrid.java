@@ -4,7 +4,6 @@ import org.lwjgl.input.*;
 
 import com.trisse.levelEditor.*;
 import com.trisse.levelEditor.gui.*;
-import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
@@ -31,7 +30,7 @@ public class EntityGrid extends Button {
 		int y = 0;
 		int x = 1;
 		for (int i = 0; i < entityTypes.length; i++, x++) {
-			screen.draw(entityTypes[i].currentSprite(), x0 + x - 1, y0 + y);
+			screen.draw(entityTypes[i].getSprite(), x0 + x - 1, y0 + y);
 			if (x % width == 0) {
 				x = 0;
 				y++;

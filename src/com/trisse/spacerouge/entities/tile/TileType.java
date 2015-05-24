@@ -7,15 +7,13 @@ public abstract class TileType extends EntityType {
 
 	public int opensTo, closesTo;
 
-	public TileType(String name, int id) {
-		super(name, id);
+	public TileType(String name, int id, Sprite sprite) {
+		super(name, id, sprite);
 		floorLevel = true;
 	}
 
 	public abstract int level();
-	
-	public abstract Sprite defaultSprite();
-	
+
 	public abstract boolean isPassable();
 
 }

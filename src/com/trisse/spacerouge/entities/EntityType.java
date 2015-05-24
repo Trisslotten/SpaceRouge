@@ -9,9 +9,12 @@ public abstract class EntityType {
 
 	protected boolean floorLevel;
 
-	public EntityType(String name, int id) {
+	protected Sprite sprite;
+
+	public EntityType(String name, int id, Sprite sprite) {
 		this.name = name;
 		this.id = id;
+		this.sprite = sprite;
 	}
 
 	public boolean isType(String str) {
@@ -30,6 +33,8 @@ public abstract class EntityType {
 		return name;
 	}
 
-	public abstract Sprite currentSprite();
+	public Sprite getSprite() {
+		return sprite;
+	}
 
 }

@@ -18,7 +18,7 @@ public class Tile extends Entity {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(type.currentSprite(), x - xoffset, y - yoffset, type.level());
+		screen.draw(type.getSprite(), x - xoffset, y - yoffset, type.level());
 	}
 
 	public int x() {
@@ -53,7 +53,7 @@ public class Tile extends Entity {
 			setType(newType);
 			ArrayList<Actor> actors = game.area.getActorsOn(x, y);
 			for (Actor a : actors) {
-				a.doDamage(50);
+				a.getDamaged(50);
 				// TODO move actor out of door
 			}
 		}

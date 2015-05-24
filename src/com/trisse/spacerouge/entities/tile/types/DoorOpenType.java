@@ -6,23 +6,11 @@ import com.trisse.spacerouge.graphics.*;
 
 public class DoorOpenType extends TileType {
 
-	private Sprite sprite;
-
 	public DoorOpenType(String name, Sprite sprite, int id, int closesTo) {
-		super(name, id);
+		super(name, id, sprite);
 		this.sprite = sprite;
 		floorLevel = false;
 		this.closesTo = closesTo;
-	}
-
-	@Override
-	public Sprite defaultSprite() {
-		return sprite;
-	}
-
-	@Override
-	public Sprite currentSprite() {
-		return sprite;
 	}
 
 	@Override

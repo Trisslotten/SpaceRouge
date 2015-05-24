@@ -195,7 +195,14 @@ public class Game implements Runnable {
 			deadList.clear();
 			cai = (cai + 1) % actors.size();
 		}
+	}
 
+	public boolean noPlayer() {
+		for (Actor a : actors) {
+			if (a.isPlayer)
+				return false;
+		}
+		return true;
 	}
 
 	public void setOffsetToActor(Actor actor) {

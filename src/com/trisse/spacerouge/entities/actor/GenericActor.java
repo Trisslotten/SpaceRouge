@@ -4,18 +4,13 @@ import com.trisse.spacerouge.graphics.*;
 
 public class GenericActor extends ActorType {
 
-	public GenericActor(String name, int id, int team, int corpse, Sprite sprite) {
-		super(name, id, team, corpse, sprite);
+	public GenericActor(String name, int id, int team, int corpse, Sprite sprite, int damage) {
+		super(name, id, team, corpse, sprite, damage);
 	}
 
 	@Override
 	public boolean canHandleDoors() {
 		return false;
-	}
-
-	@Override
-	public Sprite currentSprite() {
-		return null;
 	}
 
 	public int getHealth() {

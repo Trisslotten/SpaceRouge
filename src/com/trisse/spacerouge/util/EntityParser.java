@@ -52,24 +52,12 @@ public class EntityParser {
 	private static Corpse corpse(LoadedEntity loadedEntity, Sprites sprites) {
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
-		int id = -1;
-		Sprite sprite = sprites.getSprite("missing");
-		String name = null;
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i].toLowerCase()) {
-			case "id":
-				id = Integer.parseInt(values[i]);
-				break;
-			case "sprite":
-				sprite = sprites.getSprite(values[i]);
-				break;
-			case "name":
-				name = values[i];
-				break;
+			
 			}
 		}
-		Corpse asd = new Corpse(name, id, sprite);
-		return asd;
+		return new Corpse(genericItem(loadedEntity, sprites));
 	}
 
 	private static Alien alien(LoadedEntity loadedEntity, Sprites sprites) {
@@ -82,8 +70,35 @@ public class EntityParser {
 		return new Human(generic);
 	}
 
+	private static GenericItem genericItem(LoadedEntity loadedEntity, Sprites sprites) {
+		int id = -1;
+		int damage = 0;
+		Sprite sprite = null;
+		String name = null;
+		String[] variables = loadedEntity.variables();
+		String[] values = loadedEntity.values();
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				id = Integer.parseInt(values[i]);
+				break;
+			case "sprite":
+				sprite = sprites.getSprite(values[i]);
+				break;
+			case "name":
+				name = values[i];
+				break;
+			case "damage":
+				damage = Integer.parseInt(values[i]);
+				break;
+			}
+		}
+		return new GenericItem(name, id, sprite, damage);
+	}
+
 	private static GenericActor genericActor(LoadedEntity loadedEntity, Sprites sprites) {
 		int id = -1;
+		int damage = 0;
 		int team = -1;
 		int corpse = -1;
 		Sprite sprite = null;
@@ -107,9 +122,12 @@ public class EntityParser {
 			case "corpse":
 				corpse = Integer.parseInt(values[i]);
 				break;
+			case "damage":
+				damage = Integer.parseInt(values[i]);
+				break;
 			}
 		}
-		return new GenericActor(name, id, team, corpse, sprite);
+		return new GenericActor(name, id, team, corpse, sprite, damage);
 	}
 
 	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
