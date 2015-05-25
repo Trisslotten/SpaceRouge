@@ -13,11 +13,12 @@ public abstract class ActorType extends EntityType {
 
 	protected int corpse;
 
-	public ActorType(String name, int id, int team, int corpse, Sprite sprite, int damage) {
+	public ActorType(String name, int id, int team, int corpse, Sprite sprite, int damage, int health) {
 		super(name, id, sprite);
 		this.team = team;
 		this.corpse = corpse;
 		this.damage = damage;
+		this.health = health;
 	}
 
 	public ActorType(GenericActor generic) {
@@ -25,6 +26,7 @@ public abstract class ActorType extends EntityType {
 		this.team = generic.getTeam();
 		this.corpse = generic.getCorpse();
 		this.damage = generic.getDamage();
+		this.health = generic.getHealth();
 	}
 
 	public abstract boolean canHandleDoors();
@@ -37,6 +39,10 @@ public abstract class ActorType extends EntityType {
 
 	public int getDamage() {
 		return damage;
+	}
+
+	public int getHealth() {
+		return health;
 	}
 
 }

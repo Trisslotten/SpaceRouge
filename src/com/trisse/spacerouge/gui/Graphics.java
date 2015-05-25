@@ -11,6 +11,8 @@ public class Graphics {
 
 	public Graphics(Game game) {
 		elements.add(new HealthMeter(game.area.getPlayer()));
+		elements.add(new ItemViewer(game.area.getPlayer()));
+		
 	}
 	
 	

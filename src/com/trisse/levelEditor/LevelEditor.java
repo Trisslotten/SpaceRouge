@@ -13,6 +13,7 @@ import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.*;
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.item.ItemEntity;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
 import com.trisse.spacerouge.util.*;
@@ -25,18 +26,20 @@ public class LevelEditor implements Runnable {
 
 	public Sprites sprites;
 
-	//public EntityTypePool entityTypePool;
+	// public EntityTypePool entityTypePool;
 
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
-	//public ArrayList<Entity> entities = new ArrayList<Entity>();
+	public ArrayList<Entity> entities() {
+		return null;
+	}
+
+	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
 
 	public EntityType selectedEntityType;
 
 	public int level = 0;
-
-	public LevelEditorMap map = new LevelEditorMap();
 
 	public boolean squareTool = false;
 
@@ -58,9 +61,9 @@ public class LevelEditor implements Runnable {
 
 		screen = new Screen(sprites);
 
-		//entityTypePool = new EntityTypePool(sprites);
+		// entityTypePool = new EntityTypePool(sprites);
 
-		//buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new EntityGrid(entityTypePool), new ExportButton(), new LoadButton(), new ExitButton());
+		buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new ExportButton(), new LoadButton(), new ExitButton());
 
 		elements.add(new Grid(sprites));
 
@@ -68,93 +71,66 @@ public class LevelEditor implements Runnable {
 
 	private void removeWithSquare() {
 
-		ArrayList<Entity> toRemove = new ArrayList<Entity>();
-		for (int i = startY; i <= squareY; i++) {
-			for (int j = startX; j <= squareX; j++) {
-				int xpos = j - xoffset();
-				int ypos = i - yoffset();
-				for (Entity e : entities) {
-					/*
-					 * if (e.xpos() == xpos && e.ypos() == ypos &&
-					 * e.type.getHeightLevel() == level) { toRemove.add(e); }
-					 */
-				}
-			}
-		}
-		for (Entity e : toRemove) {
-			entities.remove(e);
-		}
+		/*
+		 * ArrayList<Entity> toRemove = new ArrayList<Entity>(); for (int i =
+		 * startY; i <= squareY; i++) { for (int j = startX; j <= squareX; j++)
+		 * { int xpos = j - xoffset(); int ypos = i - yoffset(); for (Entity e :
+		 * entities) {
+		 * 
+		 * if (e.xpos() == xpos && e.ypos() == ypos && e.type.getHeightLevel()
+		 * == level) { toRemove.add(e); }
+		 * 
+		 * } } } for (Entity e : toRemove) { entities.remove(e); }
+		 */
 	}
 
 	private void addWithSquare() {
-		ArrayList<Entity> toAdd = new ArrayList<Entity>();
-		for (int i = startY; i <= squareY; i++) {
-			for (int j = startX; j <= squareX; j++) {
-				int xpos = j - xoffset();
-				int ypos = i - yoffset();
-				boolean canAdd = true;
-				for (Entity e : entities) {
-					/*
-					 * if (e.xpos() == xpos && e.ypos() == ypos &&
-					 * e.type.getHeightLevel() ==
-					 * selectedEntityType.getHeightLevel()) { canAdd = false; }
-					 */
-				}
-				if (canAdd) {
-					// toAdd.add(new Entity(selectedEntityType, xpos - i, ypos -
-					// j));
-				}
-			}
-		}
-		entities.addAll(toAdd);
+
+		/*
+		 * ArrayList<Entity> toAdd = new ArrayList<Entity>(); for (int i =
+		 * startY; i <= squareY; i++) { for (int j = startX; j <= squareX; j++)
+		 * { int xpos = j - xoffset(); int ypos = i - yoffset(); boolean canAdd
+		 * = true; for (Entity e : entities) { /* if (e.xpos() == xpos &&
+		 * e.ypos() == ypos && e.type.getHeightLevel() ==
+		 * selectedEntityType.getHeightLevel()) { canAdd = false; }
+		 * 
+		 * } if (canAdd) { // toAdd.add(new Entity(selectedEntityType, xpos - i,
+		 * ypos - // j)); } } } entities.addAll(toAdd);
+		 */
 	}
 
 	private void addWithBrush() {
-		int xpos = input.xt() - xoffset();
-		int ypos = input.yt() - yoffset();
-		int hb = brushSize() / 2;
-		ArrayList<Entity> toAdd = new ArrayList<Entity>();
-		for (int i = -hb; i <= hb; i++) {
-			for (int j = -hb; j <= hb; j++) {
-				double distance = Math.sqrt(i * i + j * j);
-				if (distance <= hb) {
-					boolean canAdd = true;
-					/*
-					 * for (Entity e : entities) { if (e.xpos() == xpos - i &&
-					 * e.ypos() == ypos - j && e.type.getHeightLevel() ==
-					 * selectedEntityType.getHeightLevel()) { canAdd = false; }
-					 * } if (canAdd) { toAdd.add(new Entity(selectedEntityType,
-					 * xpos - i, ypos - j)); }
-					 */
-				}
-			}
-		}
-		entities.addAll(toAdd);
+
+		/*
+		 * int xpos = input.xt() - xoffset(); int ypos = input.yt() - yoffset();
+		 * int hb = brushSize() / 2; ArrayList<Entity> toAdd = new
+		 * ArrayList<Entity>(); for (int i = -hb; i <= hb; i++) { for (int j =
+		 * -hb; j <= hb; j++) { double distance = Math.sqrt(i * i + j * j); if
+		 * (distance <= hb) { boolean canAdd = true; /* for (Entity e :
+		 * entities) { if (e.xpos() == xpos - i && e.ypos() == ypos - j &&
+		 * e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
+		 * canAdd = false; } } if (canAdd) { toAdd.add(new
+		 * Entity(selectedEntityType, xpos - i, ypos - j)); }
+		 * 
+		 * } } } entities.addAll(toAdd);
+		 */
 	}
 
 	private void removeWithBrush() {
-		ArrayList<Entity> toRemove = new ArrayList<Entity>();
-		int xpos = input.xt() - xoffset();
-		int ypos = input.yt() - yoffset();
-		int hb = brushSize() / 2;
-		for (int i = -hb; i <= hb; i++) {
-			for (int j = -hb; j <= hb; j++) {
-				double distance = Math.sqrt(i * i + j * j);
-				if (distance <= hb) {
-					for (Entity e : entities) {
-						/*
-						 * if (e.xpos() == xpos - i && e.ypos() == ypos - j &&
-						 * e.type.getHeightLevel() == level) { toRemove.add(e);
-						 * }
-						 */
-					}
-				}
 
-			}
-		}
-		for (Entity e : toRemove) {
-			entities.remove(e);
-		}
+		/*
+		 * ArrayList<Entity> toRemove = new ArrayList<Entity>(); int xpos =
+		 * input.xt() - xoffset(); int ypos = input.yt() - yoffset(); int hb =
+		 * brushSize() / 2; for (int i = -hb; i <= hb; i++) { for (int j = -hb;
+		 * j <= hb; j++) { double distance = Math.sqrt(i * i + j * j); if
+		 * (distance <= hb) { for (Entity e : entities) { /* if (e.xpos() ==
+		 * xpos - i && e.ypos() == ypos - j && e.type.getHeightLevel() == level)
+		 * { toRemove.add(e); }
+		 * 
+		 * } }
+		 * 
+		 * } } for (Entity e : toRemove) { entities.remove(e); }
+		 */
 	}
 
 	private int xoffset() {
@@ -213,24 +189,6 @@ public class LevelEditor implements Runnable {
 	}
 
 	private void render() {
-		if (selectedEntityType == null) {
-			screen.drawString("Erase " + level, editorWidth + 1, 1);
-		} else {
-			screen.drawString(selectedEntityType.getName() + selectedEntityType.getHeightLevel(), editorWidth, 1);
-		}
-
-		for (Entity e : entities) {
-			if (e.x() + xoffset() < editorWidth) {
-				if (viewLevel < 0) {
-					e.render(screen, -xoffset(), -yoffset());
-				} else {
-					if (viewLevel == e.type.getHeightLevel()) {
-						e.render(screen, -xoffset(), -yoffset());
-					}
-				}
-			}
-		}
-
 		for (Button b : buttons)
 			b.render(screen);
 		for (Element e : elements)
@@ -264,15 +222,15 @@ public class LevelEditor implements Runnable {
 	}
 
 	public void export() {
-		map.export(entityTypePool);
+
 	}
 
 	public void save() {
-		map.save(entities);
+
 	}
 
 	public void load() {
-		map.load();
+
 	}
 
 	private Screen screen;
@@ -330,7 +288,6 @@ public class LevelEditor implements Runnable {
 			 * e.printStackTrace(); } }
 			 */
 			if (getTime() > timer + 1) {
-				Display.setTitle("Entities: " + entities.size() + " FPS: " + frames);
 				timer += 1;
 				frames = 0;
 			}

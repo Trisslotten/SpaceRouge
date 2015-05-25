@@ -4,8 +4,8 @@ import com.trisse.spacerouge.graphics.*;
 
 public class GenericActor extends ActorType {
 
-	public GenericActor(String name, int id, int team, int corpse, Sprite sprite, int damage) {
-		super(name, id, team, corpse, sprite, damage);
+	public GenericActor(String name, int id, int team, int corpse, Sprite sprite, int damage, int health) {
+		super(name, id, team, corpse, sprite, damage, health);
 	}
 
 	@Override

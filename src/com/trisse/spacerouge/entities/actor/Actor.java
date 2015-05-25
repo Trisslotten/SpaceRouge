@@ -17,7 +17,7 @@ public class Actor extends Entity {
 
 	public boolean isPlayer = false;
 
-	protected int health = 2;
+	protected int health;
 
 	private Area area;
 
@@ -28,6 +28,8 @@ public class Actor extends Entity {
 		this.x = x;
 		this.y = y;
 		this.area = area;
+		
+		health = type.getHealth();
 	}
 
 	public void init() {
@@ -130,6 +132,10 @@ public class Actor extends Entity {
 			dropInHands();
 			inHands = item;
 		}
+	}
+
+	public Item getItem() {
+		return inHands;
 	}
 
 }

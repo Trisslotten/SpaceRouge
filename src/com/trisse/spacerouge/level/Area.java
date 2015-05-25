@@ -29,6 +29,8 @@ public class Area {
 		ActorTypePool actorPool = game.actorPool;
 		TileTypePool tilePool = game.tilePool;
 
+		items.add(new ItemEntity(new Item(game.itemPool.getType(5)), -3, -3));
+		
 		actors.add(new Player(actorPool.getType("human"), -5, -5, this));
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {

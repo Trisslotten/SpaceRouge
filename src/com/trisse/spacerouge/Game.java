@@ -57,6 +57,7 @@ public class Game implements Runnable {
 		graphics = new Graphics(this);
 	}
 
+	// injects the input into the player
 	protected boolean handleInput() {
 		Keyboard.next();
 		int key = Keyboard.getEventKey();
@@ -123,6 +124,7 @@ public class Game implements Runnable {
 		queuedAction = null;
 	}
 
+	// sets a walk-action to the current actor
 	protected void walk(Direction dir) {
 		actors.get(cai).walk(dir);
 	}
@@ -195,17 +197,41 @@ public class Game implements Runnable {
 		int x = actor.x();
 		int y = actor.y();
 		ArrayList<Entity> entities = area.getEntities();
+		double rays = 200;
+		double angle = 0;
+		double incr = 2 * Math.PI / rays;
+
 		for (Entity e : entities) {
-			if (e.x() != x && e.y() != y) {
-				e.setVisible(false);
-				boolean asd = isVisible(x, y, e, entities);
-				e.setVisible(asd);
-				System.out.println(asd);
-			}
+			e.setVisible(false);
 		}
+
+		for (double i = 0; i < rays; i++) {
+			double cx = x;
+			double cy = y;
+			for (int j = 0; j < 20; j++) {
+				cx += Math.cos(angle);
+				cy += Math.sin(angle);
+
+				boolean allIsTransparant = true;
+				for (Entity e : area.getEntitiesOn((int) cx, (int) cy)) {
+					if (cx == x && cy == y)
+						continue;
+
+					e.setVisible(true);
+					if (!e.isTransparent())
+						allIsTransparant = false;
+				}
+				if (!allIsTransparant)
+					break;
+			}
+
+			angle = i * incr;
+		}
+
 	}
 
 	// return if the entity e is visible to the player
+	// DOES NOT WORK!!!
 	private boolean isVisible(int x, int y, Entity e, ArrayList<Entity> entities) {
 		double dx = (double) (e.x() - x);
 		double dy = (double) (e.y() - y);

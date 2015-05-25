@@ -104,6 +104,7 @@ public class EntityParser {
 		int damage = 0;
 		int team = -1;
 		int corpse = -1;
+		int health = 0;
 		Sprite sprite = null;
 		String name = null;
 		String[] variables = loadedEntity.variables();
@@ -128,9 +129,11 @@ public class EntityParser {
 			case "damage":
 				damage = Integer.parseInt(values[i]);
 				break;
+			case "health":
+				health = Integer.parseInt(values[i]);
 			}
 		}
-		return new GenericActor(name, id, team, corpse, sprite, damage);
+		return new GenericActor(name, id, team, corpse, sprite, damage, health);
 	}
 
 	private static DoorClosedType doorClosed(LoadedEntity loadedEntity, Sprites sprites) {
