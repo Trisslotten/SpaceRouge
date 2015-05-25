@@ -4,15 +4,21 @@ import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.util.*;
 
-public class Corpse extends ItemType {
+public class HealthPotion extends ItemType {
 
-	public Corpse(GenericItem generic) {
+	private int healing;
+
+	public HealthPotion(GenericItem generic, int healing) {
 		super(generic);
+		this.healing = healing;
+		removeOnUse = true;
 	}
 
 	@Override
 	public boolean use(Actor actor, StringContainer message) {
-		message.setString(CANT_USE);
-		return false;
+		actor.heal(healing);
+		message.setString("You were healed " + healing + "hp");
+		return true;
 	}
+
 }

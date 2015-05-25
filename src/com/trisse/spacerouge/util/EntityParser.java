@@ -34,6 +34,8 @@ public class EntityParser {
 			return corpse(loadedEntity, sprites);
 		case "weapon":
 			return weapon(loadedEntity, sprites);
+		case "healthpotion":
+			return healthPotion(loadedEntity, sprites);
 		default:
 			System.err.println("Could not parse item with type: " + loadedEntity.getType());
 			return null;
@@ -49,6 +51,20 @@ public class EntityParser {
 		default:
 			return null;
 		}
+	}
+
+	private static HealthPotion healthPotion(LoadedEntity loadedEntity, Sprites sprites) {
+		String[] values = loadedEntity.values();
+		String[] variables = loadedEntity.variables();
+		int healing = 0;
+		for (int i = 0; i < variables.length; i++) {
+			switch (variables[i].toLowerCase()) {
+			case "id":
+				healing = Integer.parseInt(values[i]);
+				break;
+			}
+		}
+		return new HealthPotion(genericItem(loadedEntity, sprites), healing);
 	}
 
 	private static Weapon weapon(LoadedEntity loadedEntity, Sprites sprites) {

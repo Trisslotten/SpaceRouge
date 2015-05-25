@@ -25,6 +25,7 @@ public class Input {
 			case Keyboard.KEY_O:
 			case Keyboard.KEY_G:
 			case Keyboard.KEY_D:
+			case Keyboard.KEY_U:
 				return true;
 			}
 		}

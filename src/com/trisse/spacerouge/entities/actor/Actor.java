@@ -6,6 +6,7 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.util.*;
 
 public class Actor extends Entity {
 
@@ -28,7 +29,7 @@ public class Actor extends Entity {
 		this.x = x;
 		this.y = y;
 		this.area = area;
-		
+
 		health = type.getHealth();
 	}
 
@@ -136,6 +137,27 @@ public class Actor extends Entity {
 
 	public Item getItem() {
 		return inHands;
+	}
+
+	public void heal(int healing) {
+		health += healing;
+		if (health > type.getHealth()) {
+			health = type.getHealth();
+		}
+	}
+
+	public boolean useItem(StringContainer message) {
+		if (inHands != null) {
+			if (!inHands.getType().use(this, message)) {
+				return false;
+			}
+			if (inHands.getsUsed()) {
+				inHands = null;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

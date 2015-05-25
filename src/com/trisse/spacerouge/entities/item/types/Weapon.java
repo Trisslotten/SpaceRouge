@@ -3,6 +3,7 @@ package com.trisse.spacerouge.entities.item.types;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class Weapon extends ItemType {
 
@@ -17,8 +18,9 @@ public class Weapon extends ItemType {
 	}
 
 	@Override
-	public String use(Actor actor) {
-		return CANT_USE;
+	public boolean use(Actor actor, StringContainer message) {
+		message.setString(CANT_USE);
+		return false;
 	}
 
 }

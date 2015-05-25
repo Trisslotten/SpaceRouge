@@ -2,6 +2,7 @@ package com.trisse.spacerouge;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.RenderingHints.*;
 import java.util.*;
 
 import org.lwjgl.*;
@@ -39,6 +40,8 @@ public class Game implements Runnable {
 
 	private int xoffset;
 	private int yoffset;
+
+	public StringContainer notification = new StringContainer();
 
 	private DirectedAction queuedAction = null;
 
@@ -109,12 +112,18 @@ public class Game implements Runnable {
 				case Keyboard.KEY_G:
 					queuedAction = new GrabAction(actors.get(cai), area);
 					return false;
+				case Keyboard.KEY_U:
+					useItem();
 				}
 			}
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void useItem() {
+		actors.get(cai).useItem(notification);
 	}
 
 	// sets a new directed action and clears the old one

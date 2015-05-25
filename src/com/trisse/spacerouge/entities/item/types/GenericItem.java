@@ -1,8 +1,9 @@
 package com.trisse.spacerouge.entities.item.types;
 
 import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.item.ItemType;
-import com.trisse.spacerouge.graphics.Sprite;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class GenericItem extends ItemType {
 
@@ -13,8 +14,9 @@ public class GenericItem extends ItemType {
 	}
 
 	@Override
-	public String use(Actor actor) {
-		return null;
+	public boolean use(Actor actor, StringContainer message) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

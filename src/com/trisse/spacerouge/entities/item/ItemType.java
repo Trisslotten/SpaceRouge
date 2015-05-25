@@ -4,8 +4,11 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.types.*;
 import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public abstract class ItemType extends EntityType {
+
+	protected boolean removeOnUse = false;
 
 	protected static String CANT_USE = "You cant use this item";
 
@@ -25,6 +28,6 @@ public abstract class ItemType extends EntityType {
 		return damage;
 	}
 
-	public abstract String use(Actor actor);
+	public abstract boolean use(Actor actor, StringContainer message);
 
 }

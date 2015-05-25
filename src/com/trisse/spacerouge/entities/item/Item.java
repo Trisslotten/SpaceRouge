@@ -12,4 +12,8 @@ public class Item {
 		return type;
 	}
 
+	public boolean getsUsed() {
+		return type.removeOnUse;
+	}
+
 }
