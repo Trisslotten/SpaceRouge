@@ -1,29 +1,41 @@
 package com.trisse.spacerouge;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glGetString;
 
-import java.awt.RenderingHints.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
-import org.lwjgl.*;
-import org.lwjgl.input.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
-import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.actor.*;
-import com.trisse.spacerouge.entities.item.*;
-import com.trisse.spacerouge.entities.tile.*;
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.gui.*;
-import com.trisse.spacerouge.level.*;
-import com.trisse.spacerouge.util.*;
+import com.trisse.spacerouge.action.Action;
+import com.trisse.spacerouge.action.ActionResult;
+import com.trisse.spacerouge.action.CloseDoorAction;
+import com.trisse.spacerouge.action.DirectedAction;
+import com.trisse.spacerouge.action.DropAction;
+import com.trisse.spacerouge.action.GrabAction;
+import com.trisse.spacerouge.action.OpenDoorAction;
+import com.trisse.spacerouge.entities.Entity;
+import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.actor.ActorTypePool;
+import com.trisse.spacerouge.entities.item.ItemTypePool;
+import com.trisse.spacerouge.entities.tile.TileTypePool;
+import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.graphics.Sprites;
+import com.trisse.spacerouge.gui.Graphics;
+import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.util.Input;
+import com.trisse.spacerouge.util.StringContainer;
 
 public class Game implements Runnable {
 
 	public Input input = new Input();
-	public Sprites sprites;
 
+	public Sprites sprites;
 	public ActorTypePool actorPool;
 	public ItemTypePool itemPool;
 	public TileTypePool tilePool;
@@ -45,6 +57,7 @@ public class Game implements Runnable {
 
 	private DirectedAction queuedAction = null;
 
+	// initializes everything
 	protected void init() {
 		sprites = new Sprites();
 		screen = new Screen(sprites);
@@ -251,7 +264,6 @@ public class Game implements Runnable {
 		double cy = e.y();
 
 		// TODO test if works
-		// TODO fix inf-loop
 		while (((int) cx != x && (int) cy != y)) {
 			cx += Math.cos(angle);
 			cy += Math.sin(angle);
@@ -311,6 +323,7 @@ public class Game implements Runnable {
 	private int tickCounter = 0;
 	private double lastTick = Game.getTime();
 
+	// starts the thread which the game runs on
 	public void start() {
 		running = true;
 		thread = new Thread(this);
@@ -343,8 +356,6 @@ public class Game implements Runnable {
 			frames++;
 			Display.sync(FPS);
 			if (getTime() > timer + 1) {
-				Display.setTitle("FPS: " + frames);
-
 				timer += 1;
 				frames = 0;
 			}
@@ -371,6 +382,7 @@ public class Game implements Runnable {
 			Display.setDisplayMode(displayMode);
 			Display.setResizable(false);
 			Display.setFullscreen(false);
+			Display.setTitle("DankEngine");
 			Display.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
