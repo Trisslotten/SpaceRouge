@@ -127,12 +127,14 @@ public class Actor extends Entity {
 		inHands = null;
 	}
 
-	public void grab(Direction dir) {
-		Item item = area.grab(x + dir.xspd(), y + dir.yspd(), dir);
+	public boolean grab(Direction dir) {
+		Item item = area.getAndRemoveItem(x + dir.xspd(), y + dir.yspd(), dir);
 		if (item != null) {
 			dropInHands();
 			inHands = item;
+			return true;
 		}
+		return false;
 	}
 
 	public Item getItem() {
@@ -146,9 +148,9 @@ public class Actor extends Entity {
 		}
 	}
 
-	public boolean useItem(StringContainer message) {
+	public boolean useItem() {
 		if (inHands != null) {
-			if (!inHands.getType().use(this, message)) {
+			if (!inHands.getType().use(this)) {
 				return false;
 			}
 			if (inHands.getsUsed()) {

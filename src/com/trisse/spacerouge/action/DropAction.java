@@ -2,6 +2,7 @@ package com.trisse.spacerouge.action;
 
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.level.Area;
 
 public class DropAction extends Action {
@@ -13,11 +14,12 @@ public class DropAction extends Action {
 
 	@Override
 	public ActionResult perform(Game game) {
+		Item item = actor.getItem();
 		if (actor.somethingInHands()) {
 			actor.dropInHands();
-			return ActionResult.SUCCESS;
+			return ActionResult.success("You drop the " + item.getType().getName());
 		} else {
-			return ActionResult.FAILURE;
+			return ActionResult.failure("You have nothing to drop");
 		}
 	}
 

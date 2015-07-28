@@ -35,7 +35,6 @@ public class WalkAction extends Action {
 				}
 			}
 		}
-
 		// check if walking in to actor and choose to attack
 		// TODO let player choose who to attack
 		ArrayList<Actor> actors = area.getActorsOn(x, y);

@@ -1,19 +1,27 @@
 package com.trisse.spacerouge.gui;
 
-import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.util.*;
+public class Notification {
 
-public class Notification extends Element {
+	private String message;
+	private int count = 1;
 
-	private StringContainer message;
-
-	public Notification(StringContainer message) {
+	public Notification(String message) {
 		this.message = message;
 	}
 
-	@Override
-	public void render(Screen screen) {
-		screen.drawString(message.getString(), 1, 5);
+	public String getMessage() {
+		return message;
+	}
+
+	public String getCompleteMessage() {
+		if (count > 1)
+			return message + " x" + count;
+		else
+			return message;
+	}
+
+	public void addCounter() {
+		count++;
 	}
 
 }

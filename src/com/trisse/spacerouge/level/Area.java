@@ -37,10 +37,10 @@ public class Area {
 				ActorType type = null;
 				switch (Game.rand.nextInt(2)) {
 				case 0:
-					type = actorPool.getType("largealien");
+					type = actorPool.getType("large_alien");
 					break;
 				case 1:
-					type = actorPool.getType("smallalien");
+					type = actorPool.getType("small_alien");
 					break;
 				}
 				actors.add(new Actor(type, i * 2 + 1, j * 2 + 1, this));
@@ -50,7 +50,7 @@ public class Area {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
 				if (j == 3 && i == 0) {
-					tiles.add(new Tile(tilePool.getType("doorclosed"), i, j));
+					tiles.add(new Tile(tilePool.getType("door"), i, j));
 					tiles.add(new Tile(tilePool.getType("floor"), i, j));
 				} else if (j == 0 || j == 10 || i == 0 || i == 10) {
 					tiles.add(new Tile(tilePool.getType("hull"), i, j));
@@ -167,7 +167,7 @@ public class Area {
 		return null;
 	}
 
-	public Item grab(int x, int y, Direction dir) {
+	public Item getAndRemoveItem(int x, int y, Direction dir) {
 		ArrayList<Item> result = new ArrayList<Item>();
 		ArrayList<ItemEntity> toRemove = new ArrayList<ItemEntity>();
 		for (ItemEntity i : items) {

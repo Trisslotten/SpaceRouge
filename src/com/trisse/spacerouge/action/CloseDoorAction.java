@@ -31,7 +31,7 @@ public class CloseDoorAction extends DirectedAction {
 			return ActionResult.FAILURE;
 
 		tile.close(game);
-		return ActionResult.SUCCESS;
+		return ActionResult.success("You close the " + tile.getType().getName());
 	}
 
 }

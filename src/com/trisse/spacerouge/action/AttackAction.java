@@ -16,7 +16,7 @@ public class AttackAction extends DirectedAction {
 	@Override
 	public ActionResult perform(Game game) {
 		actor.attack(enemy);
-		return ActionResult.SUCCESS;
+		
+		return ActionResult.success("You attack the " + enemy.getType().getName());
 	}
-	
 }

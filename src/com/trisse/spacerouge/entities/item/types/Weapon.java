@@ -7,8 +7,8 @@ import com.trisse.spacerouge.util.*;
 
 public class Weapon extends ItemType {
 
-	public Weapon(String name, int id, Sprite sprite, int damage) {
-		super(name, id, sprite, damage);
+	public Weapon(String name, int id, Sprite sprite, int damage, String useMessage) {
+		super(name, id, sprite, damage, useMessage);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -18,8 +18,7 @@ public class Weapon extends ItemType {
 	}
 
 	@Override
-	public boolean use(Actor actor, StringContainer message) {
-		message.setString(CANT_USE);
+	public boolean use(Actor actor) {
 		return false;
 	}
 

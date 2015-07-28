@@ -13,8 +13,10 @@ public abstract class ItemType extends EntityType {
 	protected static String CANT_USE = "You cant use this item";
 
 	private int damage;
+	
+	public String useMessage;
 
-	public ItemType(String name, int id, Sprite sprite, int damage) {
+	public ItemType(String name, int id, Sprite sprite, int damage, String useMessage) {
 		super(name, id, sprite);
 		this.damage = damage;
 	}
@@ -22,12 +24,21 @@ public abstract class ItemType extends EntityType {
 	public ItemType(GenericItem generic) {
 		super(generic.getName(), generic.getID(), generic.getSprite());
 		this.damage = generic.getDamage();
+		this.useMessage = generic.getUseMessage();
 	}
 
 	public int getDamage() {
 		return damage;
 	}
+	
+	public void performAction() {
+		
+	}
 
-	public abstract boolean use(Actor actor, StringContainer message);
+	public abstract boolean use(Actor actor);
+
+	public String getUseMessage() {
+		return useMessage;
+	}
 
 }

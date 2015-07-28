@@ -11,8 +11,7 @@ public class Corpse extends ItemType {
 	}
 
 	@Override
-	public boolean use(Actor actor, StringContainer message) {
-		message.setString(CANT_USE);
+	public boolean use(Actor actor) {
 		return false;
 	}
 }

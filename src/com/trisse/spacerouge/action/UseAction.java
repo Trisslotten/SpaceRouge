@@ -12,8 +12,8 @@ public class UseAction extends Action {
 
 	@Override
 	public ActionResult perform(Game game) {
-		if (actor.useItem(game.notification))
-			return ActionResult.SUCCESS;
+		if (actor.useItem())
+			return ActionResult.success(actor.getItem().getUseMessage());
 		else
 			return ActionResult.FAILURE;
 	}

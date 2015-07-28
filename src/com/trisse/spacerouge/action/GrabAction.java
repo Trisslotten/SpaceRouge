@@ -3,6 +3,7 @@ package com.trisse.spacerouge.action;
 import com.trisse.spacerouge.Direction;
 import com.trisse.spacerouge.Game;
 import com.trisse.spacerouge.entities.actor.Actor;
+import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.level.Area;
 
 public class GrabAction extends DirectedAction {
@@ -19,8 +20,11 @@ public class GrabAction extends DirectedAction {
 
 	@Override
 	public ActionResult perform(Game game) {
-		actor.grab(dir);
-		return ActionResult.SUCCESS;
+		if(actor.grab(dir)) {
+			Item item = actor.getItem();
+			return ActionResult.success("You grab the " + item.getType().getName());
+		}
+		return ActionResult.failure("There is nothing to grab there");
 	}
 
 }

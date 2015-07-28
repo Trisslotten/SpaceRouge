@@ -41,8 +41,6 @@ public class Game implements Runnable {
 	private int xoffset;
 	private int yoffset;
 
-	public StringContainer notification = new StringContainer();
-
 	private DirectedAction queuedAction = null;
 
 	protected void init() {
@@ -123,7 +121,7 @@ public class Game implements Runnable {
 	}
 
 	private void useItem() {
-		actors.get(cai).useItem(notification);
+		actors.get(cai).useItem();
 	}
 
 	// sets a new directed action and clears the old one
@@ -164,11 +162,14 @@ public class Game implements Runnable {
 						ActionResult result = action.perform(this);
 						lastTick = getTime();
 						if (!result.success()) {
+							graphics.addNotification(result.getMessage());
 							return;
 						}
 						// calcFov();
-						if (result.alternative() == null)
+						if (result.alternative() == null) {
+							graphics.addNotification(result.getMessage());
 							break;
+						}
 						action = result.alternative();
 					}
 					setOffsetToActor(actor);
@@ -275,7 +276,7 @@ public class Game implements Runnable {
 	}
 
 	public void setOffsetToActor(Actor actor) {
-		xoffset = actor.x() - Screen.tileWidth / 2;
+		xoffset = actor.x() - Screen.tileWidth / 2 + 10;
 		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 

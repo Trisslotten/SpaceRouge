@@ -1,5 +1,11 @@
 package com.trisse.spacerouge.graphics;
 
+import java.util.*;
+
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.tile.*;
+import com.trisse.spacerouge.util.*;
+
 
 public class Screen {
 
@@ -12,6 +18,61 @@ public class Screen {
 	 */
 	public static int tileWidth = 80;
 	public static int tileHeight = 45;
+	
+	public static int guiWidth = 20;
+	
+	static {
+		String path = "res/settings.cfg";
+		String config = Filer.loadString(path);
+		for (int i = 0; i < config.length(); i++) {
+			char chr = config.charAt(i);
+			if (chr == '{') {
+				String currentActor = "";
+				for (int j = i + 1; j < config.length(); j++) {
+					char chr2 = config.charAt(j);
+					if (chr2 != '}') {
+						currentActor += chr2;
+					} else {
+						i = j;
+						break;
+					}
+				}
+				String cleaned = currentActor.replaceAll("\\s+", "");
+
+				String[] settingsData = cleaned.split(";");
+
+				String[][] splittedString = new String[settingsData.length][2];
+				for (int a = 0; a < splittedString.length; a++) {
+					splittedString[a] = settingsData[a].split(":");
+				}
+				LoadedEntity settings = LoadedEntity.newEmpty();
+				for (int a = 0; a < settingsData.length; a++) {
+					try {
+						settings.add(splittedString[a][0], splittedString[a][1]);
+					} catch (IndexOutOfBoundsException e) {
+						System.err.println("Could not parse\n");
+					}
+				}
+				String[] variables = settings.variables();
+				String[] values = settings.values();
+				
+				
+				for(int a=0;a<variables.length;a++) {
+					switch (variables[a]) {
+					case "width":
+						tileWidth = Integer.parseInt(values[a]);
+						break;
+					case "height":
+						tileHeight = Integer.parseInt(values[a]);
+						break;
+					default:
+						break;
+					}
+				}
+				
+			}
+		}
+	}
 
 	public int currentTileWidth;
 	public int currentTileHeight;
@@ -94,6 +155,26 @@ public class Screen {
 	public void drawString(String str, int x, int y) {
 		drawString(str, x, y, 0);
 	}
+	
+	public int drawString(String str, int x, int y, int layer, int width) {
+		if(str.length()<=width) {
+			drawString(str,x,y);
+			return 1;
+		}
+		int current = width;
+		for(int i=width;str.charAt(i)!= ' ' && str.charAt(i) != '_'; --i) {
+			current = i-1;
+		}
+		String first = str.substring(0, current);
+		drawString(first,x,y);
+		String rest = str.substring(current, str.length());
+		rest = rest.substring(1, rest.length());
+		return drawString(rest, x, y + 1, layer, width) + 1;
+	}
+	
+	public int drawStringInGui(String str, int x, int y) {
+		return drawString(str,x,y,0,guiWidth);
+	}
 
 	public void drawString(String str, int x, int y, int layer) {
 		for (int i = 0; i < str.length(); i++) {
@@ -108,4 +189,42 @@ public class Screen {
 		}
 	}
 
+	public int getRows(String str, int width) {
+		if(str.length()<=width) {
+			return 1;
+		}
+		int current = width;
+		for(int i=width;str.charAt(i)!= ' ' && str.charAt(i) != '_'; --i) {
+			current = i-1;
+		}
+		String rest = str.substring(current, str.length());
+		rest = rest.substring(1, rest.length());
+		return getRows(rest, width) + 1;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

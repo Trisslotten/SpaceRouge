@@ -15,9 +15,8 @@ public class HealthPotion extends ItemType {
 	}
 
 	@Override
-	public boolean use(Actor actor, StringContainer message) {
+	public boolean use(Actor actor) {
 		actor.heal(healing);
-		message.setString("You were healed " + healing + "hp");
 		return true;
 	}
 

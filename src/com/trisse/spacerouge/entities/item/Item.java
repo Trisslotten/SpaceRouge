@@ -15,5 +15,14 @@ public class Item {
 	public boolean getsUsed() {
 		return type.removeOnUse;
 	}
+	
+	public boolean performAction() {
+		type.performAction();
+		return false;
+	}
+
+	public String getUseMessage() {
+		return type.getUseMessage();
+	}
 
 }

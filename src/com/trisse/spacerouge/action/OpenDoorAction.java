@@ -35,7 +35,7 @@ public class OpenDoorAction extends DirectedAction {
 		if (!actor.getType().canHandleDoors() || tile == null)
 			return ActionResult.FAILURE;
 		tile.open(game.tilePool);
-		return ActionResult.SUCCESS;
+		return ActionResult.success("You open the " + tile.getType().getName());
 	}
 
 }
