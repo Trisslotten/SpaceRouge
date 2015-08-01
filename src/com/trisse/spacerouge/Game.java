@@ -60,6 +60,7 @@ public class Game implements Runnable {
 
 	// injects the input into the player
 	protected boolean handleInput() {
+		Actor player = actors.get(cai);
 		Keyboard.next();
 		int key = Keyboard.getEventKey();
 		if (Input.controlPressed(key)) {
@@ -99,29 +100,25 @@ public class Game implements Runnable {
 					walk(Direction.NONE);
 					break;
 				case Keyboard.KEY_D:
-					actors.get(cai).setNextAction(new DropAction(actors.get(cai), area));
+					player.setNextAction(new DropAction(player, area));
 					break;
 				case Keyboard.KEY_C:
-					queuedAction = new CloseDoorAction(actors.get(cai), area);
+					queuedAction = new CloseDoorAction(player, area);
 					return false;
 				case Keyboard.KEY_O:
-					queuedAction = new OpenDoorAction(actors.get(cai), area);
+					queuedAction = new OpenDoorAction(player, area);
 					return false;
 				case Keyboard.KEY_G:
-					queuedAction = new GrabAction(actors.get(cai), area);
+					queuedAction = new GrabAction(player, area);
 					return false;
 				case Keyboard.KEY_U:
-					useItem();
+					player.setNextAction(new UseItemAction(player, area));
 				}
 			}
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	private void useItem() {
-		actors.get(cai).useItem();
 	}
 
 	// sets a new directed action and clears the old one

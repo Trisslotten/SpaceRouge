@@ -13,7 +13,9 @@ import com.trisse.levelEditor.gui.buttons.*;
 import com.trisse.levelEditor.gui.elements.*;
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.*;
-import com.trisse.spacerouge.entities.item.ItemEntity;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
 import com.trisse.spacerouge.util.*;
@@ -31,13 +33,13 @@ public class LevelEditor implements Runnable {
 	public List<Button> buttons = new ArrayList<Button>();
 	public ArrayList<Element> elements = new ArrayList<Element>();
 
-	public ArrayList<Entity> entities() {
-		return null;
-	}
-
-	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
+	public Area area;
 
 	public EntityType selectedEntityType;
+
+	public ActorTypePool actorPool;
+	public ItemTypePool itemPool;
+	public TileTypePool tilePool;
 
 	public int level = 0;
 
@@ -55,17 +57,21 @@ public class LevelEditor implements Runnable {
 
 	public int viewLevel = -1;
 
-	private void init() {
+	protected void init() {
 
 		sprites = new Sprites();
 
 		screen = new Screen(sprites);
 
-		// entityTypePool = new EntityTypePool(sprites);
+		actorPool = new ActorTypePool(sprites);
+		itemPool = new ItemTypePool(sprites);
+		tilePool = new TileTypePool(sprites);
 
-		buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new ExportButton(), new LoadButton(), new ExitButton());
+		buttons = Arrays.asList(new ViewLevel(this), new SquareToggle(), new SaveButton(), new Eraser(), new ExportButton(), new LoadButton(), new ExitButton(), new TileGrid(tilePool), new ActorGrid(actorPool), new ItemGrid(itemPool));
 
 		elements.add(new Grid(sprites));
+		
+		area = new Area();
 
 	}
 
@@ -101,19 +107,53 @@ public class LevelEditor implements Runnable {
 
 	private void addWithBrush() {
 
-		/*
-		 * int xpos = input.xt() - xoffset(); int ypos = input.yt() - yoffset();
-		 * int hb = brushSize() / 2; ArrayList<Entity> toAdd = new
-		 * ArrayList<Entity>(); for (int i = -hb; i <= hb; i++) { for (int j =
-		 * -hb; j <= hb; j++) { double distance = Math.sqrt(i * i + j * j); if
-		 * (distance <= hb) { boolean canAdd = true; /* for (Entity e :
-		 * entities) { if (e.xpos() == xpos - i && e.ypos() == ypos - j &&
-		 * e.type.getHeightLevel() == selectedEntityType.getHeightLevel()) {
-		 * canAdd = false; } } if (canAdd) { toAdd.add(new
-		 * Entity(selectedEntityType, xpos - i, ypos - j)); }
-		 * 
-		 * } } } entities.addAll(toAdd);
-		 */
+		int xpos = input.xt() - xoffset();
+		int ypos = input.yt() - yoffset();
+		int hb = brushSize() / 2;
+		for (int i = -hb; i <= hb; i++) {
+			for (int j = -hb; j <= hb; j++) {
+				double distance = Math.sqrt(i * i + j * j);
+				if (distance <= hb) {
+					boolean canAdd = true;
+					int x = xpos - i;
+					int y = ypos - j;
+					for (Actor e : area.actors) {
+						if (e.x() == x && e.y() == y) {
+							if (e.getType().isFloorLevel() == selectedEntityType.isFloorLevel()) {
+								canAdd = false;
+							}
+						}
+					}
+					for (ItemEntity e : area.items) {
+						if (e.x() == x && e.y() == y) {
+							if (e.getType().isFloorLevel() == selectedEntityType.isFloorLevel()) {
+								canAdd = false;
+							}
+						}
+					}
+					for (Tile e : area.tiles) {
+						if (e.x() == x && e.y() == y) {
+							if (e.getType().isFloorLevel() == selectedEntityType.isFloorLevel()) {
+								canAdd = false;
+							}
+						}
+					}
+					if (canAdd) {
+						if (selectedEntityType instanceof TileType) {
+							TileType tile = (TileType) selectedEntityType;
+							area.addTile(tile, x, y);
+						} else if (selectedEntityType instanceof ActorType) {
+							ActorType actor = (ActorType) selectedEntityType;
+							area.addActor(actor, x, y);
+						} else if (selectedEntityType instanceof ItemType) {
+							ItemType item = (ItemType) selectedEntityType;
+							area.addItem(item, x, y);
+						}
+					}
+
+				}
+			}
+		}
 	}
 
 	private void removeWithBrush() {
@@ -213,6 +253,7 @@ public class LevelEditor implements Runnable {
 				}
 			}
 		}
+		area.render(screen, -xoffset(), -yoffset());
 		screen.render();
 		screen.clear();
 	}

@@ -25,22 +25,53 @@ public class Area {
 		return entities;
 	}
 
+	public void addItem(ItemType type, int x, int y) {
+		items.add(new ItemEntity(new Item(type), x, y));
+	}
+
+	public void addTile(TileType type, int x, int y) {
+		tiles.add(new Tile(type, x, y));
+	}
+
+	public void addActor(ActorType type, int x, int y) {
+		actors.add(new Actor(type, x, y, this));
+	}
+
 	public Area(Game game) {
+
+		// createTestingArea(game, actorPool, tilePool);
+
+	}
+
+	public Area() {
+
+	}
+
+	private void createTestingArea(Game game) {
 		ActorTypePool actorPool = game.actorPool;
 		TileTypePool tilePool = game.tilePool;
+		int x = 2;
+		for (ItemType i : game.itemPool.itemTypes) {
+			addItem(i, x, -4);
+			x++;
+		}
+		x = 2;
+		for (TileType i : game.tilePool.tileTypes) {
+			addTile(i, x, -2);
+			x++;
 
-		items.add(new ItemEntity(new Item(game.itemPool.getType(5)), -3, -3));
-		
+		}
+
 		actors.add(new Player(actorPool.getType("human"), -5, -5, this));
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
 				ActorType type = null;
 				switch (Game.rand.nextInt(2)) {
 				case 0:
-					type = actorPool.getType("large_alien");
+					type = actorPool.getType("large alien");
 					break;
 				case 1:
-					type = actorPool.getType("small_alien");
+					type = actorPool.getType("small alien");
 					break;
 				}
 				actors.add(new Actor(type, i * 2 + 1, j * 2 + 1, this));
@@ -65,7 +96,6 @@ public class Area {
 				game.setOffsetToActor(a);
 			}
 		}
-
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
@@ -74,6 +104,9 @@ public class Area {
 		}
 		for (ItemEntity i : items) {
 			i.render(screen, xoffset, yoffset);
+		}
+		for(Actor a: actors) {
+			a.render(screen, xoffset, yoffset);
 		}
 	}
 
@@ -181,6 +214,10 @@ public class Area {
 			return result.get(0);
 		else
 			return null;
+	}
+
+	public int entityCount() {
+		return tiles.size() + actors.size() + items.size();
 	}
 
 }

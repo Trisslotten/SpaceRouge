@@ -12,7 +12,7 @@ public class UseAction extends Action {
 
 	@Override
 	public ActionResult perform(Game game) {
-		if (actor.useItem())
+		if (actor.activateItem())
 			return ActionResult.success(actor.getItem().getUseMessage());
 		else
 			return ActionResult.FAILURE;

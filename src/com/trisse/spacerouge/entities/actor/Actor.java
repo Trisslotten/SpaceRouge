@@ -124,7 +124,7 @@ public class Actor extends Entity {
 
 	public void dropInHands() {
 		area.addItem(inHands, x, y);
-		inHands = null;
+		removeItem();
 	}
 
 	public boolean grab(Direction dir) {
@@ -148,18 +148,22 @@ public class Actor extends Entity {
 		}
 	}
 
-	public boolean useItem() {
+	public boolean activateItem() {
 		if (inHands != null) {
-			if (!inHands.getType().use(this)) {
+			if (!inHands.activate(this)) {
 				return false;
 			}
 			if (inHands.getsUsed()) {
-				inHands = null;
+				removeItem();
 			}
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	private void removeItem() {
+		inHands = null;
 	}
 
 }

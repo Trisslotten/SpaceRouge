@@ -22,5 +22,9 @@ public class ItemEntity extends Entity {
 	public Item getItem() {
 		return item;
 	}
+	
+	public ItemType getType() {
+		return item.getType();
+	}
 
 }

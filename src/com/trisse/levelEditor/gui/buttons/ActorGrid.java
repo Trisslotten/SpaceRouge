@@ -5,20 +5,21 @@ import org.lwjgl.input.*;
 import com.trisse.levelEditor.*;
 import com.trisse.levelEditor.gui.*;
 import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.util.*;
 
-public class EntityGrid extends Button {
+public class ActorGrid extends Button {
 
-	private int y0 = 3;
+	private int y0 = 5;
 	private int x0 = 47;
 	private int hoverIndex;
 	private EntityType[] entityTypes;
 
-	public EntityGrid(EntityTypePool entityTypePool) {
+	public ActorGrid(ActorTypePool actorPool) {
 		width = 16;
-		this.entityTypes = entityTypePool.entityTypes();
-		y0 = 3;
+		this.entityTypes = actorPool.entityTypes();
 		x0 = LevelEditor.editorWidth + 1;
 	}
 
