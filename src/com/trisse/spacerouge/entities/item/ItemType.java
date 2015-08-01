@@ -4,7 +4,6 @@ import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.types.*;
 import com.trisse.spacerouge.graphics.*;
-import com.trisse.spacerouge.util.*;
 
 public abstract class ItemType extends EntityType {
 

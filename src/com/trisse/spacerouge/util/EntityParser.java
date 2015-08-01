@@ -59,7 +59,7 @@ public class EntityParser {
 		int healing = 0;
 		for (int i = 0; i < variables.length; i++) {
 			switch (variables[i].toLowerCase()) {
-			case "id":
+			case "healing":
 				healing = Integer.parseInt(values[i]);
 				break;
 			}
@@ -288,23 +288,52 @@ public class EntityParser {
 	}
 
 	private static ActorType actorTypeFromString(String str, Sprites sprites) {
-		String cleaned = str.replaceAll("\\s+", "");
+		LoadedEntity loadedEntity = entityListFrom(str);
+		return chooseActorType(loadedEntity, sprites);
+	}
 
-		String[] tileData = cleaned.split(";");
+	private static ItemType itemTypeFromString(String str, Sprites sprites) {
+		LoadedEntity loadedEntity = entityListFrom(str);
+		return chooseItemType(loadedEntity, sprites);
+	}
 
-		String[][] splittedString = new String[tileData.length][2];
+	private static LoadedEntity entityListFrom(String loaded) {
+		String cleaned = "";
+		boolean saveSpace = false;
+		for (int i = 0; i < loaded.length(); i++) {
+			char crnt = loaded.charAt(i);
+			if (crnt == '"') {
+				saveSpace = !saveSpace;
+
+			} else if (saveSpace) {
+				cleaned += crnt;
+			} else {
+				if (crnt != ' ' && crnt != '\n' && crnt != '\t') {
+					cleaned += crnt;
+				}
+			}
+		}
+		String[] entityData = cleaned.split(";");
+		String[] temp = new String[entityData.length - 1];
+		for (int i = 0; i < temp.length; i++) {
+			temp[i] = entityData[i];
+		}
+		entityData = temp;
+
+		String[][] splittedString = new String[entityData.length][2];
 		for (int i = 0; i < splittedString.length; i++) {
-			splittedString[i] = tileData[i].split(":");
+			splittedString[i] = entityData[i].split(":");
+			splittedString[i][0] = splittedString[i][0].replaceAll("\\s+", "");
 		}
 		LoadedEntity loadedEntity = LoadedEntity.newEmpty();
-		for (int i = 0; i < tileData.length; i++) {
+		for (int i = 0; i < entityData.length; i++) {
 			try {
 				loadedEntity.add(splittedString[i][0], splittedString[i][1]);
 			} catch (IndexOutOfBoundsException e) {
-				System.err.println("Could not parse\n");
+				System.err.println("Could not parse\n" + i);
 			}
 		}
-		return chooseActorType(loadedEntity, sprites);
+		return loadedEntity;
 	}
 
 	public static ArrayList<ItemType> itemList(Sprites sprites) {
@@ -332,26 +361,6 @@ public class EntityParser {
 			}
 		}
 		return entityTypes;
-	}
-
-	private static ItemType itemTypeFromString(String str, Sprites sprites) {
-		String cleaned = str.replaceAll("\\s+", "");
-
-		String[] tileData = cleaned.split(";");
-
-		String[][] splittedString = new String[tileData.length][2];
-		for (int i = 0; i < splittedString.length; i++) {
-			splittedString[i] = tileData[i].split(":");
-		}
-		LoadedEntity loadedEntity = LoadedEntity.newEmpty();
-		for (int i = 0; i < tileData.length; i++) {
-			try {
-				loadedEntity.add(splittedString[i][0], splittedString[i][1]);
-			} catch (IndexOutOfBoundsException e) {
-				System.err.println("Could not parse\n");
-			}
-		}
-		return chooseItemType(loadedEntity, sprites);
 	}
 
 	/**
@@ -386,22 +395,7 @@ public class EntityParser {
 	}
 
 	private static TileType tileTypeFromString(String str, Sprites sprites) {
-		String cleaned = str.replaceAll("\\s+", "");
-
-		String[] tileData = cleaned.split(";");
-
-		String[][] splittedString = new String[tileData.length][2];
-		for (int i = 0; i < splittedString.length; i++) {
-			splittedString[i] = tileData[i].split(":");
-		}
-		LoadedEntity loadedEntity = LoadedEntity.newEmpty();
-		for (int i = 0; i < tileData.length; i++) {
-			try {
-				loadedEntity.add(splittedString[i][0], splittedString[i][1]);
-			} catch (IndexOutOfBoundsException e) {
-				System.err.println("Could not parse\n");
-			}
-		}
+		LoadedEntity loadedEntity = entityListFrom(str);
 		return chooseTileType(loadedEntity, sprites);
 	}
 

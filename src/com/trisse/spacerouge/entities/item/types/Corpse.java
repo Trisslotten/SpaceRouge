@@ -14,4 +14,5 @@ public class Corpse extends ItemType {
 	public boolean use(Actor actor) {
 		return false;
 	}
+	
 }
