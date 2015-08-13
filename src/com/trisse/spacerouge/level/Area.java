@@ -38,9 +38,7 @@ public class Area {
 	}
 
 	public Area(Game game) {
-
-		// createTestingArea(game, actorPool, tilePool);
-
+		createTestingArea(game);
 	}
 
 	public Area() {
