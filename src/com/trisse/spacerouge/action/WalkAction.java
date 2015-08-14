@@ -5,14 +5,14 @@ import java.util.*;
 import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;
-import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.level.Map;
 
 public class WalkAction extends Action {
 
 	private Direction dir;
 
-	public WalkAction(Actor actor, Area area, Direction dir) {
-		super(actor, area);
+	public WalkAction(Actor actor, Map map, Direction dir) {
+		super(actor, map);
 		this.dir = dir;
 	}
 
@@ -24,11 +24,11 @@ public class WalkAction extends Action {
 
 		// check for collision with walls
 		// if tile is a door open it
-		ArrayList<Tile> tiles = area.getTilesOn(x, y);
+		ArrayList<Tile> tiles = map.getTiles(x, y);
 		if (!tiles.isEmpty()) {
 			for (Tile t : tiles) {
 				if (t.getType().opensTo >= 1) {
-					return new ActionResult(new OpenDoorAction(actor, area, t));
+					return new ActionResult(new OpenDoorAction(actor, map, t));
 				}
 				if (!t.isPassable()) {
 					success = false;
@@ -37,11 +37,11 @@ public class WalkAction extends Action {
 		}
 		// check if walking in to actor and choose to attack
 		// TODO let player choose who to attack
-		ArrayList<Actor> actors = area.getActorsOn(x, y);
+		ArrayList<Actor> actors = map.getActors(x, y);
 		if (!actors.isEmpty())
 			for (Actor a : actors)
 				if (!a.isSameTeam(actor))
-					return new ActionResult(new AttackAction(actor, area, actors.get(0)));
+					return new ActionResult(new AttackAction(actor, map, actors.get(0)));
 				else if (actors.get(0) != actor)
 					success = false;
 		if (!success) {

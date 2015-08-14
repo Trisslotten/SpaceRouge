@@ -6,8 +6,8 @@ import com.trisse.spacerouge.level.*;
 
 public class UseAction extends Action {
 
-	public UseAction(Actor actor, Area area) {
-		super(actor, area);
+	public UseAction(Actor actor, Map map) {
+		super(actor, map);
 	}
 
 	@Override

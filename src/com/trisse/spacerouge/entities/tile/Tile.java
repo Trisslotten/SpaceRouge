@@ -1,34 +1,21 @@
 package com.trisse.spacerouge.entities.tile;
 
-import java.util.ArrayList;
-
-import com.trisse.spacerouge.Game;
-import com.trisse.spacerouge.entities.Entity;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.graphics.Screen;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.*;
+import com.trisse.spacerouge.graphics.*;
 
 public class Tile extends Entity {
 
 	private TileType type;
 
-	public Tile(TileType type, int x, int y) {
+	public Tile(TileType type) {
 		this.type = type;
-		this.x = x;
-		this.y = y;
-		isTransparent = type.isFloorLevel();
 	}
 
-	public void render(Screen screen, int xoffset, int yoffset) {
-		if (isVisible)
-			screen.draw(type.getSprite(), x - xoffset, y - yoffset, type.level());
-	}
-
-	public int x() {
-		return x;
-	}
-
-	public int y() {
-		return y;
+	public void render(Screen screen, int x, int y) {
+		System.out.println("Drawing: " + type.getName());
+		System.out.println("x: " + x + " y: " + y);
+		screen.draw(type.getSprite(), x, y, type.level());
 	}
 
 	public boolean isPassable() {
@@ -53,11 +40,6 @@ public class Tile extends Entity {
 		TileType newType = game.tilePool.getType((type.closesTo));
 		if (newType != null) {
 			setType(newType);
-			ArrayList<Actor> actors = game.area.getActorsOn(x, y);
-			for (Actor a : actors) {
-				a.getDamaged(50);
-				// TODO move actor out of door
-			}
 		}
 	}
 }

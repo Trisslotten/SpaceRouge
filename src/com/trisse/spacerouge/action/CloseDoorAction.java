@@ -6,11 +6,12 @@ import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.level.Map;
 
 public class CloseDoorAction extends DirectedAction {
 
-	public CloseDoorAction(Actor actor, Area area) {
-		super(actor, area);
+	public CloseDoorAction(Actor actor, Map map) {
+		super(actor, map);
 	}
 
 	@Override
@@ -18,7 +19,7 @@ public class CloseDoorAction extends DirectedAction {
 		int x = actor.x() + dir.xspd();
 		int y = actor.y() + dir.yspd();
 		Tile tile = null;
-		ArrayList<Tile> tiles = area.getTilesOn(x, y);
+		ArrayList<Tile> tiles = map.getTiles(x, y);
 		if (!tiles.isEmpty()) {
 			for (Tile t : tiles) {
 				if (t.getType().closesTo >= 1) {

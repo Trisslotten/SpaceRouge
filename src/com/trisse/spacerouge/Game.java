@@ -17,6 +17,7 @@ import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.gui.*;
 import com.trisse.spacerouge.level.*;
+import com.trisse.spacerouge.level.Map;
 import com.trisse.spacerouge.util.*;
 
 public class Game implements Runnable {
@@ -28,7 +29,7 @@ public class Game implements Runnable {
 	public ItemTypePool itemPool;
 	public TileTypePool tilePool;
 
-	public Area area;
+	public Map map;
 	public ArrayList<Actor> actors;
 
 	ArrayList<Actor> deadList = new ArrayList<Actor>();
@@ -51,9 +52,9 @@ public class Game implements Runnable {
 		itemPool = new ItemTypePool(sprites);
 		tilePool = new TileTypePool(sprites);
 
-		area = new Area(this);
-
-		actors = area.actors;
+		map = new Map(this);
+		
+		actors = map.getActors();
 
 		graphics = new Graphics(this);
 	}
@@ -100,19 +101,19 @@ public class Game implements Runnable {
 					walk(Direction.NONE);
 					break;
 				case Keyboard.KEY_D:
-					player.setNextAction(new DropAction(player, area));
+					player.setNextAction(new DropAction(player, map));
 					break;
 				case Keyboard.KEY_C:
-					queuedAction = new CloseDoorAction(player, area);
+					queuedAction = new CloseDoorAction(player, map);
 					return false;
 				case Keyboard.KEY_O:
-					queuedAction = new OpenDoorAction(player, area);
+					queuedAction = new OpenDoorAction(player, map);
 					return false;
 				case Keyboard.KEY_G:
-					queuedAction = new GrabAction(player, area);
+					queuedAction = new GrabAction(player, map);
 					return false;
 				case Keyboard.KEY_U:
-					player.setNextAction(new UseItemAction(player, area));
+					player.setNextAction(new UseItemAction(player, map));
 				}
 			}
 			return true;
@@ -191,76 +192,11 @@ public class Game implements Runnable {
 			}
 			actors.removeAll(deadList);
 			for (Actor a : deadList) {
-				area.addItem(a.getCorpse(itemPool), a.x(), a.y());
+				map.addItem(a.getCorpse(itemPool), a.x(), a.y());
 			}
 			deadList.clear();
 			cai = (cai + 1) % actors.size();
 		}
-	}
-
-	// Calculates and sets what's visible to the player
-	private void calcFov() {
-		Actor actor = area.getPlayer();
-		int x = actor.x();
-		int y = actor.y();
-		ArrayList<Entity> entities = area.getEntities();
-		double rays = 200;
-		double angle = 0;
-		double incr = 2 * Math.PI / rays;
-
-		for (Entity e : entities) {
-			e.setVisible(false);
-		}
-
-		for (double i = 0; i < rays; i++) {
-			double cx = x;
-			double cy = y;
-			for (int j = 0; j < 20; j++) {
-				cx += Math.cos(angle);
-				cy += Math.sin(angle);
-
-				boolean allIsTransparant = true;
-				for (Entity e : area.getEntitiesOn((int) cx, (int) cy)) {
-					if (cx == x && cy == y)
-						continue;
-
-					e.setVisible(true);
-					if (!e.isTransparent())
-						allIsTransparant = false;
-				}
-				if (!allIsTransparant)
-					break;
-			}
-
-			angle = i * incr;
-		}
-
-	}
-
-	// return if the entity e is visible to the player
-	// DOES NOT WORK!!!
-	private boolean isVisible(int x, int y, Entity e, ArrayList<Entity> entities) {
-		double dx = (double) (e.x() - x);
-		double dy = (double) (e.y() - y);
-
-		double angle = Math.atan2(dy, dx);
-
-		double cx = e.x();
-		double cy = e.y();
-
-		// TODO test if works
-		// TODO fix inf-loop
-		while (((int) cx != x && (int) cy != y)) {
-			cx += Math.cos(angle);
-			cy += Math.sin(angle);
-			for (Entity entity : area.getEntitiesOn((int) cx, (int) cy)) {
-				screen.draw("missing", (int) cx - xoffset, (int) cy - yoffset);
-				if (!entity.isTransparent()) {
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	// returns if there is no player
@@ -273,13 +209,13 @@ public class Game implements Runnable {
 	}
 
 	public void setOffsetToActor(Actor actor) {
-		xoffset = actor.x() - Screen.tileWidth / 2 + 10;
+		xoffset = actor.x() - Screen.tileWidth / 2 + Screen.guiWidth;
 		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 
 	// draws the sprites that are in the screen instans and clears it
 	protected void render() {
-		area.render(screen, xoffset, yoffset);
+		map.render(screen, xoffset, yoffset);
 		for (Actor actor : actors)
 			actor.render(screen, xoffset, yoffset);
 		graphics.render(screen);

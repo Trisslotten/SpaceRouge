@@ -12,8 +12,8 @@ public class Graphics {
 	ArrayList<Notification> notifications = new ArrayList<Notification>();
 
 	public Graphics(Game game) {
-		elements.add(new HealthMeter(game.area.getPlayer()));
-		elements.add(new ItemViewer(game.area.getPlayer()));
+		elements.add(new HealthMeter(game.map.getPlayer()));
+		elements.add(new ItemViewer(game.map.getPlayer()));
 	}
 
 	public void render(Screen screen) {

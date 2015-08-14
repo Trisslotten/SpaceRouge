@@ -8,43 +8,71 @@ import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
+import com.trisse.spacerouge.util.*;
 
 public class Area {
+	
+	public static int width = 16;
+	public static int height = 16;
+	
+	
+	private Game game;
+	
+	private TileList[][] tiles;
+	
+	private ItemList[][] items;
 
+	
+	/*
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	public ArrayList<ItemEntity> items = new ArrayList<ItemEntity>();
-
-	public ArrayList<Entity> getEntities() {
-		ArrayList<Entity> entities = new ArrayList<Entity>();
-		entities.addAll(tiles);
-		entities.addAll(actors);
-		entities.addAll(items);
-		return entities;
-	}
+	*/
 
 	public void addItem(ItemType type, int x, int y) {
-		items.add(new ItemEntity(new Item(type), x, y));
+		items[x][y].add(ItemEntity.newItemEntity(type));
 	}
 
 	public void addTile(TileType type, int x, int y) {
-		tiles.add(new Tile(type, x, y));
+		tiles[x][y].add(new Tile(type));
 	}
 
 	public void addActor(ActorType type, int x, int y) {
-		actors.add(new Actor(type, x, y, this));
+		
 	}
 
 	public Area(Game game) {
-		createTestingArea(game);
+		this.game = game;
+		initArrays();
+		addFloor();
 	}
 
-	public Area() {
-
+	private void initArrays() {
+		tiles = new TileList[width][height];
+		for(int i=0;i<tiles.length;i++) {
+			for(int j = 0;j < tiles[i].length;j++) {
+				tiles[i][j] = new TileList();
+			}
+		}
+		items = new ItemList[width][height];
+		for(int i=0;i<items.length;i++) {
+			for(int j = 0;j < items[i].length;j++) {
+				items[i][j] = new ItemList();
+			}
+		}
+	}
+	
+	private void addFloor() {
+		for(int i=0;i<tiles.length;i++) {
+			for(int j = 0;j < tiles[i].length;j++) {
+				tiles[i][j].add(new Tile(game.tilePool.get(5)));
+			}
+		}
 	}
 
+	/*
 	private void createTestingArea(Game game) {
 		ActorTypePool actorPool = game.actorPool;
 		TileTypePool tilePool = game.tilePool;
@@ -95,127 +123,59 @@ public class Area {
 			}
 		}
 	}
+	*/
+
+	
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		for (Tile t : tiles) {
-			t.render(screen, xoffset, yoffset);
-		}
-		for (ItemEntity i : items) {
-			i.render(screen, xoffset, yoffset);
-		}
-		for(Actor a: actors) {
-			a.render(screen, xoffset, yoffset);
+		System.out.println("render");
+		for(int y=0;y<tiles.length;y++) {
+			for(int x = 0; x< tiles.length;x++) {
+				for (Tile t : tiles[x][y]) {
+					t.render(screen, x - xoffset, y - yoffset);
+				}
+				for (ItemEntity i : items[x][y]) {
+					i.render(screen, x - xoffset, y - yoffset);
+				}
+			}
 		}
 	}
 
 	public void addItem(Item item, int x, int y) {
 		if (item != null)
-			items.add(new ItemEntity(item, x, y));
+			items[x][y].add(new ItemEntity(item));
 	}
 
 	public boolean isPassable(int x, int y) {
-		for (Tile t : tiles) {
-			if (t.x() == x && t.y() == y && t.isPassable()) {
+		for (Tile t : tiles[x][y]) {
+			if (t.isPassable()) {
 				return false;
 			}
 		}
 		return true;
 	}
-
-	public ArrayList<Tile> getTilesOn(int x, int y) {
-		ArrayList<Tile> result = new ArrayList<Tile>();
-		for (Tile t : tiles) {
-			if (t.x() == x && t.y() == y) {
-				result.add(t);
-			}
+	
+	public ArrayList<Item> getItems(int x, int y) {
+		ArrayList<Item> result = new ArrayList<Item>(items[x][y].size());
+		for(ItemEntity e: items[x][y]) {
+			result.add(e.getItem());
 		}
 		return result;
 	}
+	
+	public ArrayList<Item> getItems(int x, int y, Direction dir) {
+		return getItems(x + dir.xspd(), y + dir.yspd());
+	}
 
-	public ArrayList<Tile> getTilesNextTo(int x, int y) {
-		ArrayList<Tile> result = new ArrayList<Tile>();
-		for (Tile t : tiles) {
-			for (int i = -1; i <= 1; i += 2) {
-				if ((t.x() == x + i && t.y() == y) || (t.x() == x && t.y() == y + i)) {
-					result.add(t);
-				}
-			}
-		}
+	public Item getAndRemoveItem(int x, int y, int index) {
+		ArrayList<Item> items = getItems(x, y);
+		Item result = items.get(index);
+		items.remove(index);
 		return result;
 	}
 
-	public ArrayList<Tile> getTilesAround(int x, int y) {
-		ArrayList<Tile> result = new ArrayList<Tile>();
-		for (Tile t : tiles) {
-			for (int i = -1; i <= 1; i++) {
-				for (int j = -1; j <= 1; j++) {
-					if (t.x() == x + i && t.y() == y + j) {
-						result.add(t);
-					}
-				}
-
-			}
-		}
-		return result;
-	}
-
-	public ArrayList<Entity> getEntitiesOn(int x, int y) {
-		ArrayList<Entity> result = new ArrayList<Entity>();
-		for (Actor t : actors) {
-			if (t.x() == x && t.y() == y) {
-				result.add(t);
-			}
-		}
-		for (Tile t : tiles) {
-			if (t.x() == x && t.y() == y) {
-				result.add(t);
-			}
-		}
-		for (ItemEntity t : items) {
-			if (t.x() == x && t.y() == y) {
-				result.add(t);
-			}
-		}
-		return result;
-	}
-
-	public ArrayList<Actor> getActorsOn(int x, int y) {
-		ArrayList<Actor> result = new ArrayList<Actor>();
-		for (Actor t : actors) {
-			if (t.x() == x && t.y() == y) {
-				result.add(t);
-			}
-		}
-		return result;
-	}
-
-	public Actor getPlayer() {
-		for (Actor a : actors) {
-			if (a.isPlayer) {
-				return a;
-			}
-		}
-		return null;
-	}
-
-	public Item getAndRemoveItem(int x, int y, Direction dir) {
-		ArrayList<Item> result = new ArrayList<Item>();
-		ArrayList<ItemEntity> toRemove = new ArrayList<ItemEntity>();
-		for (ItemEntity i : items) {
-			if (i.x() == x && i.y() == y) {
-				result.add(i.getItem());
-				toRemove.add(i);
-			}
-		}
-		items.removeAll(toRemove);
-		if (!result.isEmpty())
-			return result.get(0);
-		else
-			return null;
-	}
-
-	public int entityCount() {
-		return tiles.size() + actors.size() + items.size();
+	public ArrayList<Tile> getTiles(int areax, int areay) {
+		return tiles[areax][areay];
 	}
 
 }

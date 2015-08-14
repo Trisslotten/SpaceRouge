@@ -3,20 +3,17 @@ package com.trisse.spacerouge.entities.item;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.graphics.*;
 
-public class ItemEntity extends Entity {
+public class ItemEntity {
 
 	private Item item;
 
-	public ItemEntity(Item item, int x, int y) {
+	public ItemEntity(Item item) {
 		super();
-		this.x = x;
-		this.y = y;
 		this.item = item;
-		isTransparent = true;
 	}
 
-	public void render(Screen screen, int xoffset, int yoffset) {
-		screen.draw(item.getType().getSprite(), x - xoffset, y - yoffset, Levels.ITEM);
+	public void render(Screen screen, int x, int y) {
+		screen.draw(item.getType().getSprite(), x, y, Levels.ITEM);
 	}
 
 	public Item getItem() {
@@ -25,6 +22,10 @@ public class ItemEntity extends Entity {
 	
 	public ItemType getType() {
 		return item.getType();
+	}
+
+	public static ItemEntity newItemEntity(ItemType type) {
+		return new ItemEntity(new Item(type));
 	}
 
 }

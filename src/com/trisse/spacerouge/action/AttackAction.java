@@ -1,15 +1,15 @@
 package com.trisse.spacerouge.action;
 
-import com.trisse.spacerouge.Game;
-import com.trisse.spacerouge.entities.actor.Actor;
-import com.trisse.spacerouge.level.Area;
+import com.trisse.spacerouge.*;
+import com.trisse.spacerouge.entities.actor.*;
+import com.trisse.spacerouge.level.*;
 
 public class AttackAction extends DirectedAction {
 
 	private Actor enemy;
 
-	public AttackAction(Actor actor, Area area, Actor enemy) {
-		super(actor, area);
+	public AttackAction(Actor actor, Map map, Actor enemy) {
+		super(actor, map);
 		this.enemy = enemy;
 	}
 

@@ -20,21 +20,23 @@ public class Actor extends Entity {
 
 	protected int health;
 
-	private Area area;
+	protected int x, y;
+
+	private Map map;
 
 	protected int damagedCounter = 0;
 
-	public Actor(ActorType type, int x, int y, Area area) {
+	public Actor(ActorType type, int x, int y, Map map) {
 		this.type = type;
 		this.x = x;
 		this.y = y;
-		this.area = area;
+		this.map = map;
 
 		health = type.getHealth();
 	}
 
 	public void init() {
-		setTransparent(true);
+
 	}
 
 	public void think() {
@@ -47,7 +49,7 @@ public class Actor extends Entity {
 	}
 
 	public void walk(Direction dir) {
-		setNextAction(new WalkAction(this, area, dir));
+		setNextAction(new WalkAction(this, map, dir));
 	}
 
 	public boolean isDead() {
@@ -68,13 +70,12 @@ public class Actor extends Entity {
 	}
 
 	public void render(Screen screen, int xoffset, int yoffset) {
-		if (isVisible)
-			if (damagedCounter > 0) {
-				screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
-				damagedCounter--;
-			} else {
-				screen.draw(type.getSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
-			}
+		if (damagedCounter > 0) {
+			screen.draw("damaged", x - xoffset, y - yoffset, Levels.ACTOR);
+			damagedCounter--;
+		} else {
+			screen.draw(type.getSprite(), x - xoffset, y - yoffset, Levels.ACTOR);
+		}
 	}
 
 	public boolean somethingInHands() {
@@ -123,12 +124,12 @@ public class Actor extends Entity {
 	}
 
 	public void dropInHands() {
-		area.addItem(inHands, x, y);
+		map.addItem(inHands, x, y);
 		removeItem();
 	}
 
 	public boolean grab(Direction dir) {
-		Item item = area.getAndRemoveItem(x + dir.xspd(), y + dir.yspd(), dir);
+		Item item = map.getAndRemoveItem(x, y, dir, 0);
 		if (item != null) {
 			dropInHands();
 			inHands = item;
@@ -164,6 +165,14 @@ public class Actor extends Entity {
 
 	private void removeItem() {
 		inHands = null;
+	}
+	
+	public int x() {
+		return x;
+	}
+	
+	public int y() {
+		return y;
 	}
 
 }
