@@ -7,11 +7,6 @@ import com.trisse.spacerouge.util.*;
 
 public class Weapon extends ItemType {
 
-	public Weapon(String name, int id, Sprite sprite, int damage, String useMessage) {
-		super(name, id, sprite, damage, useMessage);
-		// TODO Auto-generated constructor stub
-	}
-
 	public Weapon(GenericItem generic) {
 		super(generic);
 		// TODO Auto-generated constructor stub
@@ -19,6 +14,16 @@ public class Weapon extends ItemType {
 
 	@Override
 	public boolean use(Actor actor) {
+		return false;
+	}
+
+	@Override
+	public String getStats() {
+		return super.getGenericStats();
+	}
+
+	@Override
+	public boolean isConsumed() {
 		return false;
 	}
 

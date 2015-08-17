@@ -8,14 +8,14 @@ public class Tile extends Entity {
 
 	private TileType type;
 
-	public Tile(TileType type) {
+	public Tile(TileType type, int x, int y) {
 		this.type = type;
+		this.x = x;
+		this.y = y;
 	}
 
-	public void render(Screen screen, int x, int y) {
-		System.out.println("Drawing: " + type.getName());
-		System.out.println("x: " + x + " y: " + y);
-		screen.draw(type.getSprite(), x, y, type.level());
+	public void render(Screen screen, int xpos, int ypos) {
+		screen.draw(type.getSprite(), x() + xpos, y() + ypos, type.level());
 	}
 
 	public boolean isPassable() {
@@ -26,8 +26,8 @@ public class Tile extends Entity {
 		return type;
 	}
 
-	public void setType(TileType type2) {
-		type = type2;
+	public void setType(TileType type) {
+		this.type = type;
 	}
 
 	public void open(TileTypePool tilePool) {
@@ -42,4 +42,13 @@ public class Tile extends Entity {
 			setType(newType);
 		}
 	}
+	
+	public int x() {
+		return x;
+	}
+
+	public int y() {
+		return y;
+	}
+	
 }

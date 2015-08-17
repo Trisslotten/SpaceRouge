@@ -4,6 +4,7 @@ import com.trisse.spacerouge.*;
 import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.item.*;
+import com.trisse.spacerouge.entities.item.types.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
 import com.trisse.spacerouge.util.*;
@@ -15,12 +16,12 @@ public class Actor extends Entity {
 	protected ActorType type;
 
 	protected Item inHands;
+	
+	protected Stomach stomach;
 
 	public boolean isPlayer = false;
 
 	protected int health;
-
-	protected int x, y;
 
 	private Map map;
 
@@ -36,7 +37,7 @@ public class Actor extends Entity {
 	}
 
 	public void init() {
-
+		stomach = new Stomach();
 	}
 
 	public void think() {
@@ -52,6 +53,8 @@ public class Actor extends Entity {
 		setNextAction(new WalkAction(this, map, dir));
 	}
 
+	
+	
 	public boolean isDead() {
 		return health <= 0;
 	}
@@ -124,12 +127,12 @@ public class Actor extends Entity {
 	}
 
 	public void dropInHands() {
-		map.addItem(inHands, x, y);
+		map.addNewItem(inHands, x, y);
 		removeItem();
 	}
 
 	public boolean grab(Direction dir) {
-		Item item = map.getAndRemoveItem(x, y, dir, 0);
+		Item item = map.getAndRemoveItem(x, y, 0);
 		if (item != null) {
 			dropInHands();
 			inHands = item;
@@ -166,13 +169,9 @@ public class Actor extends Entity {
 	private void removeItem() {
 		inHands = null;
 	}
-	
-	public int x() {
-		return x;
-	}
-	
-	public int y() {
-		return y;
+
+	public void eat(Food food) {
+		stomach.eat(food);
 	}
 
 }

@@ -9,13 +9,24 @@ public class GenericItem extends ItemType {
 
 	protected Sprite sprite;
 
-	public GenericItem(String name, int id, Sprite sprite, int damage, String useMessage) {
-		super(name, id, sprite, damage, useMessage);
+	public GenericItem(String name, int id, Sprite sprite, int damage, String useMessage, String desc) {
+		super(name, id, sprite, damage, useMessage, desc);
 	}
 
 	@Override
 	public boolean use(Actor actor) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getStats() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isConsumed() {
 		return false;
 	}
 

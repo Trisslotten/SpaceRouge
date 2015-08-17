@@ -192,7 +192,7 @@ public class Game implements Runnable {
 			}
 			actors.removeAll(deadList);
 			for (Actor a : deadList) {
-				map.addItem(a.getCorpse(itemPool), a.x(), a.y());
+				map.addNewItem(a.getCorpse(itemPool), a.x(), a.y());
 			}
 			deadList.clear();
 			cai = (cai + 1) % actors.size();
@@ -209,15 +209,13 @@ public class Game implements Runnable {
 	}
 
 	public void setOffsetToActor(Actor actor) {
-		xoffset = actor.x() - Screen.tileWidth / 2 + Screen.guiWidth;
+		xoffset = actor.x() - Screen.tileWidth / 2;// + Screen.guiWidth;
 		yoffset = actor.y() - Screen.tileHeight / 2;
 	}
 
 	// draws the sprites that are in the screen instans and clears it
 	protected void render() {
 		map.render(screen, xoffset, yoffset);
-		for (Actor actor : actors)
-			actor.render(screen, xoffset, yoffset);
 		graphics.render(screen);
 		screen.render();
 		screen.clear();

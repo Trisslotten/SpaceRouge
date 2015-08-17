@@ -141,13 +141,13 @@ public class LevelEditor implements Runnable {
 					if (canAdd) {
 						if (selectedEntityType instanceof TileType) {
 							TileType tile = (TileType) selectedEntityType;
-							area.addTile(tile, x, y);
+							area.addNewTile(tile, x, y);
 						} else if (selectedEntityType instanceof ActorType) {
 							ActorType actor = (ActorType) selectedEntityType;
-							area.addActor(actor, x, y);
+							area.addNewActor(actor, x, y);
 						} else if (selectedEntityType instanceof ItemType) {
 							ItemType item = (ItemType) selectedEntityType;
-							area.addItem(item, x, y);
+							area.addNewItem(item, x, y);
 						}
 					}
 

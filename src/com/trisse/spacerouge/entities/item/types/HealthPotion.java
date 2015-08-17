@@ -11,12 +11,21 @@ public class HealthPotion extends ItemType {
 	public HealthPotion(GenericItem generic, int healing) {
 		super(generic);
 		this.healing = healing;
-		removeOnUse = true;
 	}
 
 	@Override
 	public boolean use(Actor actor) {
 		actor.heal(healing);
+		return true;
+	}
+
+	@Override
+	public String getStats() {
+		return null;
+	}
+
+	@Override
+	public boolean isConsumed() {
 		return true;
 	}
 

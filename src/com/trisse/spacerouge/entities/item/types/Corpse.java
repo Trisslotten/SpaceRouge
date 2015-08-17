@@ -14,5 +14,15 @@ public class Corpse extends ItemType {
 	public boolean use(Actor actor) {
 		return false;
 	}
+
+	@Override
+	public String getStats() {
+		return null;
+	}
+
+	@Override
+	public boolean isConsumed() {
+		return false;
+	}
 	
 }

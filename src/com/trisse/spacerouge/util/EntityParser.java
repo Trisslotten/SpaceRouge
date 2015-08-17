@@ -95,6 +95,7 @@ public class EntityParser {
 		Sprite sprite = null;
 		String name = null;
 		String useMessage = null;
+		String desc = null;
 		String[] variables = loadedEntity.variables();
 		String[] values = loadedEntity.values();
 		for (int i = 0; i < variables.length; i++) {
@@ -113,9 +114,14 @@ public class EntityParser {
 				break;
 			case "usemessage":
 				useMessage = values[i];
+				break;
+			case "desc":
+			case "description":
+				desc = values[i];
+				break;
 			}
 		}
-		return new GenericItem(name, id, sprite, damage, useMessage);
+		return new GenericItem(name, id, sprite, damage, useMessage, desc);
 	}
 
 	private static GenericActor genericActor(LoadedEntity loadedEntity, Sprites sprites) {

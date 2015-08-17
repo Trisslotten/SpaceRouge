@@ -3,6 +3,8 @@ package com.trisse.spacerouge.entities.item;
 import com.trisse.spacerouge.entities.actor.*;
 
 public class Item {
+	
+	
 
 	private ItemType type;
 
@@ -19,12 +21,7 @@ public class Item {
 	}
 
 	public boolean getsUsed() {
-		return type.removeOnUse;
-	}
-	
-	public boolean performAction() {
-		type.performAction();
-		return false;
+		return type.isConsumed();
 	}
 
 	public String getUseMessage() {
