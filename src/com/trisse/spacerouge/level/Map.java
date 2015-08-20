@@ -167,4 +167,12 @@ public class Map {
 		return result;
 	}
 
+	public Tile getTile(int x, int y) {
+		for (Tile e : tiles) {
+			if (e.on(x, y))
+				return e;
+		}
+		return null;
+	}
+
 }

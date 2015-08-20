@@ -2,7 +2,6 @@ package com.trisse.spacerouge;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.RenderingHints.*;
 import java.util.*;
 
 import org.lwjgl.*;
@@ -10,13 +9,11 @@ import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 
 import com.trisse.spacerouge.action.*;
-import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.actor.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.gui.*;
-import com.trisse.spacerouge.level.*;
 import com.trisse.spacerouge.level.Map;
 import com.trisse.spacerouge.util.*;
 
@@ -163,8 +160,10 @@ public class Game implements Runnable {
 							graphics.addNotification(result.getMessage());
 							return;
 						}
-						// calcFov();
 						if (result.alternative() == null) {
+							
+							//if an action was performed then tick the actor 
+							actor.tick();
 							graphics.addNotification(result.getMessage());
 							break;
 						}

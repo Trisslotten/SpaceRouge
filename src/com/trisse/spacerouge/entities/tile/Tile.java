@@ -6,12 +6,15 @@ import com.trisse.spacerouge.graphics.*;
 
 public class Tile extends Entity {
 
+	private double o2Level;
+	
 	private TileType type;
 
 	public Tile(TileType type, int x, int y) {
 		this.type = type;
 		this.x = x;
 		this.y = y;
+		this.o2Level = type.getO2Level();
 	}
 
 	public void render(Screen screen, int xpos, int ypos) {
@@ -49,6 +52,10 @@ public class Tile extends Entity {
 
 	public int y() {
 		return y;
+	}
+
+	public void getO2Level() {
+		
 	}
 	
 }

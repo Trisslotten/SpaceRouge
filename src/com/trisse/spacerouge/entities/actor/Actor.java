@@ -5,9 +5,9 @@ import com.trisse.spacerouge.action.*;
 import com.trisse.spacerouge.entities.*;
 import com.trisse.spacerouge.entities.item.*;
 import com.trisse.spacerouge.entities.item.types.*;
+import com.trisse.spacerouge.entities.tile.*;
 import com.trisse.spacerouge.graphics.*;
 import com.trisse.spacerouge.level.*;
-import com.trisse.spacerouge.util.*;
 
 public class Actor extends Entity {
 
@@ -34,9 +34,8 @@ public class Actor extends Entity {
 		this.map = map;
 
 		health = type.getHealth();
-	}
-
-	public void init() {
+		
+		
 		stomach = new Stomach();
 	}
 
@@ -53,7 +52,9 @@ public class Actor extends Entity {
 		setNextAction(new WalkAction(this, map, dir));
 	}
 
-	
+	public void tick() {
+		stomach.tick(this);
+	}
 	
 	public boolean isDead() {
 		return health <= 0;
@@ -140,7 +141,6 @@ public class Actor extends Entity {
 		}
 		return false;
 	}
-
 	public Item getItem() {
 		return inHands;
 	}
@@ -172,6 +172,18 @@ public class Actor extends Entity {
 
 	public void eat(Food food) {
 		stomach.eat(food);
+	}
+
+	public Tile getOccupiedTile() {
+		return map.getTile(x,y);
+	}
+
+	public void kill(String string) {
+		
+	}
+
+	public void faint(String string) {
+		
 	}
 
 }

@@ -9,7 +9,6 @@ public class DoorClosedType extends TileType {
 	public DoorClosedType(String name, Sprite sprite, int id, int opensTo) {
 		super(name, id, sprite);
 		this.sprite = sprite;
-		floorLevel = false;
 		this.opensTo = opensTo;
 	}
 

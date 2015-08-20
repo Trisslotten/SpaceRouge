@@ -8,7 +8,6 @@ public class WallType extends TileType {
 
 	public WallType(String name, Sprite sprite, int id) {
 		super(name, id, sprite);
-		floorLevel = false;
 	}
 
 	public int level() {

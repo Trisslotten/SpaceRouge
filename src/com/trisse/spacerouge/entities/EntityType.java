@@ -7,8 +7,6 @@ public abstract class EntityType {
 	protected String name;
 	protected int id;
 
-	protected boolean floorLevel;
-
 	protected Sprite sprite;
 
 	public EntityType(String name, int id, Sprite sprite) {
@@ -19,10 +17,6 @@ public abstract class EntityType {
 
 	public boolean isType(String str) {
 		return str.equalsIgnoreCase(name);
-	}
-
-	public boolean isFloorLevel() {
-		return floorLevel;
 	}
 
 	public int getID() {
